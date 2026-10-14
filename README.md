@@ -11,6 +11,8 @@ A summary panel draws your best-guess ring and copies a set of notes to send a j
 
 Live version: https://claude.ai/artifact/KjXQbYB3MXxLMkSanBJq9Q
 
+Also on GitHub Pages: https://jkw2lo.github.io/ring-shortlist/ (`index.html` just forwards to `ring-shortlist.html`).
+
 ## How it saves
 
 `ring-shortlist.html` is published as a Claude artifact. There it saves marks and try-ons to the owner's private data in the artifact's database, and photos to its asset store. Opened anywhere else, it falls back to `localStorage` in that browser, and photo uploads are hidden.
