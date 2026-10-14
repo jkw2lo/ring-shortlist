@@ -117,7 +117,7 @@ h1{font-family:var(--display); font-style:italic; font-weight:500; font-size:cla
 .add-form span{font-size:12px; color:var(--ink-2)}
 
 /* Summary */
-.summary{position:sticky; top:calc(env(safe-area-inset-top,0px) + 76px); background:var(--surface); border:1px solid var(--line); border-radius:14px; padding:20px; display:flex; flex-direction:column; gap:14px; max-height:calc(100vh - 96px); overflow:auto}
+.summary{position:sticky; top:calc(env(safe-area-inset-top,0px) + var(--bar-h,64px) + 12px); background:var(--surface); border:1px solid var(--line); border-radius:14px; padding:20px; display:flex; flex-direction:column; gap:14px; max-height:calc(100vh - env(safe-area-inset-top,0px) - var(--bar-h,64px) - 84px); overflow:auto; overscroll-behavior:contain}
 @media (max-width:920px){ .summary{position:static; max-height:none} }
 .summary h2{font-family:var(--display); font-style:italic; font-weight:500; font-size:24px; margin:0}
 .guess .art{height:150px}
@@ -1531,7 +1531,7 @@ function showTab(t){
   if (!TABS.includes(t)) t = 'features';
   document.querySelectorAll('[role=tab]').forEach(b => b.setAttribute('aria-selected', String(b.dataset.tab === t)));
   for (const id of TABS) $('#panel-' + id).hidden = id !== t;
-  $('#mode-wrap').style.visibility = t === 'features' ? 'visible' : 'hidden';
+  $('#mode-wrap').hidden = t !== 'features';
   if (t === 'quiz') renderQuiz();
   if (t === 'mix') renderMix();
   if (t === 'tot') renderTot();
@@ -2083,6 +2083,11 @@ $('#picks-save').addEventListener('click', async () => {
 /* =====================================================================
    Boot
    ===================================================================== */
+// Keep the summary panel pinned just below the toolbar, however tall the toolbar wraps.
+const barEl = $('.bar');
+const setBarH = () => document.documentElement.style.setProperty('--bar-h', Math.round(barEl.getBoundingClientRect().height) + 'px');
+setBarH();
+if (window.ResizeObserver) new ResizeObserver(setBarH).observe(barEl);
 function renderAll(){ renderBoard(); renderSummary(); renderTryons(); fillSelects(); if (!$('#panel-quiz').hidden) renderQuiz(); if (!$('#panel-tot').hidden) renderTot(); if (!$('#panel-hand').hidden) renderHand(); }
 setFinger(state.size);
 renderAnatomy();
