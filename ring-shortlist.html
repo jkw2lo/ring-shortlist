@@ -1,4 +1,6 @@
 <title>Ring Shortlist</title>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,opsz,wght@0,6..96,400..600;1,6..96,400..600&family=Karla:wght@400;500;700&display=swap">
@@ -28,6 +30,7 @@
   --finger:#4A4350;
 }
 *{box-sizing:border-box}
+[hidden]{display:none!important}
 body{background:var(--bg); color:var(--ink); font-family:var(--body); font-size:15px; line-height:1.5; padding-inline:16px; padding-block:0 64px}
 button,input,select,textarea{font:inherit; color:inherit}
 button{cursor:pointer}
@@ -224,8 +227,75 @@ h1{font-family:var(--display); font-style:italic; font-weight:500; font-size:cla
 .linkish.del{color:var(--danger)}
 .empty{border:1px dashed var(--line); border-radius:14px; padding:28px; text-align:center; color:var(--ink-2)}
 
+/* Shared headings */
+.h2{font-family:var(--display); font-weight:500; font-size:clamp(24px,3.4vw,32px); margin:0; line-height:1.15; text-wrap:balance}
+.help{margin:6px 0 0; color:var(--ink-2); max-width:62ch}
+.art.big{height:clamp(200px,34vw,300px)}
+
+/* This or that */
+.tot{display:flex; flex-direction:column; gap:16px}
+.tot-cats{display:flex; flex-wrap:wrap; gap:6px}
+.tot-cats button{border:1px solid var(--line); background:var(--surface); border-radius:999px; padding:5px 12px; font-size:13px; font-variant-numeric:tabular-nums}
+.tot-cats button[data-done="true"]{color:var(--ink-2)}
+.tot-cats button[data-done="true"]::before{content:"✓ "; color:var(--love)}
+.tot-cats button[aria-current="step"]{background:var(--ink); color:var(--bg); border-color:var(--ink)}
+.tot-pair{display:grid; grid-template-columns:1fr 1fr; gap:14px}
+@media (max-width:560px){ .tot-pair{gap:8px} }
+.pick{display:flex; flex-direction:column; gap:6px; padding:8px 8px 14px; border:1px solid var(--line); background:var(--surface); border-radius:14px; text-align:left}
+.pick:hover{border-color:var(--accent)}
+.pick .art{height:clamp(170px,30vw,260px)}
+.pick b{font-size:17px; padding-inline:4px}
+.pick span.cap{font-size:13px; color:var(--ink-2); padding-inline:4px; line-height:1.35}
+.toggle{display:inline-flex; gap:8px; align-items:center; font-size:14px}
+.finalists{display:grid; grid-template-columns:repeat(auto-fill,minmax(180px,1fr)); gap:10px}
+
+/* On my hand */
+.hand{display:flex; flex-direction:column; gap:16px}
+.hand-grid{display:grid; grid-template-columns:minmax(0,1.35fr) minmax(0,1fr); gap:16px; align-items:start}
+@media (max-width:760px){ .hand-grid{grid-template-columns:minmax(0,1fr)} }
+.stage{background:var(--tray); border-radius:14px; overflow:hidden; display:grid; place-items:center; min-height:240px}
+.stage svg{width:100%; height:auto; max-height:72vh; display:block; touch-action:none}
+.handle{fill:var(--accent); stroke:#fff; cursor:grab}
+.hand-line{stroke:#fff; stroke-dasharray:4 3; opacity:.8}
+.upload{display:flex; flex-direction:column; gap:12px; align-items:center; text-align:center; padding:24px 16px}
+.upload .art{width:170px}
+.hand-controls{display:flex; flex-direction:column; gap:12px; background:var(--surface); border:1px solid var(--line); border-radius:14px; padding:16px}
+.hand-controls .fields{grid-template-columns:1fr 1fr}
+.tips{margin:0; padding-left:20px; color:var(--ink-2); font-size:14px; display:flex; flex-direction:column; gap:4px}
+.strip{display:grid; grid-template-columns:repeat(auto-fill,minmax(112px,1fr)); gap:8px}
+.thumb{border:1px solid var(--line); background:var(--surface); border-radius:10px; padding:4px 4px 8px; display:flex; flex-direction:column; gap:4px; font-size:12px; text-align:center}
+.thumb[aria-pressed="true"]{border-color:var(--accent); box-shadow:inset 0 0 0 1px var(--accent)}
+.thumb .art{height:100px; padding:0}
+label.btn{display:inline-flex; align-items:center; cursor:pointer}
+
+/* Try-on features */
+.feat-row{display:flex; flex-wrap:wrap; gap:6px; align-items:center}
+.feat{border:1px solid var(--line); background:var(--bg); border-radius:999px; padding:3px 10px; font-size:12px}
+.feat[aria-pressed="true"][data-kind="love"]{background:var(--love-bg); border-color:var(--love)}
+.feat[aria-pressed="true"][data-kind="nope"]{color:var(--nope); text-decoration:line-through; border-style:dashed}
+
+/* Picks sheet */
+.sheet{position:fixed; inset:0; z-index:20; background:rgb(10 8 16 / .55); display:grid; place-items:center; padding:16px}
+.sheet-card{background:var(--surface); border-radius:16px; max-width:500px; width:100%; max-height:calc(100% - 8px); overflow:auto; padding:18px; display:flex; flex-direction:column; gap:12px}
+.sheet-card h2{font-family:var(--display); font-weight:500; font-size:26px; margin:0}
+.sheet-card img{width:100%; height:auto; border-radius:10px; border:1px solid var(--line); background:#F7F6F9}
+
 @media (prefers-reduced-motion:reduce){ *{transition:none!important} }
 </style>
+
+<div class="sheet" id="picks-sheet" role="dialog" aria-modal="true" aria-labelledby="picks-title" hidden>
+  <div class="sheet-card">
+    <h2 id="picks-title">My picks</h2>
+    <p class="help">A one-page summary to send to a partner or jeweler: your best-guess ring, saved designs, loves and ring size. Try-on notes and photos stay private.</p>
+    <img id="picks-img" alt="Summary card of your ring picks">
+    <div class="sum-actions">
+      <button class="btn primary" id="picks-save" hidden>Save as image</button>
+      <button class="btn" id="picks-copy">Copy as text</button>
+      <button class="btn ghost" id="picks-close">Close</button>
+    </div>
+    <p class="note-ok" id="picks-msg" aria-live="polite"></p>
+  </div>
+</div>
 
 <!-- Shared paint for every drawing: metals, stones, finger shading -->
 <svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false">
@@ -240,6 +310,7 @@ h1{font-family:var(--display); font-style:italic; font-weight:500; font-size:cla
     <radialGradient id="s-tea" cx=".38" cy=".34" r=".78"><stop offset="0" stop-color="#ADE3DC"/><stop offset=".5" stop-color="#3F9C98"/><stop offset="1" stop-color="#1D5856"/></radialGradient>
     <radialGradient id="s-mor" cx=".38" cy=".34" r=".78"><stop offset="0" stop-color="#FFEDE6"/><stop offset=".55" stop-color="#F2BBA8"/><stop offset="1" stop-color="#CC8671"/></radialGradient>
     <radialGradient id="s-sp" cx=".38" cy=".34" r=".78"><stop offset="0" stop-color="#F0F1F3"/><stop offset=".55" stop-color="#BFC2C8"/><stop offset="1" stop-color="#80858E"/></radialGradient>
+    <filter id="rshadow" x="-30%" y="-30%" width="160%" height="160%"><feDropShadow dx="0" dy=".25" stdDeviation=".3" flood-color="#000" flood-opacity=".4"/></filter>
     <linearGradient id="fshade" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#000" stop-opacity=".2"/><stop offset=".22" stop-color="#000" stop-opacity="0"/><stop offset=".78" stop-color="#000" stop-opacity="0"/><stop offset="1" stop-color="#000" stop-opacity=".2"/></linearGradient>
   </defs>
 </svg>
@@ -248,7 +319,7 @@ h1{font-family:var(--display); font-style:italic; font-weight:500; font-size:cla
   <header class="top">
     <div>
       <h1>Ring Shortlist</h1>
-      <p class="lede">Every option is drawn so you can see it, not just read it. Cross off what you don't want, mark what you love, and watch what's left turn into your ring.</p>
+      <p class="lede">Take the quiz, then compare rings two at a time and see them on a photo of your own hand. Whatever survives is your ring.</p>
     </div>
     <div class="tally" aria-live="polite">
       <div class="t-love"><b id="n-love">0</b><span>Loved</span></div>
@@ -259,8 +330,10 @@ h1{font-family:var(--display); font-style:italic; font-weight:500; font-size:cla
 
   <div class="bar">
     <div class="tabs" role="tablist" aria-label="Sections">
-      <button role="tab" id="tab-features" aria-controls="panel-features" aria-selected="true" data-tab="features">Features</button>
-      <button role="tab" id="tab-quiz" aria-controls="panel-quiz" aria-selected="false" data-tab="quiz">Style quiz</button>
+      <button role="tab" id="tab-quiz" aria-controls="panel-quiz" aria-selected="false" data-tab="quiz">Quiz</button>
+      <button role="tab" id="tab-tot" aria-controls="panel-tot" aria-selected="false" data-tab="tot">This or that</button>
+      <button role="tab" id="tab-hand" aria-controls="panel-hand" aria-selected="false" data-tab="hand">On my hand</button>
+      <button role="tab" id="tab-features" aria-controls="panel-features" aria-selected="true" data-tab="features">All options</button>
       <button role="tab" id="tab-mix" aria-controls="panel-mix" aria-selected="false" data-tab="mix">Mix &amp; match</button>
       <button role="tab" id="tab-tryons" aria-controls="panel-tryons" aria-selected="false" data-tab="tryons">Try-ons</button>
     </div>
@@ -276,6 +349,15 @@ h1{font-family:var(--display); font-style:italic; font-weight:500; font-size:cla
 
   <div class="layout">
     <main>
+      <section id="panel-tot" role="tabpanel" aria-labelledby="tab-tot" hidden>
+        <div class="tot" id="tot"></div>
+      </section>
+
+      <section id="panel-hand" role="tabpanel" aria-labelledby="tab-hand" hidden>
+        <div class="hand" id="hand"></div>
+        <input type="file" id="hand-file" accept="image/*" hidden>
+      </section>
+
       <section id="panel-features" role="tabpanel" aria-labelledby="tab-features">
         <div class="board">
           <div class="anatomy" id="anatomy"></div>
@@ -318,6 +400,18 @@ h1{font-family:var(--display); font-style:italic; font-weight:500; font-size:cla
             <div class="field">
               <label for="f-metal">Metal</label>
               <select id="f-metal"></select>
+            </div>
+            <div class="field">
+              <label for="f-setting">Setting</label>
+              <select id="f-setting"></select>
+            </div>
+            <div class="field">
+              <label for="f-band">Band</label>
+              <select id="f-band"></select>
+            </div>
+            <div class="field">
+              <label for="f-prongs">Prongs</label>
+              <select id="f-prongs"></select>
             </div>
             <div class="field">
               <label for="f-carat">Carat</label>
@@ -376,7 +470,8 @@ h1{font-family:var(--display); font-style:italic; font-weight:500; font-size:cla
       </div>
       <ul class="sum-list" id="sum-list"></ul>
       <div class="sum-actions">
-        <button class="btn primary" id="copy-btn">Copy notes for a jeweler</button>
+        <button class="btn primary" id="picks-btn">Share my picks</button>
+        <button class="btn" id="copy-btn">Copy notes for a jeweler</button>
         <button class="btn ghost" id="reset-btn">Start over</button>
       </div>
       <div class="confirm" id="reset-confirm" hidden>
@@ -460,7 +555,7 @@ const CATS = [
       'Matte / brushed':'A soft satin finish with no shine.',
     } },
   { id:'width', name:'Band width', short:'Width',
-    note:'How thick the band looks from above, in millimeters. Drawn to scale on a size 6 finger (about 17 mm across). A thinner band makes the stone look bigger.',
+    note:'How thick the band looks from above, in millimeters. Drawn to scale on a {size} finger ({mm} mm across). A thinner band makes the stone look bigger.',
     opts:['Dainty 1.5 mm','Slim 1.8 mm','Classic 2 mm','Medium 2.5 mm','Bold 3 mm +'],
     caps:{
       'Dainty 1.5 mm':'Very fine and delicate.',
@@ -492,7 +587,7 @@ const CATS = [
       'Salt & pepper diamond':'A grey diamond with dark flecks. Moody and one of a kind.',
     } },
   { id:'carat', name:'Size (carat)', short:'Carat',
-    note:'Carat measures the stone’s weight, not its width. These are drawn to scale on a size 6 finger, so you can see how much of your finger each one covers.',
+    note:'Carat measures the stone’s weight, not its width. These are drawn to scale on a {size} finger ({mm} mm across), so you can see how much of your finger each one covers.',
     opts:['Under 1 ct','1 – 1.5 ct','1.5 – 2 ct','2 – 3 ct','3 ct +'] },
   { id:'profile', name:'Height off the finger', short:'Height',
     note:'How high the stone sits above your finger, seen from the side. The shaded circle is your finger.',
@@ -517,7 +612,7 @@ const CAT = Object.fromEntries(CATS.map(c => [c.id, c]));
 const BASE = { shape:'Round', setting:'Solitaire', prongs:'4 prongs', band:'Plain polished', width:'Classic 2 mm', metal:'Yellow gold', stone:'Natural diamond', carat:'1 – 1.5 ct', profile:'Medium', fit:'' };
 
 /* =====================================================================
-   Drawing engine. Units are millimetres; the finger is a size 6 (17 mm).
+   Drawing engine. Units are millimetres; the finger width follows the ring size.
    ===================================================================== */
 const METALS = {
   'Platinum':   { g:'m-pt', mid:'#C3C7CE', dk:'#858B95', lt:'#F2F3F5' },
@@ -693,7 +788,19 @@ function prongsTop(style, pts, cx, cy, d, m){
 }
 
 /* ---------- Band seen from above ---------- */
-const L0 = 6.5, R0 = 23.5;
+let FW = 16.5, L0 = 15 - FW / 2, R0 = 15 + FW / 2, SIZE_LABEL = 'size 6';
+function fingerFromSize(str){
+  const m = String(str || '').match(/\d+(\.\d+)?/), n = m ? parseFloat(m[0]) : NaN;
+  return n >= 3 && n <= 13.5 ? { mm: 11.63 + 0.8128 * n, label: 'size ' + n } : { mm: 16.5, label: 'size 6' };
+}
+function setFinger(str){
+  const f = fingerFromSize(str);
+  if (Math.abs(f.mm - FW) < .001 && f.label === SIZE_LABEL) return false;
+  FW = f.mm; L0 = 15 - FW / 2; R0 = 15 + FW / 2; SIZE_LABEL = f.label;
+  artCache.clear();
+  return true;
+}
+const fillNote = t => t.replace('{size}', SIZE_LABEL).replace('{mm}', FW.toFixed(1));
 function bandTop(style, m, bw, cx, cy, w, h, setting){
   const fill = `url(#${m.g})`;
   if (setting === 'Bypass'){
@@ -720,8 +827,8 @@ function bandTop(style, m, bw, cx, cy, w, h, setting){
   }
   const y0 = cy - bw / 2, y1 = cy + bw / 2;
   let o = style === 'Matte / brushed'
-    ? `<rect x="${L0}" y="${r2(y0)}" width="17" height="${bw}" fill="${m.mid}"/>`
-    : `<rect x="${L0}" y="${r2(y0)}" width="17" height="${bw}" fill="${fill}"/>`;
+    ? `<rect x="${L0}" y="${r2(y0)}" width="${r2(FW)}" height="${bw}" fill="${m.mid}"/>`
+    : `<rect x="${L0}" y="${r2(y0)}" width="${r2(FW)}" height="${bw}" fill="${fill}"/>`;
   o += `<path d="M${L0} ${r2(y0)}H${R0}M${L0} ${r2(y1)}H${R0}" stroke="${m.dk}" stroke-width=".05"/>`;
   switch (style){
     case 'Pavé (tiny diamonds)': {
@@ -730,10 +837,10 @@ function bandTop(style, m, bw, cx, cy, w, h, setting){
         for (let x = a + r; x <= b - r; x += stp) o += `<circle cx="${r2(x)}" cy="${r2(cy)}" r="${r2(r)}" fill="url(#s-dia)" stroke="${m.dk}" stroke-width=".05"/>`;
       break; }
     case 'Knife-edge':
-      o += `<rect x="${L0}" y="${r2(y0)}" width="17" height="${r2(bw / 2)}" fill="${m.lt}" opacity=".55"/><rect x="${L0}" y="${r2(cy)}" width="17" height="${r2(bw / 2)}" fill="${m.dk}" opacity=".35"/><path d="M${L0} ${r2(cy)}H${R0}" stroke="${m.lt}" stroke-width=".1"/>`;
+      o += `<rect x="${L0}" y="${r2(y0)}" width="${r2(FW)}" height="${r2(bw / 2)}" fill="${m.lt}" opacity=".55"/><rect x="${L0}" y="${r2(cy)}" width="${r2(FW)}" height="${r2(bw / 2)}" fill="${m.dk}" opacity=".35"/><path d="M${L0} ${r2(cy)}H${R0}" stroke="${m.lt}" stroke-width=".1"/>`;
       break;
     case 'Twisted': {
-      o = `<rect x="${L0}" y="${r2(y0)}" width="17" height="${bw}" fill="${m.dk}"/>`;
+      o = `<rect x="${L0}" y="${r2(y0)}" width="${r2(FW)}" height="${bw}" fill="${m.dk}"/>`;
       for (let x = L0 - bw; x < R0; x += bw * .8){
         const xa = Math.max(L0, x), xb = Math.min(R0, x + bw * .7);
         if (xb <= xa) continue;
@@ -753,7 +860,7 @@ function bandTop(style, m, bw, cx, cy, w, h, setting){
       break; }
     case 'Hammered / textured': {
       const rn = rand(3);
-      for (let k = 0; k < 60; k++){ const x = L0 + rn() * 17, y = cy + (rn() - .5) * bw * .75; o += `<ellipse cx="${r2(x)}" cy="${r2(y)}" rx="${r2(.25 + rn() * .2)}" ry="${r2(.16 + rn() * .12)}" fill="${k % 2 ? m.lt : m.dk}" opacity="${k % 2 ? .6 : .3}"/>`; }
+      for (let k = 0; k < 60; k++){ const x = L0 + rn() * FW, y = cy + (rn() - .5) * bw * .75; o += `<ellipse cx="${r2(x)}" cy="${r2(y)}" rx="${r2(.25 + rn() * .2)}" ry="${r2(.16 + rn() * .12)}" fill="${k % 2 ? m.lt : m.dk}" opacity="${k % 2 ? .6 : .3}"/>`; }
       break; }
     case 'Matte / brushed':
       for (let k = 1; k < 7; k++){ const y = y0 + bw * k / 7; o += `<path d="M${L0} ${r2(y)}H${R0}" stroke="${m.lt}" stroke-width=".03" opacity=".6"/>`; }
@@ -766,7 +873,7 @@ function bandTop(style, m, bw, cx, cy, w, h, setting){
 
 /* ---------- Wedding band beside it (top view) ---------- */
 function plainBand(m, y, hh, pave){
-  let o = `<rect x="${L0}" y="${r2(y)}" width="17" height="${r2(hh)}" fill="url(#${m.g})" stroke="${m.dk}" stroke-width=".05"/><path d="M${L0} ${r2(y + hh * .3)}H${R0}" stroke="#fff" stroke-opacity=".5" stroke-width="${r2(hh * .12)}"/>`;
+  let o = `<rect x="${L0}" y="${r2(y)}" width="${r2(FW)}" height="${r2(hh)}" fill="url(#${m.g})" stroke="${m.dk}" stroke-width=".05"/><path d="M${L0} ${r2(y + hh * .3)}H${R0}" stroke="#fff" stroke-opacity=".5" stroke-width="${r2(hh * .12)}"/>`;
   if (pave){ const r = hh * .3; for (let x = L0 + .4 + r; x < R0 - r; x += hh * .72) o += `<circle cx="${r2(x)}" cy="${r2(y + hh / 2)}" r="${r2(r)}" fill="url(#s-dia)" stroke="${m.dk}" stroke-width=".05"/>`; }
   return o;
 }
@@ -788,14 +895,14 @@ function weddingTop(fitOpt, g, cx, cy){
 }
 
 /* ---------- Whole ring from above, on the finger ---------- */
-function topParts(spec){
+function topParts(spec, noFinger){
   const g = geom(spec), cx = 15, cy = 12;
   const { w, h, d, bw, bm, hm, st, sh, ew } = g;
   const set = spec.setting, pro = spec.prongs;
-  let o = `<rect class="fg" x="${L0}" y="-10" width="17" height="48" rx="7"/>`;
+  let o = noFinger ? '' : `<rect class="fg" x="${L0}" y="-10" width="${r2(FW)}" height="48" rx="7"/>`;
   o += weddingTop(spec.fit, g, cx, cy);
   o += bandTop(spec.band, bm, bw, cx, cy, w, h, set);
-  o += `<rect x="${L0}" y="-10" width="17" height="48" fill="url(#fshade)"/>`;
+  if (!noFinger) o += `<rect x="${L0}" y="-10" width="${r2(FW)}" height="48" fill="url(#fshade)"/>`;
   const small = (x, y, dd, shape = 'Round', stn = st) => { const r = stoneTop(shape, x, y, dd, dd * (SHAPES[shape].ar), stn); return r.o + prongsTop('4 prongs', r.pts, x, y, dd * .8, hm); };
 
   if (set === 'Toi et moi (two stones)'){
@@ -844,8 +951,8 @@ function topSVG(spec, mode = 'full', zs){
   const { o, g, cx, cy } = topParts(spec);
   let vb;
   if (mode === 'zoom'){ const s = zs || Math.max(g.w, g.h) / 2 + 2.2; vb = `${r2(cx - s)} ${r2(cy - s)} ${r2(2 * s)} ${r2(2 * s)}`; }
-  else if (mode === 'band') vb = `${L0} ${cy - 4.25} 17 8.5`;
-  else if (mode === 'finger') vb = `5.5 2 19 20`;
+  else if (mode === 'band') vb = `${r2(L0)} ${cy - 4.25} ${r2(FW)} 8.5`;
+  else if (mode === 'finger') vb = `${r2(L0 - 1)} 2 ${r2(FW + 2)} 20`;
   else vb = `3 1 24 22`;
   return `<svg class="ring" viewBox="${vb}" aria-hidden="true">${o}</svg>`;
 }
@@ -886,7 +993,7 @@ function prongSide(x, dp, base, yb, yg, crownH, m, style){
 }
 function sideParts(spec){
   const g = geom(spec);
-  const cx = 15, cyR = 21, rin = 8.5, t = 1.6, rout = rin + t, top = cyR - rout;
+  const cx = 15, rin = FW / 2, t = 1.6, rout = rin + t, cyR = rout + 11, top = 11;
   const dp = g.w, step = g.S.cut === 'step';
   const K = step ? { c:.11, g:.035, p:.4 } : { c:.15, g:.035, p:.43 };
   const gap = HEIGHT[spec.profile] ?? 1.3;
@@ -952,8 +1059,9 @@ function sideParts(spec){
   return { o, geo:{ cx, cyR, rin, rout, top, culet, yb, yg, crownTop, dp, t } };
 }
 function sideSVG(spec, crop){
-  const { o } = sideParts(spec);
-  return `<svg class="ring" viewBox="${crop ? '2 -0.5 26 19.5' : '3 -0.5 24 32'}" aria-hidden="true">${o}</svg>`;
+  const { o, geo } = sideParts(spec);
+  const half = Math.max(geo.rout + .6, 13);
+  return `<svg class="ring" viewBox="${r2(15 - half)} -0.5 ${r2(2 * half)} ${r2(crop ? geo.cyR - 1.5 : geo.cyR + geo.rout + 1)}" aria-hidden="true">${o}</svg>`;
 }
 
 /* ---------- What each card shows ---------- */
@@ -1016,12 +1124,12 @@ function renderAnatomy(){
   const bx = R0 + .9;
   top += `<path class="ring-dim" d="M${bx - .3} ${r2(cy - g.bw / 2)}H${bx + .3}M${bx} ${r2(cy - g.bw / 2)}V${r2(cy + g.bw / 2)}M${bx - .3} ${r2(cy + g.bw / 2)}H${bx + .3}"/>`;
   top += label(bx, cy, 26.5, 12, ['Band width', `${g.bw} mm`], 'start');
-  top += label(9, 19.5, 4.5, 19.5, ['Your finger', '(size 6)'], 'end');
+  top += label(L0 + 2.5, 19.5, 4.5, 19.5, ['Your finger', `(${SIZE_LABEL})`], 'end');
   $('#anatomy').innerHTML = `
     <div><span class="eyebrow">Start here</span><h2>The parts of a ring</h2></div>
-    <p class="section-intro">Every drawing on this page uses one of these two views. Everything is to scale on a size 6 finger.</p>
+    <p class="section-intro">Every drawing on this page uses one of these two views. Everything is to scale on a ${SIZE_LABEL} finger. Change your ring size in the summary and every drawing updates.</p>
     <div class="anatomy-figs">
-      <figure><figcaption>From the side</figcaption><svg class="ring" viewBox="-13 -1 57 33" role="img" aria-label="Side view of a ring with its center stone, prongs, head, shoulder and band labeled">${side}</svg></figure>
+      <figure><figcaption>From the side</figcaption><svg class="ring" viewBox="-13 -1 57 ${r2(G.cyR + G.rout + 2)}" role="img" aria-label="Side view of a ring with its center stone, prongs, head, shoulder and band labeled">${side}</svg></figure>
       <figure><figcaption>Looking down at your hand</figcaption><svg class="ring" viewBox="-12 1 53 22" role="img" aria-label="Top view of a ring on a finger with the stone size, shape and band width labeled">${top}</svg></figure>
     </div>`;
 }
@@ -1056,7 +1164,7 @@ const QUIZ = [
       { t:'The usual', s:'Desk work, errands, nothing rough.', spec:{ profile:'Medium' }, love:['profile::Medium'] },
       { t:'I’ll be careful', s:'I want it up high to catch the light.', spec:{ profile:'High set' }, love:['profile::High set'] },
     ] },
-  { id:'look', q:'What should it do for your hand?', help:'All drawn to scale on a size 6 finger.', view:'top',
+  { id:'look', q:'What should it do for your hand?', help:'All drawn to scale on a {size} finger.', view:'top',
     a:[
       { t:'Make my fingers look longer', s:'Long shapes that run along the finger.', spec:{ shape:'Oval' }, love:['shape::Oval','shape::Pear','shape::Marquise','shape::Elongated cushion','shape::Emerald'] },
       { t:'Look as big as possible', s:'The most stone for the money.', spec:{ shape:'Oval', setting:'Halo', width:'Dainty 1.5 mm' }, love:['shape::Oval','setting::Halo','width::Dainty 1.5 mm','band::Tapered'] },
@@ -1106,7 +1214,7 @@ function renderQuiz(){
   const q = QUIZ[quizPos], picked = state.quiz[q.id];
   el.innerHTML = `
     <div class="q-top"><span class="eyebrow">Question ${quizPos + 1} of ${QUIZ.length}</span><div class="q-dots">${dots}</div></div>
-    <div><h2>${q.q}</h2><p class="help">${q.help}</p></div>
+    <div><h2>${q.q}</h2><p class="help">${fillNote(q.help)}</p></div>
     <div class="answers${q.view === 'both' ? ' wide' : ''}">
       ${q.a.map((a, i) => `<button class="answer" data-answer="${i}" aria-pressed="${picked === i}"><div class="art${q.view === 'side' ? ' tall' : ''}">${answerArt(q, a)}</div><b>${a.t}</b><span>${a.s}</span></button>`).join('')}
     </div>
@@ -1133,6 +1241,7 @@ function quizResults(){
     ${nope.length ? `<div class="res-group"><h3>✕ Probably not for you</h3><div class="mini-grid">${nope.map(k => miniCard(k, 'nope')).join('')}</div></div>` : ''}
     <div class="q-nav">
       <button class="btn primary" data-qnav="apply" ${pending ? '' : 'disabled'}>${pending ? `Add ${pending} to my board` : 'All added to your board'}</button>
+      <button class="btn" data-qnav="tot">Next: compare two at a time</button>
       <button class="btn ghost" data-qnav="retake">Retake the quiz</button>
       <span class="note-ok" id="quiz-msg" aria-live="polite"></span>
     </div>
@@ -1147,6 +1256,7 @@ $('#quiz').addEventListener('click', (e) => {
   } else if (d.qjump != null){ quizPos = +d.qjump; renderQuiz(); }
   else if (d.qnav === 'back'){ quizPos = Math.max(0, quizPos - 1); renderQuiz(); }
   else if (d.qnav === 'skip'){ state.quiz[QUIZ[quizPos].id] = -1; commit(); quizPos++; renderQuiz(); }
+  else if (d.qnav === 'tot'){ showTab('tot'); window.scrollTo(0, 0); }
   else if (d.qnav === 'retake'){ state.quiz = {}; commit(); quizPos = 0; renderQuiz(); }
   else if (d.qnav === 'apply'){
     const { love, nope } = quizEffects();
@@ -1163,7 +1273,7 @@ $('#quiz').addEventListener('click', (e) => {
    ===================================================================== */
 const LS_KEY = 'ring-shortlist-v1';
 
-function blank(){ return { v:2, marks:{}, custom:{}, size:'', budget:'', tryons:[], quiz:{}, favs:[], vary:['shape','setting','metal'], updatedAt:0 }; }
+function blank(){ return { v:3, marks:{}, custom:{}, size:'', budget:'', tryons:[], quiz:{}, favs:[], vary:['shape','setting','metal'], hand:{ photo:null, w:0, h:0, a:null, b:null }, tot:{}, updatedAt:0 }; }
 function normalize(d){
   d = d ? JSON.parse(JSON.stringify(d)) : {};
   const s = blank();
@@ -1174,6 +1284,11 @@ function normalize(d){
   if (d.quiz && typeof d.quiz === 'object') for (const k in d.quiz) if (Number.isInteger(d.quiz[k])) s.quiz[k] = d.quiz[k];
   if (Array.isArray(d.favs)) s.favs = d.favs.filter(f => f && typeof f === 'object');
   if (Array.isArray(d.vary)) s.vary = d.vary.filter(v => CAT[v]);
+  if (d.hand && typeof d.hand === 'object'){
+    const h = d.hand, pt = v => Array.isArray(v) && v.length === 2 ? v.map(Number) : null;
+    s.hand = { photo: typeof h.photo === 'string' ? h.photo : null, w: +h.w || 0, h: +h.h || 0, a: pt(h.a), b: pt(h.b) };
+  }
+  if (d.tot && typeof d.tot === 'object') for (const k in d.tot) if (Array.isArray(d.tot[k])) s.tot[k] = d.tot[k].map(String);
   s.updatedAt = Number(d.updatedAt) || 0;
   return s;
 }
@@ -1238,7 +1353,7 @@ function countText(cat){
 function renderBoard(){
   $('#board').innerHTML = CATS.map(cat => `<section class="cat" id="cat-${cat.id}">
       <div class="cat-head"><h2>${cat.name}</h2><span class="cat-count">${countText(cat)}</span></div>
-      <p class="cat-note">${cat.note}</p>
+      <p class="cat-note">${fillNote(cat.note)}</p>
       <div class="opts${cat.wide ? ' wide' : ''}" data-opts="${cat.id}">
         ${cat.opts.map(o => optHTML(cat, o, false)).join('')}
         ${(state.custom[cat.id] || []).map(o => optHTML(cat, o, true)).join('')}
@@ -1411,7 +1526,7 @@ $('#mix').addEventListener('click', (e) => {
 /* =====================================================================
    Tabs, summary actions
    ===================================================================== */
-const TABS = ['features', 'quiz', 'mix', 'tryons'];
+const TABS = ['quiz', 'tot', 'hand', 'features', 'mix', 'tryons'];
 function showTab(t){
   if (!TABS.includes(t)) t = 'features';
   document.querySelectorAll('[role=tab]').forEach(b => b.setAttribute('aria-selected', String(b.dataset.tab === t)));
@@ -1419,19 +1534,36 @@ function showTab(t){
   $('#mode-wrap').style.visibility = t === 'features' ? 'visible' : 'hidden';
   if (t === 'quiz') renderQuiz();
   if (t === 'mix') renderMix();
+  if (t === 'tot') renderTot();
+  if (t === 'hand') renderHand();
   try { localStorage.setItem(LS_KEY + ':tab', t); } catch {}
 }
 document.querySelectorAll('[role=tab]').forEach(b => b.addEventListener('click', () => showTab(b.dataset.tab)));
 
 let fieldTimer = null;
-['ring-size', 'budget'].forEach(id => $('#' + id).addEventListener('input', (e) => {
-  state[id === 'ring-size' ? 'size' : 'budget'] = e.target.value;
+$('#budget').addEventListener('input', (e) => {
+  state.budget = e.target.value;
   clearTimeout(fieldTimer); fieldTimer = setTimeout(commit, 400);
-}));
+});
+$('#ring-size').addEventListener('input', (e) => setSize(e.target.value, 'summary'));
+let sizeTimer = null;
+function setSize(v, from){
+  state.size = v;
+  const sz = $('#ring-size');
+  if (from !== 'summary' && sz) sz.value = v;
+  clearTimeout(sizeTimer);
+  sizeTimer = setTimeout(() => { commit(); if (setFinger(state.size)) redrawAll(); }, 450);
+}
+function redrawAll(){
+  renderAnatomy(); renderBoard(); renderSummary(); renderTryons();
+  if (!$('#panel-quiz').hidden) renderQuiz();
+  if (!$('#panel-tot').hidden) renderTot();
+  if (!$('#panel-hand').hidden) renderHand();
+}
 $('#reset-btn').addEventListener('click', () => { $('#reset-confirm').hidden = false; $('#reset-btn').hidden = true; });
 $('#reset-no').addEventListener('click', () => { $('#reset-confirm').hidden = true; $('#reset-btn').hidden = false; });
 $('#reset-yes').addEventListener('click', () => {
-  state.marks = {}; state.custom = {}; state.quiz = {}; quizPos = null;
+  state.marks = {}; state.custom = {}; state.quiz = {}; state.tot = {}; quizPos = null; totUndo.length = 0;
   commit(); renderAll();
   $('#reset-confirm').hidden = true; $('#reset-btn').hidden = false;
 });
@@ -1483,8 +1615,13 @@ function renderTryons(){
   $('#cards').innerHTML = `<div class="cards">${list.map(t => {
     const ph = t.photo
       ? `<img src="${photoSrc(t.photo)}" alt="${esc(t.name)} on hand" loading="lazy" onerror="this.replaceWith(Object.assign(document.createElement('span'),{textContent:'Photo unavailable'}))">`
-      : topSVG(drawable({ ...BASE, shape:t.shape, metal:t.metal }), 'zoom', 6.5);
-    const specs = [t.shape, t.metal, t.carat ? `${t.carat} ct` : ''].filter(Boolean).map(x => `<span class="spec">${esc(x)}</span>`).join('');
+      : topSVG(tryonSpec(t), 'finger');
+    const specs = [t.shape, t.setting, t.band, t.prongs, t.metal, t.carat ? `${t.carat} ct` : ''].filter(Boolean).map(x => `<span class="spec">${esc(x)}</span>`).join('');
+    const feats = [['shape', t.shape], ['setting', t.setting], ['band', t.band], ['prongs', t.prongs], ['metal', t.metal], ['carat', caratBucket(t.carat)]].filter(([, o]) => o);
+    const kind = t.verdict === 'yes' ? 'love' : t.verdict === 'no' ? 'nope' : null;
+    const featRow = !feats.length ? '' : kind
+      ? `<div class="feat-row"><span class="lab">${kind === 'love' ? 'Love these on your board' : 'Cross these off your board'}</span>${feats.map(([c, o]) => `<button class="feat" data-feat="${c}" data-opt="${esc(o)}" data-kind="${kind}" aria-pressed="${markOf(c, o) === kind}">${kind === 'love' ? '◆' : '✕'} ${esc(o)}</button>`).join('')}</div>`
+      : `<div class="feat-row"><span class="note-ok">Pick Yes or No to add this ring\u2019s features to your board.</span></div>`;
     const meta = [t.store, fmtDate(t.date), t.price].filter(Boolean).map(esc).join(' · ');
     return `<article class="card" data-v="${esc(t.verdict)}">
       <div class="ph">${ph}</div>
@@ -1493,6 +1630,7 @@ function renderTryons(){
         ${meta ? `<div class="meta">${meta}</div>` : ''}
         ${specs ? `<div class="specs">${specs}</div>` : ''}
         ${t.notes ? `<p class="notes">${esc(t.notes)}</p>` : ''}
+        ${featRow}
         <div class="card-foot">
           <div class="verdict-pick" role="group" aria-label="Verdict">
             ${['yes','maybe','no'].map(v => `<button type="button" data-set-verdict="${v}" data-id="${esc(t.id)}" data-v="${v}" aria-pressed="${t.verdict === v}">${VERDICT[v]}</button>`).join('')}
@@ -1512,8 +1650,14 @@ function renderTryons(){
   }).join('')}</div>`;
 }
 let editingId = null, verdict = 'maybe', photoFile = null, prevURL = null;
+function caratBucket(v){
+  const n = parseFloat(v);
+  if (!(n > 0)) return '';
+  return n < 1 ? 'Under 1 ct' : n < 1.5 ? '1 – 1.5 ct' : n < 2 ? '1.5 – 2 ct' : n < 3 ? '2 – 3 ct' : '3 ct +';
+}
+const tryonSpec = t => drawable({ shape:t.shape, setting:t.setting, band:t.band, prongs:t.prongs, metal:t.metal, carat:caratBucket(t.carat) });
 function fillSelects(){
-  for (const [sel, cat] of [['#f-shape', CAT.shape], ['#f-metal', CAT.metal]]){
+  for (const [sel, cat] of [['#f-shape', CAT.shape], ['#f-metal', CAT.metal], ['#f-setting', CAT.setting], ['#f-band', CAT.band], ['#f-prongs', CAT.prongs]]){
     const el = $(sel), cur = el.value;
     el.innerHTML = `<option value="">—</option>` + optsOf(cat).map(o => `<option>${esc(o)}</option>`).join('');
     el.value = cur;
@@ -1526,6 +1670,7 @@ function openForm(t){
   editingId = t ? t.id : null;
   $('#f-name').value = t?.name || ''; $('#f-store').value = t?.store || ''; $('#f-date').value = t?.date || today();
   $('#f-shape').value = t?.shape || ''; $('#f-metal').value = t?.metal || ''; $('#f-carat').value = t?.carat || '';
+  $('#f-setting').value = t?.setting || ''; $('#f-band').value = t?.band || ''; $('#f-prongs').value = t?.prongs || '';
   $('#f-price').value = t?.price || ''; $('#f-notes').value = t?.notes || '';
   setVerdict(t?.verdict || 'maybe');
   $('#f-photo').value = ''; photoFile = null;
@@ -1579,6 +1724,7 @@ $('#try-form').addEventListener('submit', async (e) => {
     id: editingId || ('t' + Date.now().toString(36) + Math.random().toString(36).slice(2, 6)),
     name, store: $('#f-store').value.trim(), date: $('#f-date').value,
     shape: $('#f-shape').value, metal: $('#f-metal').value, carat: $('#f-carat').value.trim(),
+    setting: $('#f-setting').value, band: $('#f-band').value, prongs: $('#f-prongs').value,
     price: $('#f-price').value.trim(), notes: $('#f-notes').value.trim(), verdict, photo,
     createdAt: prior?.createdAt || Date.now(),
   };
@@ -1591,7 +1737,11 @@ $('#try-form').addEventListener('submit', async (e) => {
 $('#cards').addEventListener('click', (e) => {
   const b = e.target.closest('button'); if (!b) return;
   const d = b.dataset;
-  if (d.setVerdict){
+  if (d.feat){
+    const k = key(d.feat, d.opt);
+    if (state.marks[k] === d.kind) delete state.marks[k]; else state.marks[k] = d.kind;
+    commit(); renderTryons(); renderBoard(); renderSummary();
+  } else if (d.setVerdict){
     const t = state.tryons.find(x => x.id === d.id); if (!t) return;
     t.verdict = d.setVerdict; commit(); renderTryons(); renderSummary();
   } else if (d.edit){
@@ -1608,13 +1758,336 @@ $('#cards').addEventListener('click', (e) => {
   }
 });
 
+
+/* =====================================================================
+   This or that: two at a time, the loser is crossed off
+   ===================================================================== */
+const TOT_ORDER = ['shape', 'setting', 'carat', 'metal', 'band', 'prongs', 'width', 'profile', 'stone'];
+const TOT_Q = { shape:'Which shape do you like more?', setting:'Which setting?', carat:'Which size feels right on you?', metal:'Which metal?', band:'Which band?', prongs:'Which prongs?', width:'Which band width?', profile:'How high should it sit?', stone:'Which stone?' };
+let totCat = null, totHand = true;
+const totUndo = [], totSkipped = new Set();
+function totPool(cat){
+  const opts = CAT[cat].opts.filter(o => markOf(cat, o) !== 'nope');
+  const loves = opts.filter(o => markOf(cat, o) === 'love');
+  const cands = loves.length ? loves : opts;
+  const kept = (state.tot[cat] || []).filter(o => cands.includes(o));
+  return { cands, kept, pool: cands.filter(o => !kept.includes(o)) };
+}
+const totDone = cat => totPool(cat).pool.length < 2;
+function totArt(cat, o, onHand){
+  const s = { ...drawable(bestGuess()), [cat]: o };
+  const sideToo = cat === 'setting' || cat === 'prongs';
+  if (cat === 'profile') return sideSVG(s, true);
+  if (onHand) return handSVG(s, { close:true }) + (sideToo ? sideSVG(s, true) : '');
+  if (cat === 'setting') return topSVG(s, 'full') + sideSVG(s, true);
+  if (cat === 'prongs') return topSVG(s, 'zoom', 5.2) + sideSVG(s, true);
+  if (cat === 'band' || cat === 'width') return topSVG(s, 'band');
+  if (cat === 'stone') return topSVG(s, 'zoom', 5);
+  return topSVG(s, 'finger');
+}
+function totSnap(){ totUndo.push(JSON.stringify({ marks: state.marks, tot: state.tot })); if (totUndo.length > 40) totUndo.shift(); }
+function totFinish(cat){ const p = totPool(cat); if (p.pool.length < 2) for (const o of p.cands) state.marks[key(cat, o)] = 'love'; }
+function renderTot(){
+  const el = $('#tot');
+  if (!totCat) totCat = TOT_ORDER.find(c => !totDone(c) && !totSkipped.has(c)) || null;
+  const chips = TOT_ORDER.map(c => { const p = totPool(c), done = p.pool.length < 2; return `<button data-tcat="${c}" data-done="${done}" ${c === totCat ? 'aria-current="step"' : ''}>${CAT[c].short}${done ? '' : ` · ${p.pool.length}`}</button>`; }).join('');
+  const canHand = handReady(), onHand = canHand && totHand;
+  const undo = `<button class="btn ghost" data-tact="undo" ${totUndo.length ? '' : 'disabled'}>Undo</button>`;
+  const handToggle = canHand
+    ? `<label class="toggle"><input type="checkbox" id="tot-hand" ${onHand ? 'checked' : ''}> Show them on my hand</label>`
+    : `<p class="note-ok">Tip: add a photo on the <button class="linkish" data-tact="gohand">On my hand</button> tab to compare these on your own finger.</p>`;
+  if (!totCat){
+    const g = drawable(bestGuess());
+    const open = TOT_ORDER.filter(c => !totDone(c));
+    el.innerHTML = `<div class="tot-cats">${chips}</div>
+      <div><span class="eyebrow">This or that</span><h2 class="h2">${open.length ? 'You skipped a few categories. Here’s the ring so far.' : 'That’s everything. Here’s the ring you picked.'}</h2>
+      <p class="help">Each category now has one favorite, or a few you said you’d be happy with. Take this to a jeweler, or try variations on the On my hand tab.</p></div>
+      <div class="art big">${canHand ? handSVG(g, { close:true }) : topSVG(g, 'finger')}${sideSVG(g, false)}</div>
+      <p class="fixed">${esc(CATS.map(c => g[c.id]).filter(Boolean).join(' · '))}</p>
+      <div class="q-nav">
+        <button class="btn primary" data-tact="savefinal">♡ Save this design</button>
+        ${open.length ? `<button class="btn" data-tact="unskip">Go back to the ones I skipped</button>` : ''}
+        <button class="btn" data-tact="share">Share my picks</button>
+        ${undo}
+      </div>
+      <span class="note-ok" id="tot-msg" aria-live="polite"></span>`;
+    return;
+  }
+  const p = totPool(totCat);
+  if (p.pool.length < 2){
+    el.innerHTML = `<div class="tot-cats">${chips}</div>
+      <div><span class="eyebrow">This or that · ${CAT[totCat].name}</span><h2 class="h2">${p.cands.length === 1 ? `You picked ${esc(p.cands[0])}.` : p.cands.length ? 'You’d be happy with any of these.' : 'You crossed off every option here.'}</h2></div>
+      ${p.cands.length ? `<div class="finalists">${p.cands.map(o => `<div class="mini"><div class="art${totCat === 'profile' ? ' tall' : ''}">${totArt(totCat, o, onHand)}</div><b>${esc(o)}</b></div>`).join('')}</div>` : ''}
+      <div class="q-nav"><button class="btn primary" data-tact="next">Next category</button><button class="btn" data-tact="again">Compare these again</button>${undo}</div>`;
+    return;
+  }
+  const [A, B] = p.pool, left = p.pool.length - 1;
+  el.innerHTML = `<div class="tot-cats">${chips}</div>
+    <div><span class="eyebrow">This or that · ${CAT[totCat].name}</span><h2 class="h2">${TOT_Q[totCat]}</h2>
+    <p class="help">Tap the one you like more; the other gets crossed off. ${left} round${left === 1 ? '' : 's'} left in this category. Everything else is drawn as your current best guess.</p></div>
+    ${handToggle}
+    <div class="tot-pair">${[A, B].map(o => `<button class="pick" data-tpick="${esc(o)}"><span class="art">${totArt(totCat, o, onHand)}</span><b>${esc(o)}</b><span class="cap">${esc(caption(totCat, o))}</span></button>`).join('')}</div>
+    <div class="q-nav">
+      <button class="btn" data-tact="both">I like both</button>
+      <button class="btn" data-tact="neither">Neither</button>
+      ${undo}
+      <button class="btn ghost" data-tact="skip">Skip this category</button>
+    </div>`;
+}
+function totChanged(){ commit(); renderTot(); renderBoard(); renderSummary(); }
+$('#tot').addEventListener('change', (e) => { if (e.target.id === 'tot-hand'){ totHand = e.target.checked; renderTot(); } });
+$('#tot').addEventListener('click', (e) => {
+  const b = e.target.closest('button'); if (!b) return;
+  const d = b.dataset;
+  if (d.tcat){ totCat = d.tcat; totSkipped.delete(d.tcat); renderTot(); return; }
+  if (d.tpick != null){
+    const [A, B] = totPool(totCat).pool, loser = d.tpick === A ? B : A;
+    totSnap(); state.marks[key(totCat, loser)] = 'nope'; totFinish(totCat); totChanged(); return;
+  }
+  switch (d.tact){
+    case 'both': { const pool = totPool(totCat).pool; totSnap(); (state.tot[totCat] = state.tot[totCat] || []).push(pool[1]); totFinish(totCat); totChanged(); break; }
+    case 'neither': { const [A, B] = totPool(totCat).pool; totSnap(); state.marks[key(totCat, A)] = 'nope'; state.marks[key(totCat, B)] = 'nope'; totFinish(totCat); totChanged(); break; }
+    case 'undo': { const snap = totUndo.pop(); if (!snap) return; const v = JSON.parse(snap); state.marks = v.marks; state.tot = v.tot; totChanged(); break; }
+    case 'skip': totSkipped.add(totCat); totCat = null; renderTot(); break;
+    case 'next': totCat = null; renderTot(); break;
+    case 'unskip': totSkipped.clear(); totCat = null; renderTot(); break;
+    case 'again': totSnap(); for (const o of CAT[totCat].opts) delete state.marks[key(totCat, o)]; state.tot[totCat] = []; totChanged(); break;
+    case 'gohand': showTab('hand'); window.scrollTo(0, 0); break;
+    case 'share': openPicks(); break;
+    case 'savefinal': {
+      const g = bestGuess(), k = specKey(g);
+      if (!state.favs.some(f => specKey(f) === k)){ state.favs.push(g); commit(); }
+      const m = $('#tot-msg'); if (m) m.textContent = 'Saved. Find it under Mix & match.';
+      break;
+    }
+  }
+});
+
+/* =====================================================================
+   On my hand: rings drawn to scale on the viewer's own photo
+   ===================================================================== */
+let handURL = null, handSpec = null, handClose = true, handStrip = 'carat';
+function handSrc(){ return handURL || (state.hand.photo ? photoSrc(state.hand.photo) : null); }
+function handReady(){ const H = state.hand; return !!(handSrc() && H.w && H.h && H.a && H.b); }
+function handGeo(){
+  const H = state.hand, ax = H.a[0] * H.w, ay = H.a[1] * H.h, bx = H.b[0] * H.w, by = H.b[1] * H.h;
+  return { ax, ay, bx, by, mx:(ax + bx) / 2, my:(ay + by) / 2, d: Math.max(1, Math.hypot(bx - ax, by - ay)), ang: Math.atan2(by - ay, bx - ax) * 180 / Math.PI };
+}
+const ringTransform = G => `translate(${r2(G.mx)} ${r2(G.my)}) rotate(${r2(G.ang)}) scale(${(G.d / FW).toFixed(4)}) translate(-15 -12)`;
+function handSVG(spec, { close = true, edit = false, id = '', span = 3.4 } = {}){
+  const H = state.hand, G = handGeo(), side = G.d * span;
+  const vb = close ? `${r2(G.mx - side / 2)} ${r2(G.my - side / 2)} ${r2(side)} ${r2(side)}` : `0 0 ${H.w} ${H.h}`;
+  const hr = close ? G.d * .08 : Math.max(G.d * .1, Math.min(H.w, H.h) * .014);
+  const handles = !edit ? '' :
+    `<line class="hand-line" x1="${r2(G.ax)}" y1="${r2(G.ay)}" x2="${r2(G.bx)}" y2="${r2(G.by)}" stroke-width="${r2(hr * .22)}"/>` +
+    [['a', G.ax, G.ay], ['b', G.bx, G.by]].map(([k, x, y]) => `<circle class="handle" data-h="${k}" cx="${r2(x)}" cy="${r2(y)}" r="${r2(hr)}" stroke-width="${r2(hr * .28)}"/>`).join('');
+  return `<svg class="ring" ${id ? `id="${id}"` : ''} viewBox="${vb}" preserveAspectRatio="xMidYMid ${close ? 'slice' : 'meet'}" ${edit ? 'role="img" aria-label="Your hand photo with the ring drawn on your ring finger"' : 'aria-hidden="true"'}>
+    <image href="${esc(handSrc())}" width="${H.w}" height="${H.h}"/>
+    <g class="hand-ring" transform="${ringTransform(G)}" filter="url(#rshadow)">${topParts(drawable(spec), true).o}</g>${handles}</svg>`;
+}
+function renderHand(){
+  const el = $('#hand');
+  const focused = document.activeElement && document.activeElement.id;
+  const sizeField = `<div class="field"><label for="hand-size">Your ring size (US)</label><input id="hand-size" value="${esc(state.size)}" placeholder="6" inputmode="decimal" autocomplete="off"></div>`;
+  if (!handReady()){
+    el.innerHTML = `
+      <div><span class="eyebrow">On my hand</span><h2 class="h2">See rings on your own finger, at real size</h2>
+      <p class="help">Upload one photo of your hand and mark the edges of your ring finger. After that, every ring is drawn on your finger to scale, using your ring size, so you can see what 1 carat really looks like on you.</p></div>
+      <div class="hand-grid">
+        <div class="stage"><div class="upload">
+          <div class="art tall">${topSVG(drawable(bestGuess()), 'finger')}</div>
+          <label for="hand-file" class="btn primary">Upload a photo of your hand</label>
+          <span class="note-ok" id="hand-msg" aria-live="polite">${state.hand.photo && !handURL ? 'Loading your saved photo…' : ''}</span>
+        </div></div>
+        <div class="hand-controls">
+          <b>For the best photo</b>
+          <ol class="tips"><li>Back of your hand, fingers together, lying flat on a table.</li><li>Shoot from straight above, about a foot away.</li><li>Daylight, no flash.</li></ol>
+          ${sizeField}
+          <p class="note-ok">Not sure of your size? Most people are a US 5 to 7. Any jeweler can measure you in a minute, for free.</p>
+        </div>
+      </div>`;
+  } else {
+    if (!handSpec) handSpec = drawable(bestGuess());
+    const designs = [['best', 'Your best guess'], ...state.favs.map((f, i) => ['fav' + i, `Saved: ${CATS.slice(0, 3).map(c => f[c.id]).filter(Boolean).join(', ')}`])];
+    const sel = (cat) => `<div class="field"><label for="hs-${cat}">${CAT[cat].short}</label><select id="hs-${cat}" data-hs="${cat}">${CAT[cat].opts.map(o => `<option ${handSpec[cat] === o ? 'selected' : ''}>${esc(o)}</option>`).join('')}</select></div>`;
+    const STRIPS = { carat:'Every size', shape:'Every shape', setting:'Every setting', metal:'Every metal', width:'Every band width' };
+    el.innerHTML = `
+      <div><span class="eyebrow">On my hand</span><h2 class="h2">Rings on your finger, at real size</h2>
+      <p class="help">Drawn to scale for a ${SIZE_LABEL} finger (${FW.toFixed(1)} mm). If the ring looks the wrong width, drag the two purple dots onto the edges of your ring finger, where a ring would sit.</p></div>
+      <div class="hand-grid">
+        <div class="stage">${handSVG(handSpec, { close:handClose, edit:true, id:'hand-main' })}</div>
+        <div class="hand-controls">
+          <div class="field"><label for="hs-design">Start from</label><select id="hs-design"><option value="">Choose a design…</option>${designs.map(([v, l]) => `<option value="${v}">${esc(l)}</option>`).join('')}</select></div>
+          <div class="fields">${sel('shape')}${sel('setting')}${sel('carat')}${sel('metal')}${sel('band')}${sel('width')}</div>
+          ${sizeField}
+          <div class="sum-actions">
+            <button class="btn" data-hact="zoom">${handClose ? 'Show the whole photo' : 'Zoom in on the ring'}</button>
+            <button class="btn" data-hact="save">♡ Save this design</button>
+            <label for="hand-file" class="btn ghost">New photo</label>
+          </div>
+          <span class="note-ok" id="hand-msg" aria-live="polite"></span>
+        </div>
+      </div>
+      <div class="vary" role="group" aria-label="Compare on your hand"><span class="lab">Compare on your hand:</span>${Object.entries(STRIPS).map(([k, l]) => `<button data-hstrip="${k}" aria-pressed="${handStrip === k}">${l}</button>`).join('')}</div>
+      <div class="strip">${CAT[handStrip].opts.map(o => `<button class="thumb" data-hthumb="${esc(o)}" aria-pressed="${handSpec[handStrip] === o}"><span class="art">${handSVG({ ...handSpec, [handStrip]: o }, { close:true, span:2.3 })}</span>${esc(o)}</button>`).join('')}</div>`;
+    bindHandDrag();
+  }
+  if (focused === 'hand-size'){ const i = $('#hand-size'); i.focus(); i.setSelectionRange(i.value.length, i.value.length); }
+}
+function bindHandDrag(){
+  const svg = $('#hand-main'); if (!svg) return;
+  let drag = null;
+  svg.addEventListener('pointerdown', (e) => { const h = e.target.closest('.handle'); if (!h) return; drag = h.dataset.h; svg.setPointerCapture(e.pointerId); e.preventDefault(); });
+  svg.addEventListener('pointermove', (e) => {
+    if (!drag) return;
+    const pt = new DOMPoint(e.clientX, e.clientY).matrixTransform(svg.getScreenCTM().inverse());
+    const H = state.hand;
+    H[drag] = [Math.min(1, Math.max(0, pt.x / H.w)), Math.min(1, Math.max(0, pt.y / H.h))];
+    const G = handGeo();
+    svg.querySelector('.hand-ring').setAttribute('transform', ringTransform(G));
+    const [a, b] = svg.querySelectorAll('.handle'), ln = svg.querySelector('.hand-line');
+    a.setAttribute('cx', r2(G.ax)); a.setAttribute('cy', r2(G.ay)); b.setAttribute('cx', r2(G.bx)); b.setAttribute('cy', r2(G.by));
+    ln.setAttribute('x1', r2(G.ax)); ln.setAttribute('y1', r2(G.ay)); ln.setAttribute('x2', r2(G.bx)); ln.setAttribute('y2', r2(G.by));
+  });
+  const end = () => { if (!drag) return; drag = null; commit(); renderHand(); };
+  svg.addEventListener('pointerup', end);
+  svg.addEventListener('pointercancel', end);
+}
+$('#hand').addEventListener('input', (e) => { if (e.target.id === 'hand-size') setSize(e.target.value, 'hand'); });
+$('#hand').addEventListener('change', (e) => {
+  const t = e.target;
+  if (t.id === 'hs-design' && t.value){
+    handSpec = t.value === 'best' ? drawable(bestGuess()) : drawable(state.favs[+t.value.slice(3)] || bestGuess());
+    renderHand();
+  } else if (t.dataset.hs){ handSpec = { ...handSpec, [t.dataset.hs]: t.value }; renderHand(); }
+});
+$('#hand').addEventListener('click', (e) => {
+  const b = e.target.closest('button'); if (!b) return;
+  const d = b.dataset;
+  if (d.hact === 'zoom'){ handClose = !handClose; renderHand(); }
+  else if (d.hact === 'save'){
+    const k = specKey(handSpec);
+    if (!state.favs.some(f => specKey(f) === k)){ state.favs.push({ ...handSpec }); commit(); }
+    const m = $('#hand-msg'); if (m) m.textContent = 'Saved. Find it under Mix & match.';
+  }
+  else if (d.hstrip){ handStrip = d.hstrip; renderHand(); }
+  else if (d.hthumb != null){ handSpec = { ...handSpec, [handStrip]: d.hthumb }; renderHand(); }
+});
+$('#hand-file').addEventListener('change', async (e) => {
+  const file = e.target.files[0]; e.target.value = '';
+  if (!file) return;
+  const say = (t) => { const m = $('#hand-msg'); if (m) m.textContent = t; };
+  say('Loading photo…');
+  const blob = await shrink(file);
+  const url = URL.createObjectURL(blob);
+  const dims = await new Promise(res => { const im = new Image(); im.onload = () => res([im.naturalWidth, im.naturalHeight]); im.onerror = () => res(null); im.src = url; });
+  if (!dims){ URL.revokeObjectURL(url); say('That photo couldn’t be opened. Try a JPEG or PNG.'); return; }
+  let id = null;
+  if (assets){ say('Saving photo…'); try { id = (await assets.upload(blob, blob.type ? undefined : { type:'image/jpeg' })).id; } catch {} }
+  const old = state.hand.photo;
+  if (handURL) URL.revokeObjectURL(handURL);
+  handURL = url;
+  state.hand = { photo:id, w:dims[0], h:dims[1], a:[.42, .55], b:[.58, .55] };
+  handSpec = null; handClose = false;
+  commit(); renderHand();
+  say(id ? 'Now drag the two purple dots onto the left and right edges of your ring finger.' : 'This photo is only kept until you close the page. Drag the two purple dots onto the edges of your ring finger.');
+  if (old && old !== id && assets) assets.delete(old).catch(() => {});
+});
+
+/* =====================================================================
+   Share my picks: a one-page image
+   ===================================================================== */
+let downloads = null, picksURL = null, picksSvgText = '';
+function wrapText(text, max){
+  const out = []; let line = '';
+  for (const w of String(text).split(/\s+/)){ if ((line + ' ' + w).trim().length > max){ if (line) out.push(line); line = w; } else line = (line + ' ' + w).trim(); }
+  if (line) out.push(line);
+  return out;
+}
+const place = (svg, x, y, w, h) => svg.replace('<svg ', `<svg x="${x}" y="${y}" width="${w}" height="${h}" `);
+function picksSVG(){
+  const W = 1080, H = 1350, ink = '#1C1A26', ink2 = '#5D5A6B', tray = '#ECEBF1';
+  const serif = `font-family="Didot, 'Bodoni 72', Georgia, serif"`, sans = `font-family="Helvetica, Arial, sans-serif"`;
+  const g = drawable(bestGuess());
+  let o = `<rect width="${W}" height="${H}" fill="#F7F6F9"/>`;
+  o += `<text x="72" y="118" ${serif} font-style="italic" font-size="64" fill="${ink}">My ring picks</text>`;
+  const sub = [state.size ? `Ring size ${state.size}` : 'Ring size not measured yet', state.budget ? `Budget ${state.budget}` : ''].filter(Boolean).join('   ·   ');
+  o += `<text x="72" y="166" ${sans} font-size="26" fill="${ink2}">${esc(sub)}</text>`;
+  o += `<text x="72" y="232" ${sans} font-size="20" font-weight="700" letter-spacing="2" fill="${ink2}">BEST GUESS</text>`;
+  o += `<rect x="72" y="250" width="936" height="400" rx="24" fill="${tray}"/>`;
+  o += place(topSVG(g, 'finger'), 110, 268, 420, 364) + place(sideSVG(g, false), 550, 268, 420, 364);
+  let y = 700;
+  for (const ln of wrapText(CATS.map(c => g[c.id]).filter(Boolean).join(' · '), 68).slice(0, 3)){ o += `<text x="72" y="${y}" ${sans} font-size="24" fill="${ink}">${esc(ln)}</text>`; y += 34; }
+  const favs = state.favs.slice(0, 4);
+  if (favs.length){
+    y += 30;
+    o += `<text x="72" y="${y}" ${sans} font-size="20" font-weight="700" letter-spacing="2" fill="${ink2}">SAVED DESIGNS</text>`;
+    y += 18;
+    const tw = 222;
+    favs.forEach((f, i) => {
+      const x = 72 + i * (tw + 16), d = drawable(f);
+      o += `<rect x="${x}" y="${y}" width="${tw}" height="190" rx="16" fill="${tray}"/>` + place(topSVG(d, 'finger'), x + 10, y + 8, tw - 20, 174);
+      wrapText([f.shape, f.setting, f.metal].filter(Boolean).join(', '), 24).slice(0, 2).forEach((ln, k) => { o += `<text x="${x + 4}" y="${y + 218 + k * 24}" ${sans} font-size="18" fill="${ink2}">${esc(ln)}</text>`; });
+    });
+    y += 270;
+  }
+  const loves = CATS.map(c => [c.short, optsOf(c).filter(o2 => markOf(c.id, o2) === 'love')]).filter(([, l]) => l.length);
+  if (loves.length && y < H - 140){
+    y += 20;
+    o += `<text x="72" y="${y}" ${sans} font-size="20" font-weight="700" letter-spacing="2" fill="${ink2}">LOVES</text>`;
+    y += 38;
+    for (const [k, l] of loves){
+      for (const [i, ln] of wrapText(`${k}: ${l.join(', ')}`, 70).entries()){ if (y > H - 70) break; o += `<text x="${i ? 96 : 72}" y="${y}" ${sans} font-size="22" fill="${ink}">${esc(ln)}</text>`; y += 32; }
+    }
+  }
+  o += `<text x="72" y="${H - 36}" ${sans} font-size="18" fill="${ink2}">Drawn to scale on a ${SIZE_LABEL} finger · Ring Shortlist</text>`;
+  const defs = document.querySelector('svg defs').innerHTML;
+  return `<svg xmlns="http://www.w3.org/2000/svg" width="${W}" height="${H}" viewBox="0 0 ${W} ${H}"><style>.fg{fill:#E6DDD5}</style><defs>${defs}</defs>${o}</svg>`;
+}
+function openPicks(){
+  picksSvgText = picksSVG();
+  if (picksURL) URL.revokeObjectURL(picksURL);
+  picksURL = URL.createObjectURL(new Blob([picksSvgText], { type:'image/svg+xml' }));
+  $('#picks-img').src = picksURL;
+  $('#picks-msg').textContent = downloads ? '' : 'To send it, take a screenshot of this card or copy it as text.';
+  $('#picks-sheet').hidden = false;
+  $('#picks-close').focus();
+}
+function closePicks(){ $('#picks-sheet').hidden = true; $('#picks-btn').focus({ preventScroll:true }); }
+$('#picks-btn').addEventListener('click', openPicks);
+$('#picks-close').addEventListener('click', closePicks);
+$('#picks-sheet').addEventListener('click', (e) => { if (e.target.id === 'picks-sheet') closePicks(); });
+document.addEventListener('keydown', (e) => { if (e.key === 'Escape' && !$('#picks-sheet').hidden) closePicks(); });
+$('#picks-copy').addEventListener('click', () => {
+  const text = notesText(), msg = $('#picks-msg');
+  try { navigator.clipboard.writeText(text).then(() => { msg.textContent = 'Copied.'; }, () => { msg.textContent = 'Copying isn’t allowed here. Use Copy notes for a jeweler in the summary instead.'; }); }
+  catch { msg.textContent = 'Copying isn’t allowed here. Use Copy notes for a jeweler in the summary instead.'; }
+});
+$('#picks-save').addEventListener('click', async () => {
+  const msg = $('#picks-msg');
+  msg.textContent = 'Making the image…';
+  try {
+    const img = new Image();
+    await new Promise((res, rej) => { img.onload = res; img.onerror = rej; img.src = picksURL; });
+    const cv = document.createElement('canvas'); cv.width = 1080; cv.height = 1350;
+    cv.getContext('2d').drawImage(img, 0, 0);
+    const blob = await new Promise(r => cv.toBlob(r, 'image/png'));
+    if (!blob) throw new Error('no image');
+    await downloads.save({ filename:'my-ring-picks.png', data:blob });
+    msg.textContent = 'Saved.';
+  } catch (err) {
+    msg.textContent = err?.code === 'declined' ? 'Not saved.' : 'The image couldn’t be saved here. Take a screenshot of the card instead.';
+  }
+});
+
 /* =====================================================================
    Boot
    ===================================================================== */
-function renderAll(){ renderBoard(); renderSummary(); renderTryons(); fillSelects(); if (!$('#panel-quiz').hidden) renderQuiz(); }
+function renderAll(){ renderBoard(); renderSummary(); renderTryons(); fillSelects(); if (!$('#panel-quiz').hidden) renderQuiz(); if (!$('#panel-tot').hidden) renderTot(); if (!$('#panel-hand').hidden) renderHand(); }
+setFinger(state.size);
 renderAnatomy();
 renderAll();
-let startTab = 'features';
+let startTab = 'quiz';
 try { startTab = localStorage.getItem(LS_KEY + ':tab') || 'features'; } catch {}
 const hash = location.hash.slice(1);
 if (TABS.includes(hash)) startTab = hash;
@@ -1625,8 +2098,9 @@ setStatus('Saved in this browser only');
   const c = window.claude;
   if (!c || !c.use) return;
   try {
-    const [db, user, as] = await Promise.all([c.use('db'), c.use('user'), c.use('assets')]);
-    assets = as;
+    const [db, user, as, dl] = await Promise.all([c.use('db'), c.use('user'), c.use('assets'), c.use('downloads')]);
+    assets = as; downloads = dl;
+    $('#picks-save').hidden = !downloads;
     $('#photo-field').hidden = !assets;
     const uid = db && user ? await user.id() : null;
     if (!db || !uid) return;
@@ -1635,7 +2109,7 @@ setStatus('Saved in this browser only');
     synced = true;
     if (snap.exists){
       const remote = normalize(snap.data());
-      if (remote.updatedAt >= state.updatedAt){ state = remote; saveLocal(); quizPos = null; renderAll(); if (!$('#panel-mix').hidden) renderMix(); setStatus('Saved'); }
+      if (remote.updatedAt >= state.updatedAt){ state = remote; saveLocal(); quizPos = null; setFinger(state.size); renderAnatomy(); renderAll(); if (!$('#panel-mix').hidden) renderMix(); setStatus('Saved'); }
       else commit();
     } else if (state.updatedAt) {
       commit();
@@ -1645,7 +2119,9 @@ setStatus('Saved in this browser only');
       const remote = normalize(s.data());
       if (remote.updatedAt > state.updatedAt){
         state = remote; saveLocal();
+        if (setFinger(state.size)) renderAnatomy();
         renderBoard(); renderSummary(); fillSelects();
+        if (!$('#panel-tot').hidden) renderTot();
         if ($('#try-form').hidden) renderTryons();
         if (!$('#panel-quiz').hidden) renderQuiz();
       }
