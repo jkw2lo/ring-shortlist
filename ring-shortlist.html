@@ -4,37 +4,40 @@
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,opsz,wght@0,6..96,400..600;1,6..96,400..600&family=Karla:wght@400;500;700&display=swap">
 <style>
 :root{
-  --bg:#F1F1F4; --surface:#FFFFFF; --surface-2:#E9E8EF; --ink:#1C1A26; --ink-2:#5D5A6B; --line:#D5D3DE;
+  --bg:#F1F1F4; --surface:#FFFFFF; --surface-2:#E9E8EF; --tray:#ECEBF1; --ink:#1C1A26; --ink-2:#5D5A6B; --line:#D5D3DE;
   --accent:#4A3A86; --accent-ink:#FFFFFF; --accent-soft:#E7E2F6;
   --love:#9A7424; --love-bg:#F7ECD3; --nope:#9895A5; --danger:#A3392F;
+  --finger:#E6DDD5;
   --display:"Bodoni Moda", "Didot", "Bodoni 72", Georgia, serif;
   --body:"Karla", ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
 }
 @media (prefers-color-scheme: dark){
   :root:not([data-theme="light"]){
     color-scheme:dark;
-    --bg:#121118; --surface:#1C1A24; --surface-2:#26232F; --ink:#ECEAF3; --ink-2:#A6A2B5; --line:#36323F;
+    --bg:#121118; --surface:#1C1A24; --surface-2:#26232F; --tray:#23202C; --ink:#ECEAF3; --ink-2:#A6A2B5; --line:#36323F;
     --accent:#B4A3F2; --accent-ink:#17142A; --accent-soft:#2C2645;
     --love:#E2BC67; --love-bg:#3A2F17; --nope:#6F6B7D; --danger:#E58A80;
+    --finger:#4A4350;
   }
 }
 :root[data-theme="dark"]{
   color-scheme:dark;
-  --bg:#121118; --surface:#1C1A24; --surface-2:#26232F; --ink:#ECEAF3; --ink-2:#A6A2B5; --line:#36323F;
+  --bg:#121118; --surface:#1C1A24; --surface-2:#26232F; --tray:#23202C; --ink:#ECEAF3; --ink-2:#A6A2B5; --line:#36323F;
   --accent:#B4A3F2; --accent-ink:#17142A; --accent-soft:#2C2645;
   --love:#E2BC67; --love-bg:#3A2F17; --nope:#6F6B7D; --danger:#E58A80;
+  --finger:#4A4350;
 }
 *{box-sizing:border-box}
 body{background:var(--bg); color:var(--ink); font-family:var(--body); font-size:15px; line-height:1.5; padding-inline:16px; padding-block:0 64px}
 button,input,select,textarea{font:inherit; color:inherit}
 button{cursor:pointer}
 :focus-visible{outline:2px solid var(--accent); outline-offset:2px}
-.wrap{max-width:1120px; margin:0 auto}
+.wrap{max-width:1180px; margin:0 auto}
 
 /* Header */
 .top{padding-block:36px 20px; display:flex; flex-wrap:wrap; align-items:flex-end; justify-content:space-between; gap:16px 32px}
 h1{font-family:var(--display); font-style:italic; font-weight:500; font-size:clamp(38px,6vw,56px); line-height:1; letter-spacing:-0.01em; margin:0}
-.lede{margin:10px 0 0; color:var(--ink-2); max-width:46ch; text-wrap:pretty}
+.lede{margin:10px 0 0; color:var(--ink-2); max-width:50ch; text-wrap:pretty}
 .tally{display:flex; gap:20px; font-variant-numeric:tabular-nums}
 .tally div{display:flex; flex-direction:column}
 .tally b{font-family:var(--display); font-size:28px; font-weight:500; line-height:1.1}
@@ -44,7 +47,7 @@ h1{font-family:var(--display); font-style:italic; font-weight:500; font-size:cla
 
 /* Toolbar */
 .bar{position:sticky; top:env(safe-area-inset-top,0px); z-index:5; background:var(--bg); padding-block:10px; border-bottom:1px solid var(--line); display:flex; flex-wrap:wrap; gap:10px 16px; align-items:center; justify-content:space-between}
-.tabs,.mode{display:flex; gap:4px; background:var(--surface-2); padding:4px; border-radius:999px}
+.tabs,.mode{display:flex; gap:4px; background:var(--surface-2); padding:4px; border-radius:999px; max-width:100%; overflow-x:auto; scrollbar-width:none}
 .tabs button,.mode button{border:0; background:transparent; padding:7px 14px; border-radius:999px; font-weight:500; color:var(--ink-2); white-space:nowrap}
 .tabs button[aria-selected="true"]{background:var(--surface); color:var(--ink); box-shadow:0 1px 2px rgb(0 0 0 / .08)}
 .mode-wrap{display:flex; align-items:center; gap:8px}
@@ -56,52 +59,73 @@ h1{font-family:var(--display); font-style:italic; font-weight:500; font-size:cla
 
 /* Layout */
 .layout{display:grid; grid-template-columns:minmax(0,1fr) 320px; gap:32px; padding-top:24px; align-items:start}
-@media (max-width:880px){ .layout{grid-template-columns:minmax(0,1fr)} }
+@media (max-width:920px){ .layout{grid-template-columns:minmax(0,1fr)} }
+.section-intro{margin:0 0 4px; color:var(--ink-2); max-width:68ch}
+
+/* Drawings */
+.ring{display:block}
+.fg{fill:var(--finger)}
+.ring-lbl{fill:var(--ink); font-family:var(--body); font-size:1.5px}
+.ring-lbl.b{font-weight:700}
+.ring-sub{fill:var(--ink-2); font-family:var(--body); font-size:1.25px}
+.ring-lead{stroke:var(--ink-2); stroke-width:.07; fill:none}
+.ring-dim{stroke:var(--ink); stroke-width:.08; fill:none}
+.ring-dot{fill:var(--ink)}
+.art{position:relative; height:112px; display:flex; gap:6px; align-items:center; justify-content:center; background:var(--tray); border-radius:8px; overflow:hidden; padding:4px}
+.art svg{height:100%; flex:1 1 0; min-width:0}
+.art.tall{height:150px}
+
+/* Anatomy */
+.anatomy{background:var(--surface); border:1px solid var(--line); border-radius:14px; padding:18px 20px; display:flex; flex-direction:column; gap:10px}
+.anatomy h2{font-family:var(--display); font-weight:500; font-size:24px; margin:0}
+.anatomy-figs{display:grid; grid-template-columns:1fr 1fr; gap:18px}
+@media (max-width:700px){ .anatomy-figs{grid-template-columns:1fr} }
+.anatomy figure{margin:0; display:flex; flex-direction:column; gap:6px}
+.anatomy figure svg{width:100%; height:auto}
+.anatomy figcaption,.eyebrow{font-size:11px; text-transform:uppercase; letter-spacing:.08em; color:var(--ink-2)}
 
 /* Categories */
-.board{display:flex; flex-direction:column; gap:28px}
+.board{display:flex; flex-direction:column; gap:32px}
 .cat-head{display:flex; align-items:baseline; justify-content:space-between; gap:12px; flex-wrap:wrap}
-.cat h2{font-family:var(--display); font-weight:500; font-size:22px; margin:0; text-wrap:balance}
+.cat h2{font-family:var(--display); font-weight:500; font-size:24px; margin:0; text-wrap:balance}
 .cat-count{font-size:12px; color:var(--ink-2); font-variant-numeric:tabular-nums}
-.cat-note{margin:4px 0 12px; color:var(--ink-2); font-size:14px; max-width:68ch}
-.chips{display:flex; flex-wrap:wrap; gap:8px}
-.chip-wrap{display:inline-flex; align-items:stretch}
-.chip{display:inline-flex; align-items:center; gap:7px; min-height:40px; padding:8px 14px; border:1px solid var(--line); background:var(--surface); border-radius:999px; text-align:left; transition:background .15s, border-color .15s, color .15s}
-.chip:hover{border-color:var(--accent)}
-.chip .mk{font-size:11px; width:10px; text-align:center; flex:none}
-.chip[data-state="love"]{background:var(--love-bg); border-color:var(--love)}
-.chip[data-state="love"] .mk{color:var(--love)}
-.chip[data-state="nope"]{background:transparent; border-style:dashed; color:var(--nope)}
-.chip[data-state="nope"] .lbl{text-decoration:line-through; text-decoration-thickness:1.5px}
-.chip-wrap.custom .chip{border-radius:999px 0 0 999px; border-right:0}
-.chip-x{border:1px solid var(--line); border-left:0; background:var(--surface); border-radius:0 999px 999px 0; padding:0 10px; color:var(--ink-2)}
-.chip-x:hover{color:var(--danger)}
-.chip.add{border-style:dashed; color:var(--ink-2); background:transparent}
-.add-input{min-height:40px; padding:8px 14px; border:1px solid var(--accent); border-radius:999px; background:var(--surface); width:200px; max-width:100%}
-
-/* Shape tiles */
-.chips.tiles{display:grid; grid-template-columns:repeat(auto-fill,minmax(98px,1fr))}
-.tiles .chip-wrap{display:flex}
-.tiles .chip{flex-direction:column; justify-content:center; gap:4px; border-radius:12px; padding:12px 6px 10px; text-align:center; width:100%; position:relative}
-.tiles .chip-wrap.custom .chip{border-radius:12px 0 0 12px}
-.tiles .chip-x{border-radius:0 12px 12px 0}
-.tiles .chip .mk{position:absolute; top:6px; right:8px}
-.tiles .chip.add{border-radius:12px}
-.glyph{width:30px; height:30px; flex:none}
-.tiles .chip[data-state="nope"] .glyph{opacity:.45}
-.tiles .lbl{font-size:13px; line-height:1.2}
+.cat-note{margin:4px 0 12px; color:var(--ink-2); font-size:14px; max-width:70ch}
+.opts{display:grid; grid-template-columns:repeat(auto-fill,minmax(156px,1fr)); gap:10px}
+.opts.wide{grid-template-columns:repeat(auto-fill,minmax(236px,1fr))}
+.opt-wrap{position:relative; display:flex}
+.opt{position:relative; width:100%; display:flex; flex-direction:column; gap:6px; padding:8px 8px 12px; border:1px solid var(--line); background:var(--surface); border-radius:12px; text-align:left; transition:border-color .15s, background .15s}
+.opt:hover{border-color:var(--accent)}
+.opt-name{font-weight:700; display:flex; gap:6px; align-items:baseline; padding-inline:4px; line-height:1.25}
+.opt-cap{font-size:12.5px; color:var(--ink-2); line-height:1.35; padding-inline:4px}
+.opt .mk{color:var(--love); font-size:11px}
+.opt[data-state="love"]{background:var(--love-bg); border-color:var(--love); box-shadow:inset 0 0 0 1px var(--love)}
+.opt[data-state="nope"]{border-style:dashed}
+.opt[data-state="nope"] .art{opacity:.35; filter:grayscale(1)}
+.opt[data-state="nope"] .art::after{content:""; position:absolute; inset:0; background:linear-gradient(to top right, transparent calc(50% - 1px), var(--nope) 50%, transparent calc(50% + 1px))}
+.opt[data-state="nope"] .opt-name{color:var(--nope); text-decoration:line-through; text-decoration-thickness:1.5px}
+.opt[data-state="nope"] .mk{color:var(--nope)}
+.opt[data-state="nope"] .opt-cap{opacity:.7}
+.opt.add{border-style:dashed; background:transparent; color:var(--ink-2); align-items:center; justify-content:center; min-height:120px; text-align:center}
+.opt-x{position:absolute; top:6px; right:6px; z-index:1; border:1px solid var(--line); background:var(--surface); border-radius:999px; width:26px; height:26px; color:var(--ink-2); line-height:1}
+.opt-x:hover{color:var(--danger)}
+.custom-art{display:grid; place-items:center; color:var(--ink-2); font-size:12px; text-align:center; padding:8px}
+.add-form{display:flex; flex-direction:column; gap:6px; justify-content:center; padding:10px; border:1px solid var(--accent); border-radius:12px; background:var(--surface); min-height:120px}
+.add-form input{min-height:38px; padding:6px 10px; border:1px solid var(--line); border-radius:8px; background:var(--bg); width:100%}
+.add-form span{font-size:12px; color:var(--ink-2)}
 
 /* Summary */
-.summary{position:sticky; top:calc(env(safe-area-inset-top,0px) + 76px); background:var(--surface); border:1px solid var(--line); border-radius:14px; padding:20px; display:flex; flex-direction:column; gap:16px}
-@media (max-width:880px){ .summary{position:static} }
+.summary{position:sticky; top:calc(env(safe-area-inset-top,0px) + 76px); background:var(--surface); border:1px solid var(--line); border-radius:14px; padding:20px; display:flex; flex-direction:column; gap:14px; max-height:calc(100vh - 96px); overflow:auto}
+@media (max-width:920px){ .summary{position:static; max-height:none} }
 .summary h2{font-family:var(--display); font-style:italic; font-weight:500; font-size:24px; margin:0}
+.guess .art{height:150px}
+.guess p{margin:6px 0 0; font-size:12px; color:var(--ink-2)}
 .fields{display:grid; grid-template-columns:1fr 1fr; gap:10px}
 .field{display:flex; flex-direction:column; gap:4px}
 .field label,.lab{font-size:11px; text-transform:uppercase; letter-spacing:.08em; color:var(--ink-2)}
 .field input,.field select,.field textarea{border:1px solid var(--line); background:var(--bg); border-radius:8px; padding:8px 10px; width:100%; min-width:0}
 .field textarea{resize:vertical; min-height:70px}
 .sum-list{margin:0; padding:0; list-style:none; display:flex; flex-direction:column}
-.sum-list li{display:grid; grid-template-columns:96px minmax(0,1fr); gap:10px; padding-block:8px; border-top:1px solid var(--line); font-size:14px}
+.sum-list li{display:grid; grid-template-columns:84px minmax(0,1fr); gap:10px; padding-block:7px; border-top:1px solid var(--line); font-size:14px}
 .sum-list .k{color:var(--ink-2); font-size:12px; padding-top:1px}
 .sum-list .v.love{color:var(--ink); font-weight:500}
 .sum-list .v.love::before{content:"◆ "; color:var(--love); font-size:11px}
@@ -116,6 +140,53 @@ h1{font-family:var(--display); font-style:italic; font-weight:500; font-size:cla
 .btn:disabled{opacity:.55; cursor:default}
 .confirm{display:flex; flex-wrap:wrap; align-items:center; gap:8px; font-size:13px}
 .copy-out{width:100%; min-height:120px; font-size:12px; border:1px solid var(--line); border-radius:8px; padding:8px; background:var(--bg)}
+
+/* Quiz */
+.quiz{display:flex; flex-direction:column; gap:18px}
+.q-top{display:flex; align-items:center; justify-content:space-between; gap:12px; flex-wrap:wrap}
+.q-dots{display:flex; gap:6px}
+.q-dots button{width:26px; height:6px; border-radius:3px; border:0; background:var(--line); padding:0}
+.q-dots button[data-done="true"]{background:var(--accent)}
+.q-dots button[aria-current="step"]{background:var(--ink)}
+.quiz h2{font-family:var(--display); font-weight:500; font-size:clamp(24px,3.4vw,32px); margin:0; text-wrap:balance; line-height:1.15}
+.quiz .help{margin:6px 0 0; color:var(--ink-2); max-width:62ch}
+.answers{display:grid; grid-template-columns:repeat(auto-fill,minmax(210px,1fr)); gap:12px}
+.answers.wide{grid-template-columns:repeat(auto-fill,minmax(260px,1fr))}
+.answer{display:flex; flex-direction:column; gap:6px; padding:8px 8px 14px; border:1px solid var(--line); background:var(--surface); border-radius:12px; text-align:left}
+.answer:hover{border-color:var(--accent)}
+.answer[aria-pressed="true"]{border-color:var(--accent); box-shadow:inset 0 0 0 1px var(--accent); background:var(--accent-soft)}
+.answer b{font-size:16px; padding-inline:4px}
+.answer span{font-size:13px; color:var(--ink-2); padding-inline:4px; line-height:1.35}
+.q-nav{display:flex; gap:8px; flex-wrap:wrap}
+.results{display:flex; flex-direction:column; gap:20px}
+.res-group h3{font-family:var(--display); font-weight:500; font-size:20px; margin:0 0 10px}
+.mini-grid{display:grid; grid-template-columns:repeat(auto-fill,minmax(150px,1fr)); gap:10px}
+.mini{display:flex; flex-direction:column; gap:4px; padding:8px; border:1px solid var(--line); background:var(--surface); border-radius:12px; font-size:13px}
+.mini .art{height:84px}
+.mini b{padding-inline:2px}
+.mini small{color:var(--ink-2); padding-inline:2px}
+.mini.nope b{text-decoration:line-through; color:var(--nope)}
+.note-ok{font-size:14px; color:var(--ink-2)}
+
+/* Mix & match */
+.mm{display:flex; flex-direction:column; gap:18px}
+.mm-count{font-family:var(--display); font-size:clamp(22px,3vw,28px); margin:0; line-height:1.2; text-wrap:balance}
+.mm-count b{font-weight:600; color:var(--accent); font-variant-numeric:tabular-nums}
+.vary{display:flex; flex-wrap:wrap; gap:6px; align-items:center}
+.vary button{border:1px solid var(--line); background:var(--surface); border-radius:999px; padding:6px 12px; font-size:13px; font-variant-numeric:tabular-nums}
+.vary button[aria-pressed="true"]{background:var(--ink); color:var(--bg); border-color:var(--ink)}
+.vary button:disabled{opacity:.45; cursor:default}
+.fixed{font-size:13px; color:var(--ink-2); margin:0}
+.combo-grid{display:grid; grid-template-columns:repeat(auto-fill,minmax(236px,1fr)); gap:12px}
+.combo{display:flex; flex-direction:column; gap:6px; padding:8px 8px 10px; border:1px solid var(--line); background:var(--surface); border-radius:12px}
+.combo .art{height:120px}
+.combo-cap{font-size:13px; padding-inline:4px; line-height:1.35}
+.combo-cap.full{font-size:12px; color:var(--ink-2)}
+.combo-foot{display:flex; justify-content:space-between; align-items:center; gap:8px; padding-inline:4px}
+.heart{border:1px solid var(--line); background:transparent; border-radius:999px; padding:4px 12px; font-size:13px}
+.heart[aria-pressed="true"]{background:var(--love-bg); border-color:var(--love); color:var(--ink)}
+.more-note{font-size:13px; color:var(--ink-2); margin:0}
+.favs h3{font-family:var(--display); font-weight:500; font-size:20px; margin:0 0 10px}
 
 /* Try-ons */
 .tryons{display:flex; flex-direction:column; gap:20px}
@@ -138,9 +209,9 @@ h1{font-family:var(--display); font-style:italic; font-weight:500; font-size:cla
 .cards{display:grid; grid-template-columns:repeat(auto-fill,minmax(240px,1fr)); gap:16px}
 .card{background:var(--surface); border:1px solid var(--line); border-radius:14px; overflow:hidden; display:flex; flex-direction:column}
 .card[data-v="no"]{opacity:.7}
-.card .ph{aspect-ratio:4/3; max-width:100%; background:var(--surface-2); display:grid; place-items:center; color:var(--ink-2)}
+.card .ph{aspect-ratio:4/3; max-width:100%; background:var(--tray); display:grid; place-items:center; color:var(--ink-2)}
 .card .ph img{width:100%; height:100%; object-fit:cover; display:block}
-.card .ph .glyph{width:56px; height:56px; opacity:.5}
+.card .ph svg{height:100%; width:100%}
 .card-body{padding:14px 16px 16px; display:flex; flex-direction:column; gap:8px; flex:1}
 .card h3{font-family:var(--display); font-weight:500; font-size:19px; margin:0; line-height:1.2; text-wrap:balance}
 .card[data-v="no"] h3{text-decoration:line-through; text-decoration-color:var(--nope)}
@@ -156,11 +227,28 @@ h1{font-family:var(--display); font-style:italic; font-weight:500; font-size:cla
 @media (prefers-reduced-motion:reduce){ *{transition:none!important} }
 </style>
 
+<!-- Shared paint for every drawing: metals, stones, finger shading -->
+<svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false">
+  <defs>
+    <linearGradient id="m-pt" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#F6F7F9"/><stop offset=".45" stop-color="#C9CDD3"/><stop offset="1" stop-color="#8A9099"/></linearGradient>
+    <linearGradient id="m-wg" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#F7F6F2"/><stop offset=".45" stop-color="#D0CEC7"/><stop offset="1" stop-color="#94918A"/></linearGradient>
+    <linearGradient id="m-yg" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#FBE8AE"/><stop offset=".45" stop-color="#DDB45A"/><stop offset="1" stop-color="#9E741E"/></linearGradient>
+    <linearGradient id="m-rg" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#FADDD0"/><stop offset=".45" stop-color="#DDA088"/><stop offset="1" stop-color="#9F604D"/></linearGradient>
+    <radialGradient id="s-dia" cx=".38" cy=".34" r=".78"><stop offset="0" stop-color="#FFFFFF"/><stop offset=".55" stop-color="#EDF2F8"/><stop offset="1" stop-color="#B9C4D4"/></radialGradient>
+    <radialGradient id="s-moi" cx=".38" cy=".34" r=".78"><stop offset="0" stop-color="#FFFFFF"/><stop offset=".55" stop-color="#F2F1F8"/><stop offset="1" stop-color="#C3C3D8"/></radialGradient>
+    <radialGradient id="s-blu" cx=".38" cy=".34" r=".78"><stop offset="0" stop-color="#93ACE8"/><stop offset=".5" stop-color="#34539F"/><stop offset="1" stop-color="#16295A"/></radialGradient>
+    <radialGradient id="s-tea" cx=".38" cy=".34" r=".78"><stop offset="0" stop-color="#ADE3DC"/><stop offset=".5" stop-color="#3F9C98"/><stop offset="1" stop-color="#1D5856"/></radialGradient>
+    <radialGradient id="s-mor" cx=".38" cy=".34" r=".78"><stop offset="0" stop-color="#FFEDE6"/><stop offset=".55" stop-color="#F2BBA8"/><stop offset="1" stop-color="#CC8671"/></radialGradient>
+    <radialGradient id="s-sp" cx=".38" cy=".34" r=".78"><stop offset="0" stop-color="#F0F1F3"/><stop offset=".55" stop-color="#BFC2C8"/><stop offset="1" stop-color="#80858E"/></radialGradient>
+    <linearGradient id="fshade" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#000" stop-opacity=".2"/><stop offset=".22" stop-color="#000" stop-opacity="0"/><stop offset=".78" stop-color="#000" stop-opacity="0"/><stop offset="1" stop-color="#000" stop-opacity=".2"/></linearGradient>
+  </defs>
+</svg>
+
 <div class="wrap">
   <header class="top">
     <div>
       <h1>Ring Shortlist</h1>
-      <p class="lede">Cross off what you don't want and mark what you love. Whatever's left is your ring.</p>
+      <p class="lede">Every option is drawn so you can see it, not just read it. Cross off what you don't want, mark what you love, and watch what's left turn into your ring.</p>
     </div>
     <div class="tally" aria-live="polite">
       <div class="t-love"><b id="n-love">0</b><span>Loved</span></div>
@@ -172,6 +260,8 @@ h1{font-family:var(--display); font-style:italic; font-weight:500; font-size:cla
   <div class="bar">
     <div class="tabs" role="tablist" aria-label="Sections">
       <button role="tab" id="tab-features" aria-controls="panel-features" aria-selected="true" data-tab="features">Features</button>
+      <button role="tab" id="tab-quiz" aria-controls="panel-quiz" aria-selected="false" data-tab="quiz">Style quiz</button>
+      <button role="tab" id="tab-mix" aria-controls="panel-mix" aria-selected="false" data-tab="mix">Mix &amp; match</button>
       <button role="tab" id="tab-tryons" aria-controls="panel-tryons" aria-selected="false" data-tab="tryons">Try-ons</button>
     </div>
     <div class="mode-wrap" id="mode-wrap">
@@ -187,7 +277,18 @@ h1{font-family:var(--display); font-style:italic; font-weight:500; font-size:cla
   <div class="layout">
     <main>
       <section id="panel-features" role="tabpanel" aria-labelledby="tab-features">
-        <div class="board" id="board"></div>
+        <div class="board">
+          <div class="anatomy" id="anatomy"></div>
+          <div class="board" id="board"></div>
+        </div>
+      </section>
+
+      <section id="panel-quiz" role="tabpanel" aria-labelledby="tab-quiz" hidden>
+        <div class="quiz" id="quiz"></div>
+      </section>
+
+      <section id="panel-mix" role="tabpanel" aria-labelledby="tab-mix" hidden>
+        <div class="mm" id="mix"></div>
       </section>
 
       <section id="panel-tryons" role="tabpanel" aria-labelledby="tab-tryons" hidden>
@@ -259,6 +360,10 @@ h1{font-family:var(--display); font-style:italic; font-weight:500; font-size:cla
 
     <aside class="summary" aria-labelledby="sum-title">
       <h2 id="sum-title">Your ring so far</h2>
+      <div class="guess">
+        <div class="art" id="guess-art"></div>
+        <p>Best guess from your marks: your first love in each category, otherwise the most classic option still open.</p>
+      </div>
       <div class="fields">
         <div class="field">
           <label for="ring-size">Ring size</label>
@@ -275,7 +380,7 @@ h1{font-family:var(--display); font-style:italic; font-weight:500; font-size:cla
         <button class="btn ghost" id="reset-btn">Start over</button>
       </div>
       <div class="confirm" id="reset-confirm" hidden>
-        <span>Clear every mark? Your try-ons stay.</span>
+        <span>Clear every mark and quiz answer? Try-ons and saved designs stay.</span>
         <button class="btn danger" id="reset-yes">Clear marks</button>
         <button class="btn ghost" id="reset-no">Keep</button>
       </div>
@@ -285,61 +390,780 @@ h1{font-family:var(--display); font-style:italic; font-weight:500; font-size:cla
 </div>
 
 <script>
+const $ = (s) => document.querySelector(s);
+const esc = (s) => String(s ?? '').replace(/[&<>"']/g, c => ({ '&':'&amp;', '<':'&lt;', '>':'&gt;', '"':'&quot;', "'":'&#39;' }[c]));
+
+/* =====================================================================
+   Catalog
+   ===================================================================== */
 const CATS = [
-  { id:'shape', name:'Center stone shape', short:'Shape', tiles:true,
-    note:'The outline of the main stone seen from above. Long shapes (oval, pear, marquise, emerald) look bigger per carat and make fingers look longer.',
-    opts:['Round','Oval','Cushion','Elongated cushion','Emerald','Radiant','Princess','Asscher','Pear','Marquise','Heart','Old European'] },
-  { id:'setting', name:'Setting style', short:'Setting',
-    note:'How the center stone is shown off. A hidden halo is a ring of tiny diamonds under the stone that you only see from the side.',
-    opts:['Solitaire','Halo','Hidden halo','Three-stone','Toi et moi (two stones)','Bezel','Cathedral','Cluster','East–west','Vintage / milgrain','Side baguettes','Bypass'] },
-  { id:'prongs', name:'Prongs', short:'Prongs',
-    note:'The little claws holding the stone. More prongs is more secure; fewer shows more stone.',
-    opts:['4 prongs','6 prongs','Claw (pointed) tips','Rounded tips','Double prongs','Compass (N-E-S-W)','Full bezel, no prongs','Half bezel'] },
+  { id:'shape', name:'Center stone shape', short:'Shape',
+    note:'The outline of the main stone, looking down at your hand. All are drawn at the same weight (1.25 carats), so you can see that long shapes like oval, pear and marquise look bigger for the same money.',
+    opts:['Round','Oval','Cushion','Elongated cushion','Emerald','Radiant','Princess','Asscher','Pear','Marquise','Heart','Old European'],
+    caps:{
+      'Round':'The classic. The most sparkle of any shape.',
+      'Oval':'A stretched round. Makes fingers look longer.',
+      'Cushion':'A square with soft, pillowy corners.',
+      'Elongated cushion':'A cushion stretched into a rectangle.',
+      'Emerald':'A long rectangle with flat, mirror-like steps instead of sparkle.',
+      'Radiant':'A rectangle with clipped corners and lots of sparkle.',
+      'Princess':'A sharp-cornered square.',
+      'Asscher':'A square version of the emerald cut. Art deco.',
+      'Pear':'A teardrop. The point usually faces your fingertip.',
+      'Marquise':'Pointed at both ends, like a little boat.',
+      'Heart':'Exactly what it sounds like.',
+      'Old European':'An antique round cut with chunky facets and a soft glow.',
+    } },
+  { id:'setting', name:'Setting style', short:'Setting', wide:true,
+    note:'How the center stone is held and decorated. In each card, the left drawing looks down at your hand and the right one shows the ring from the side.',
+    opts:['Solitaire','Halo','Hidden halo','Three-stone','Toi et moi (two stones)','Bezel','Cathedral','Cluster','East–west','Vintage / milgrain','Side baguettes','Bypass'],
+    caps:{
+      'Solitaire':'One stone, nothing else.',
+      'Halo':'A ring of tiny diamonds around the stone. Makes it look bigger.',
+      'Hidden halo':'Tiny diamonds tucked under the stone. You only see them from the side.',
+      'Three-stone':'The center stone with a smaller one on each side.',
+      'Toi et moi (two stones)':'Two stones side by side. French for "you and me."',
+      'Bezel':'A metal rim hugs the whole stone. Very secure and modern.',
+      'Cathedral':'Arches rise from the band to hold the stone up, like a church roof.',
+      'Cluster':'Lots of small stones grouped together like a flower.',
+      'East–west':'The stone turned sideways so it lies across your finger.',
+      'Vintage / milgrain':'A halo edged with tiny metal beads. Old-fashioned detail.',
+      'Side baguettes':'Slim rectangular stones on either side of the center.',
+      'Bypass':'The two ends of the band swirl past each other around the stone.',
+    } },
+  { id:'prongs', name:'Prongs', short:'Prongs', wide:true,
+    note:'The little metal claws that grip the stone. More prongs hold it more securely; fewer show off more of the stone. Left: close up from above. Right: from the side.',
+    opts:['4 prongs','6 prongs','Claw (pointed) tips','Rounded tips','Double prongs','Compass (N-E-S-W)','Full bezel, no prongs','Half bezel'],
+    caps:{
+      '4 prongs':'Shows the most stone. Gives a squarer outline.',
+      '6 prongs':'More secure. Makes a round stone look rounder.',
+      'Claw (pointed) tips':'Pointed claws. A delicate, sharper look.',
+      'Rounded tips':'Smooth little beads. Snag less on clothes.',
+      'Double prongs':'Prongs in pairs. Extra secure, a bit more metal.',
+      'Compass (N-E-S-W)':'Four prongs at the top, bottom and sides instead of the corners.',
+      'Full bezel, no prongs':'A metal rim all the way around instead of prongs.',
+      'Half bezel':'Metal rims on the left and right sides only.',
+    } },
   { id:'band', name:'Band style', short:'Band',
-    note:'The part that wraps around your finger.',
-    opts:['Plain polished','Pavé (tiny diamonds)','Knife-edge','Twisted','Split shank','Tapered','Milgrain edge','Engraved','Hammered / textured','Matte / brushed'] },
+    note:'The part that wraps around your finger. These are close-ups of the band on either side of a small stone, looking down at your hand.',
+    opts:['Plain polished','Pavé (tiny diamonds)','Knife-edge','Twisted','Split shank','Tapered','Milgrain edge','Engraved','Hammered / textured','Matte / brushed'],
+    caps:{
+      'Plain polished':'Smooth, shiny metal. Goes with everything.',
+      'Pavé (tiny diamonds)':'Tiny diamonds set along the top of the band. Say "pah-vay."',
+      'Knife-edge':'Comes to a ridge along the top, like a roof.',
+      'Twisted':'Strands twisted together like rope.',
+      'Split shank':'The band splits in two as it reaches the stone.',
+      'Tapered':'Gets thinner toward the stone, which makes the stone look bigger.',
+      'Milgrain edge':'Rows of tiny metal beads along the edges.',
+      'Engraved':'Patterns carved into the metal.',
+      'Hammered / textured':'A dimpled, handmade-looking surface.',
+      'Matte / brushed':'A soft satin finish with no shine.',
+    } },
   { id:'width', name:'Band width', short:'Width',
-    note:'Measured in millimeters. A thinner band makes the center stone look bigger.',
-    opts:['Dainty 1.5 mm','Slim 1.8 mm','Classic 2 mm','Medium 2.5 mm','Bold 3 mm +'] },
+    note:'How thick the band looks from above, in millimeters. Drawn to scale on a size 6 finger (about 17 mm across). A thinner band makes the stone look bigger.',
+    opts:['Dainty 1.5 mm','Slim 1.8 mm','Classic 2 mm','Medium 2.5 mm','Bold 3 mm +'],
+    caps:{
+      'Dainty 1.5 mm':'Very fine and delicate.',
+      'Slim 1.8 mm':'Delicate but sturdy.',
+      'Classic 2 mm':'The most common width.',
+      'Medium 2.5 mm':'Noticeable and hard-wearing.',
+      'Bold 3 mm +':'Chunky. Makes a statement.',
+    } },
   { id:'metal', name:'Metal', short:'Metal',
-    note:'Hold each one against your skin in daylight. Warm and cool tones read very differently.',
-    opts:['Platinum','White gold','Yellow gold','Rose gold','Two-tone','Recycled gold'] },
+    note:'The color of the band and prongs. Hold each one against your skin in daylight when you try rings on; warm and cool metals look very different on different people.',
+    opts:['Platinum','White gold','Yellow gold','Rose gold','Two-tone'],
+    caps:{
+      'Platinum':'Bright white, heavy, and never changes color.',
+      'White gold':'Looks like platinum for less. Needs re-plating every few years.',
+      'Yellow gold':'Warm and classic.',
+      'Rose gold':'Pinkish and soft.',
+      'Two-tone':'A gold band with white metal holding the stone.',
+    } },
   { id:'stone', name:'Stone type', short:'Stone',
-    note:'Lab-grown diamonds are chemically the same as mined ones, usually for much less. Moissanite has more rainbow sparkle.',
-    opts:['Natural diamond','Lab-grown diamond','Moissanite','Blue sapphire','Colored sapphire','Morganite','Salt & pepper diamond'] },
+    note:'What the center stone is made of. All drawn close up, the same size.',
+    opts:['Natural diamond','Lab-grown diamond','Moissanite','Blue sapphire','Colored sapphire','Morganite','Salt & pepper diamond'],
+    caps:{
+      'Natural diamond':'Mined from the earth. The highest price per carat.',
+      'Lab-grown diamond':'A real diamond grown in a lab. Looks identical and costs far less.',
+      'Moissanite':'A different stone with rainbow flashes. Very affordable.',
+      'Blue sapphire':'Deep blue and nearly as hard as diamond.',
+      'Colored sapphire':'Teal, pink, peach, yellow and more.',
+      'Morganite':'Soft peachy pink. Scratches more easily than diamond.',
+      'Salt & pepper diamond':'A grey diamond with dark flecks. Moody and one of a kind.',
+    } },
   { id:'carat', name:'Size (carat)', short:'Carat',
-    note:'Carat is weight, not width. A 1 ct round diamond is about 6.5 mm across; a 2 ct is about 8 mm.',
+    note:'Carat measures the stone’s weight, not its width. These are drawn to scale on a size 6 finger, so you can see how much of your finger each one covers.',
     opts:['Under 1 ct','1 – 1.5 ct','1.5 – 2 ct','2 – 3 ct','3 ct +'] },
   { id:'profile', name:'Height off the finger', short:'Height',
-    note:'Low sets snag less on sweaters and gloves. High sets let in more light.',
-    opts:['Low set','Medium','High set'] },
+    note:'How high the stone sits above your finger, seen from the side. The shaded circle is your finger.',
+    opts:['Low set','Medium','High set'],
+    caps:{
+      'Low set':'Sits close to the finger. Catches less on sweaters and gloves.',
+      'Medium':'The usual middle ground.',
+      'High set':'Sits up high to catch more light. Snags more.',
+    } },
   { id:'fit', name:'Wedding band fit', short:'Band fit',
-    note:'Worth deciding now, since some settings won’t sit flat against a straight wedding band.',
-    opts:['Sits flush with a straight band','Fine needing a curved band','A small gap is OK','Pair with an eternity band','Stack-friendly'] },
+    note:'Your engagement ring with a wedding band next to it, looking down at your hand. Worth thinking about now, because some settings won’t sit flat against a straight band.',
+    opts:['Sits flush with a straight band','Fine needing a curved band','A small gap is OK','Pair with an eternity band','Stack-friendly'],
+    caps:{
+      'Sits flush with a straight band':'A plain band sits right up against it.',
+      'Fine needing a curved band':'The wedding band curves around the stone.',
+      'A small gap is OK':'A straight band with a little space between the two.',
+      'Pair with an eternity band':'A wedding band with diamonds all the way around.',
+      'Stack-friendly':'Room for several thin bands over the years.',
+    } },
 ];
+const CAT = Object.fromEntries(CATS.map(c => [c.id, c]));
+const BASE = { shape:'Round', setting:'Solitaire', prongs:'4 prongs', band:'Plain polished', width:'Classic 2 mm', metal:'Yellow gold', stone:'Natural diamond', carat:'1 – 1.5 ct', profile:'Medium', fit:'' };
 
-const G = (inner) => `<svg class="glyph" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linejoin="round" aria-hidden="true">${inner}</svg>`;
-const GLYPHS = {
-  'Round': G('<circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="4.5"/>'),
-  'Oval': G('<ellipse cx="12" cy="12" rx="6.5" ry="10"/><ellipse cx="12" cy="12" rx="3" ry="5"/>'),
-  'Cushion': G('<rect x="3" y="3" width="18" height="18" rx="6"/><rect x="8" y="8" width="8" height="8" rx="2.5"/>'),
-  'Elongated cushion': G('<rect x="5" y="1.5" width="14" height="21" rx="5"/><rect x="9" y="7" width="6" height="10" rx="2"/>'),
-  'Emerald': G('<polygon points="8,2 16,2 19,5 19,19 16,22 8,22 5,19 5,5"/><rect x="8.5" y="5.5" width="7" height="13"/>'),
-  'Radiant': G('<polygon points="7.5,2 16.5,2 19,4.5 19,19.5 16.5,22 7.5,22 5,19.5 5,4.5"/><path d="M5 4.5 L19 19.5 M19 4.5 L5 19.5"/>'),
-  'Princess': G('<rect x="3.5" y="3.5" width="17" height="17"/><path d="M3.5 3.5 L20.5 20.5 M20.5 3.5 L3.5 20.5"/>'),
-  'Asscher': G('<polygon points="8,3 16,3 21,8 21,16 16,21 8,21 3,16 3,8"/><rect x="8" y="8" width="8" height="8"/>'),
-  'Pear': G('<path d="M12 2 C15.5 7 18.5 11 18.5 15 A6.5 6.5 0 0 1 5.5 15 C5.5 11 8.5 7 12 2 Z"/><circle cx="12" cy="15" r="2.6"/>'),
-  'Marquise': G('<path d="M12 1.5 C17.5 7 17.5 17 12 22.5 C6.5 17 6.5 7 12 1.5 Z"/><path d="M12 6 L12 18"/>'),
-  'Heart': G('<path d="M12 21 C5 15.5 2.5 12 2.5 8.5 A4.8 4.8 0 0 1 12 6.8 A4.8 4.8 0 0 1 21.5 8.5 C21.5 12 19 15.5 12 21 Z"/>'),
-  'Old European': G('<circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="2"/><path d="M12 3 L12 10 M12 14 L12 21 M3 12 L10 12 M14 12 L21 12"/>'),
+/* =====================================================================
+   Drawing engine. Units are millimetres; the finger is a size 6 (17 mm).
+   ===================================================================== */
+const METALS = {
+  'Platinum':   { g:'m-pt', mid:'#C3C7CE', dk:'#858B95', lt:'#F2F3F5' },
+  'White gold': { g:'m-wg', mid:'#CBC9C3', dk:'#8F8C85', lt:'#F4F3EF' },
+  'Yellow gold':{ g:'m-yg', mid:'#DDB45A', dk:'#9E741E', lt:'#F8E4A6' },
+  'Rose gold':  { g:'m-rg', mid:'#DDA088', dk:'#9F604D', lt:'#F7D6C8' },
 };
-const GENERIC_GLYPH = G('<polygon points="12,3 20,9 12,21 4,9"/><path d="M4 9 L20 9"/>');
+function metalsFor(m){
+  if (m === 'Two-tone') return { band:METALS['Yellow gold'], head:METALS['Platinum'] };
+  const x = METALS[m] || METALS['Yellow gold'];
+  return { band:x, head:x };
+}
+const DIA = { g:'s-dia', edge:'#7F899B', line:'rgba(70,82,104,.45)' };
+const STONES = {
+  'Natural diamond': DIA,
+  'Lab-grown diamond': DIA,
+  'Moissanite': { g:'s-moi', edge:'#8A8CA3', line:'rgba(80,80,110,.45)', rainbow:true },
+  'Blue sapphire': { g:'s-blu', edge:'#14244D', line:'rgba(255,255,255,.3)' },
+  'Colored sapphire': { g:'s-tea', edge:'#1A4C4A', line:'rgba(255,255,255,.35)' },
+  'Morganite': { g:'s-mor', edge:'#B97461', line:'rgba(150,70,60,.35)' },
+  'Salt & pepper diamond': { g:'s-sp', edge:'#5E636C', line:'rgba(40,40,50,.45)', specks:true },
+};
+const CARAT = { 'Under 1 ct':0.7, '1 – 1.5 ct':1.25, '1.5 – 2 ct':1.75, '2 – 3 ct':2.5, '3 ct +':3.5 };
+const WIDTH = { 'Dainty 1.5 mm':1.5, 'Slim 1.8 mm':1.8, 'Classic 2 mm':2, 'Medium 2.5 mm':2.5, 'Bold 3 mm +':3.1 };
+const HEIGHT = { 'Low set':0.2, 'Medium':1.3, 'High set':2.7 };
+const roundMM = ct => 6.5 * Math.cbrt(ct);
 
+const N = 96;
+const ring = f => Array.from({ length:N }, (_, i) => f(i / N * 2 * Math.PI));
+const SHAPES = {
+  'Round':            { k:1,    ar:1,    gen:() => ring(t => [Math.cos(t), Math.sin(t)]) },
+  'Oval':             { k:.86,  ar:1.4,  gen:() => ring(t => [Math.cos(t), Math.sin(t)]) },
+  'Cushion':          { k:.93,  ar:1,    gen:() => superEll(3.2) },
+  'Elongated cushion':{ k:.82,  ar:1.32, gen:() => superEll(3.2) },
+  'Emerald':          { k:.8,   ar:1.42, gen:() => octagon(.2), cut:'step' },
+  'Radiant':          { k:.84,  ar:1.25, gen:() => octagon(.12) },
+  'Princess':         { k:.85,  ar:1,    gen:() => octagon(0) },
+  'Asscher':          { k:.85,  ar:1,    gen:() => octagon(.27), cut:'step' },
+  'Pear':             { k:.8,   ar:1.5,  gen:() => ring(t => [Math.sin(t) * Math.sin(t / 2), -Math.cos(t)]) },
+  'Marquise':         { k:.72,  ar:2,    gen:() => ring(t => [Math.sin(t) * Math.abs(Math.sin(t)), -Math.cos(t)]) },
+  'Heart':            { k:1,    ar:.92,  gen:() => ring(t => [16 * Math.sin(t) ** 3, -(13 * Math.cos(t) - 5 * Math.cos(2 * t) - 2 * Math.cos(3 * t) - Math.cos(4 * t))]) },
+  'Old European':     { k:.98,  ar:1,    gen:() => ring(t => [Math.cos(t), Math.sin(t)]), cut:'oec' },
+};
+function superEll(n){ return ring(t => { const c = Math.cos(t), s = Math.sin(t); return [Math.sign(c) * Math.abs(c) ** (2 / n), Math.sign(s) * Math.abs(s) ** (2 / n)]; }); }
+function octagon(c){
+  const v = [[-1+2*c,-1],[1-2*c,-1],[1,-1+2*c],[1,1-2*c],[1-2*c,1],[-1+2*c,1],[-1,1-2*c],[-1,-1+2*c]];
+  const out = [];
+  for (let i = 0; i < 8; i++){ const a = v[i], b = v[(i + 1) % 8]; for (let k = 0; k < 12; k++){ const f = k / 12; out.push([a[0] + (b[0] - a[0]) * f, a[1] + (b[1] - a[1]) * f]); } }
+  return out;
+}
+const r2 = n => Math.round(n * 100) / 100;
+function fit(raw, cx, cy, w, h){
+  let x0 = Infinity, x1 = -Infinity, y0 = Infinity, y1 = -Infinity;
+  for (const [x, y] of raw){ if (x < x0) x0 = x; if (x > x1) x1 = x; if (y < y0) y0 = y; if (y > y1) y1 = y; }
+  const sx = w / (x1 - x0), sy = h / (y1 - y0), mx = (x0 + x1) / 2, my = (y0 + y1) / 2;
+  return raw.map(([x, y]) => [cx + (x - mx) * sx, cy + (y - my) * sy]);
+}
+const pathD = pts => 'M' + pts.map(p => r2(p[0]) + ' ' + r2(p[1])).join('L') + 'Z';
+const seg = (a, b) => `M${r2(a[0])} ${r2(a[1])}L${r2(b[0])} ${r2(b[1])}`;
+const scale = (pts, cx, cy, s) => pts.map(([x, y]) => [cx + (x - cx) * s, cy + (y - cy) * s]);
+function idxAt(pts, cx, cy, deg){
+  let a = deg * Math.PI / 180; a = Math.atan2(Math.sin(a), Math.cos(a));
+  let best = 0, bd = 9;
+  pts.forEach((p, i) => { let d = Math.abs(Math.atan2(p[1] - cy, p[0] - cx) - a); if (d > Math.PI) d = 2 * Math.PI - d; if (d < bd){ bd = d; best = i; } });
+  return best;
+}
+function normalAt(pts, i, cx, cy){
+  const p = pts[(i - 1 + pts.length) % pts.length], n = pts[(i + 1) % pts.length], c = pts[i];
+  let nx = n[1] - p[1], ny = -(n[0] - p[0]);
+  const l = Math.hypot(nx, ny) || 1; nx /= l; ny /= l;
+  if (nx * (c[0] - cx) + ny * (c[1] - cy) < 0){ nx = -nx; ny = -ny; }
+  return [nx, ny];
+}
+const offset = (pts, cx, cy, d) => pts.map((p, i) => { const [nx, ny] = normalAt(pts, i, cx, cy); return [p[0] + nx * d, p[1] + ny * d]; });
+function along(pts, step){
+  let per = 0;
+  for (let i = 0; i < pts.length; i++){ const a = pts[i], b = pts[(i + 1) % pts.length]; per += Math.hypot(b[0] - a[0], b[1] - a[1]); }
+  const n = Math.max(6, Math.round(per / step)), st = per / n, out = [];
+  let acc = 0;
+  for (let i = 0; i < pts.length && out.length < n; i++){
+    const a = pts[i], b = pts[(i + 1) % pts.length], L = Math.hypot(b[0] - a[0], b[1] - a[1]);
+    if (!L) continue;
+    while (acc <= L && out.length < n){ const f = acc / L; out.push([a[0] + (b[0] - a[0]) * f, a[1] + (b[1] - a[1]) * f]); acc += st; }
+    acc -= L;
+  }
+  return out;
+}
+function rand(seed){ let s = seed; return () => (s = (s * 9301 + 49297) % 233280) / 233280; }
+
+function geom(spec){
+  const sh = SHAPES[spec.shape] ? spec.shape : 'Round', S = SHAPES[sh];
+  const ct = CARAT[spec.carat] ?? 1.25, d = roundMM(ct);
+  let w = d * S.k, h = w * S.ar;
+  const ew = spec.setting === 'East–west';
+  if (ew) [w, h] = [h, w];
+  const ms = metalsFor(spec.metal);
+  return { sh, S, ct, d, w, h, ew, bw: WIDTH[spec.width] ?? 2, bm: ms.band, hm: ms.head, st: STONES[spec.stone] || DIA };
+}
+function outline(sh, cx, cy, w, h, rot){
+  const raw = SHAPES[sh].gen();
+  return fit(rot ? raw.map(([x, y]) => [-y, x]) : raw, cx, cy, w, h);
+}
+
+/* ---------- Stone seen from above ---------- */
+function stoneTop(sh, cx, cy, w, h, st, rot){
+  const S = SHAPES[sh] || SHAPES.Round;
+  const pts = outline(sh, cx, cy, w, h, rot);
+  let o = `<path d="${pathD(pts)}" fill="url(#${st.g})" stroke="${st.edge}" stroke-width=".08"/>`;
+  let f = '';
+  if (S.cut === 'step'){
+    const a = scale(pts, cx, cy, .74), b = scale(pts, cx, cy, .48);
+    f += pathD(a) + pathD(b);
+    for (const deg of [45, 135, 225, 315]){ const i = idxAt(pts, cx, cy, deg); f += seg(pts[i], b[i]); }
+  } else {
+    const t = scale(pts, cx, cy, S.cut === 'oec' ? .38 : .52);
+    f += pathD(t);
+    for (let k = 0; k < 8; k++){
+      const deg = k * 45, i = idxAt(pts, cx, cy, deg + 22.5);
+      f += seg(pts[i], t[idxAt(t, cx, cy, deg)]) + seg(pts[i], t[idxAt(t, cx, cy, deg + 45)]);
+    }
+    if (S.cut === 'oec') for (let k = 0; k < 8; k++){ const i = idxAt(t, cx, cy, k * 45); f += seg([cx, cy], t[i]); }
+  }
+  o += `<path d="${f}" fill="none" stroke="${st.line}" stroke-width=".06"/>`;
+  if (st.rainbow){
+    const cs = ['#F59BC2', '#8FD3F4', '#F6DC72', '#A6E3A1'];
+    cs.forEach((c, k) => { const x = cx + (k % 2 ? .22 : -.2) * w, y = cy + (k < 2 ? -.12 : .2) * h, s = Math.min(w, h) * .07; o += `<path d="M${r2(x)} ${r2(y - s)}L${r2(x + s)} ${r2(y + s)}L${r2(x - s)} ${r2(y + s)}Z" fill="${c}" opacity=".75"/>`; });
+  }
+  if (st.specks){
+    const rn = rand(7);
+    for (let k = 0; k < 14; k++){ const x = cx + (rn() - .5) * w * .6, y = cy + (rn() - .5) * h * .6; o += `<circle cx="${r2(x)}" cy="${r2(y)}" r="${r2(.08 + rn() * .12)}" fill="#2E3138" opacity=".75"/>`; }
+  }
+  o += `<ellipse cx="${r2(cx - w * .17)}" cy="${r2(cy - h * .2)}" rx="${r2(w * .13)}" ry="${r2(h * .055)}" fill="#fff" opacity=".6" transform="rotate(-30 ${r2(cx - w * .17)} ${r2(cy - h * .2)})"/>`;
+  return { o, pts };
+}
+
+/* ---------- Prongs seen from above ---------- */
+const PRONG_ANGLES = { '6 prongs':[30, 90, 150, 210, 270, 330], 'Compass (N-E-S-W)':[0, 90, 180, 270] };
+function prongsTop(style, pts, cx, cy, d, m){
+  const pr = Math.min(.55, Math.max(.3, d * .055));
+  if (style === 'Full bezel, no prongs') return '';
+  if (style === 'Half bezel'){
+    const off = offset(pts, cx, cy, .18);
+    let o = '';
+    for (const side of [0, 180]){
+      const sel = off.filter(p => { let a = Math.atan2(p[1] - cy, p[0] - cx) * 180 / Math.PI - side; a = ((a + 540) % 360) - 180; return Math.abs(a) < 52; });
+      sel.sort((p, q) => Math.atan2(p[1] - cy, (p[0] - cx) * (side ? -1 : 1)) - Math.atan2(q[1] - cy, (q[0] - cx) * (side ? -1 : 1)));
+      const d2 = 'M' + sel.map(p => r2(p[0]) + ' ' + r2(p[1])).join('L');
+      o += `<path d="${d2}" fill="none" stroke="${m.dk}" stroke-width="1" stroke-linecap="round"/><path d="${d2}" fill="none" stroke="${m.mid}" stroke-width=".8" stroke-linecap="round"/><path d="${d2}" fill="none" stroke="${m.lt}" stroke-width=".22" stroke-linecap="round" transform="translate(-.08 -.1)"/>`;
+    }
+    return o;
+  }
+  const angles = PRONG_ANGLES[style] || [45, 135, 225, 315];
+  let o = '';
+  const at = deg => { const i = idxAt(pts, cx, cy, deg); return { p: pts[i], n: normalAt(pts, i, cx, cy) }; };
+  const bead = (x, y, r) => `<circle cx="${r2(x)}" cy="${r2(y)}" r="${r2(r)}" fill="url(#${m.g})" stroke="${m.dk}" stroke-width=".05"/>`;
+  for (const deg of angles){
+    if (style === 'Double prongs'){
+      for (const dd of [-7, 7]){ const { p, n } = at(deg + dd); o += bead(p[0] + n[0] * pr * .1, p[1] + n[1] * pr * .1, pr * .78); }
+      continue;
+    }
+    const { p, n } = at(deg);
+    if (style === 'Claw (pointed) tips'){
+      const tx = [-n[1], n[0]];
+      const tip = [p[0] - n[0] * pr * 1.25, p[1] - n[1] * pr * 1.25];
+      const b1 = [p[0] + n[0] * pr * .55 + tx[0] * pr * .75, p[1] + n[1] * pr * .55 + tx[1] * pr * .75];
+      const b2 = [p[0] + n[0] * pr * .55 - tx[0] * pr * .75, p[1] + n[1] * pr * .55 - tx[1] * pr * .75];
+      o += `<path d="M${r2(b1[0])} ${r2(b1[1])}L${r2(tip[0])} ${r2(tip[1])}L${r2(b2[0])} ${r2(b2[1])}Q${r2(p[0] + n[0] * pr * 1.2)} ${r2(p[1] + n[1] * pr * 1.2)} ${r2(b1[0])} ${r2(b1[1])}Z" fill="url(#${m.g})" stroke="${m.dk}" stroke-width=".05"/>`;
+    } else {
+      o += bead(p[0] + n[0] * pr * .15, p[1] + n[1] * pr * .15, style === 'Rounded tips' ? pr * 1.18 : pr);
+    }
+  }
+  return o;
+}
+
+/* ---------- Band seen from above ---------- */
+const L0 = 6.5, R0 = 23.5;
+function bandTop(style, m, bw, cx, cy, w, h, setting){
+  const fill = `url(#${m.g})`;
+  if (setting === 'Bypass'){
+    const a = `M${L0} ${cy}C${r2(cx - 4.5)} ${cy},${r2(cx - w * .7)} ${r2(cy - h / 2 - bw * .25)},${r2(cx + w * .05)} ${r2(cy - h / 2 - bw * .45)}`;
+    const b = `M${R0} ${cy}C${r2(cx + 4.5)} ${cy},${r2(cx + w * .7)} ${r2(cy + h / 2 + bw * .25)},${r2(cx - w * .05)} ${r2(cy + h / 2 + bw * .45)}`;
+    return [a, b].map(d => `<path d="${d}" fill="none" stroke="${m.dk}" stroke-width="${bw + .12}" stroke-linecap="round"/><path d="${d}" fill="none" stroke="${m.mid}" stroke-width="${bw}" stroke-linecap="round"/><path d="${d}" fill="none" stroke="${m.lt}" stroke-width="${r2(bw * .25)}" stroke-linecap="round" opacity=".8"/>`).join('');
+  }
+  if (style === 'Tapered'){
+    const n = cx - w * .32, f = cx + w * .32;
+    return `<path d="M${L0} ${r2(cy - bw * .68)}L${r2(n)} ${r2(cy - bw * .32)}L${r2(f)} ${r2(cy - bw * .32)}L${R0} ${r2(cy - bw * .68)}L${R0} ${r2(cy + bw * .68)}L${r2(f)} ${r2(cy + bw * .32)}L${r2(n)} ${r2(cy + bw * .32)}L${L0} ${r2(cy + bw * .68)}Z" fill="${fill}" stroke="${m.dk}" stroke-width=".06"/>`;
+  }
+  if (style === 'Split shank'){
+    let o = '';
+    const sw = r2(bw * .48);
+    for (const s of [-1, 1]){
+      const xs = cx + s * (w / 2 + 2.4), edge = s < 0 ? L0 : R0;
+      o += `<rect x="${r2(Math.min(edge, xs))}" y="${r2(cy - bw / 2)}" width="${r2(Math.abs(xs - edge) + .2)}" height="${bw}" fill="${fill}"/>`;
+      for (const v of [-1, 1]){
+        const d = `M${r2(xs)} ${r2(cy + v * bw * .26)}C${r2(xs - s * 1.2)} ${r2(cy + v * bw * .3)},${r2(cx + s * (w / 2 + .2))} ${r2(cy + v * (h / 2 + .1))},${r2(cx + s * w * .15)} ${r2(cy + v * (h / 2 - .1))}`;
+        o += `<path d="${d}" fill="none" stroke="${m.dk}" stroke-width="${r2(+sw + .1)}" stroke-linecap="round"/><path d="${d}" fill="none" stroke="${m.mid}" stroke-width="${sw}" stroke-linecap="round"/>`;
+      }
+    }
+    return o;
+  }
+  const y0 = cy - bw / 2, y1 = cy + bw / 2;
+  let o = style === 'Matte / brushed'
+    ? `<rect x="${L0}" y="${r2(y0)}" width="17" height="${bw}" fill="${m.mid}"/>`
+    : `<rect x="${L0}" y="${r2(y0)}" width="17" height="${bw}" fill="${fill}"/>`;
+  o += `<path d="M${L0} ${r2(y0)}H${R0}M${L0} ${r2(y1)}H${R0}" stroke="${m.dk}" stroke-width=".05"/>`;
+  switch (style){
+    case 'Pavé (tiny diamonds)': {
+      const r = bw * .3, stp = bw * .72;
+      for (const [a, b] of [[L0 + .5, cx - w / 2 - .1], [cx + w / 2 + .1, R0 - .3]])
+        for (let x = a + r; x <= b - r; x += stp) o += `<circle cx="${r2(x)}" cy="${r2(cy)}" r="${r2(r)}" fill="url(#s-dia)" stroke="${m.dk}" stroke-width=".05"/>`;
+      break; }
+    case 'Knife-edge':
+      o += `<rect x="${L0}" y="${r2(y0)}" width="17" height="${r2(bw / 2)}" fill="${m.lt}" opacity=".55"/><rect x="${L0}" y="${r2(cy)}" width="17" height="${r2(bw / 2)}" fill="${m.dk}" opacity=".35"/><path d="M${L0} ${r2(cy)}H${R0}" stroke="${m.lt}" stroke-width=".1"/>`;
+      break;
+    case 'Twisted': {
+      o = `<rect x="${L0}" y="${r2(y0)}" width="17" height="${bw}" fill="${m.dk}"/>`;
+      for (let x = L0 - bw; x < R0; x += bw * .8){
+        const xa = Math.max(L0, x), xb = Math.min(R0, x + bw * .7);
+        if (xb <= xa) continue;
+        const ya = y1 - (xa - x) / (bw * .7) * bw, yb = y1 - (xb - x) / (bw * .7) * bw;
+        o += `<path d="M${r2(xa)} ${r2(ya)}L${r2(xb)} ${r2(yb)}" stroke="${m.lt}" stroke-width="${r2(bw * .34)}" stroke-linecap="round"/><path d="M${r2(xa)} ${r2(ya)}L${r2(xb)} ${r2(yb)}" stroke="${m.mid}" stroke-width="${r2(bw * .18)}" stroke-linecap="round" transform="translate(.06 .08)"/>`;
+      }
+      break; }
+    case 'Milgrain edge':
+      for (let x = L0 + .15; x < R0; x += .32) o += `<circle cx="${r2(x)}" cy="${r2(y0 + .15)}" r=".11" fill="${m.dk}"/><circle cx="${r2(x)}" cy="${r2(y1 - .15)}" r=".11" fill="${m.dk}"/>`;
+      o += `<path d="M${L0} ${r2(cy - bw * .12)}H${R0}" stroke="#fff" stroke-opacity=".45" stroke-width="${r2(bw * .12)}"/>`;
+      break;
+    case 'Engraved': {
+      const s = bw * .32;
+      let d = '';
+      for (let x = L0 + .2; x < R0 - .8; x += 1.1) d += `M${r2(x)} ${r2(cy)}c${r2(s * .5)} ${r2(-s)} ${r2(s * 1.2)} ${r2(-s)} ${r2(s * 1.4)} 0s${r2(s * .9)} ${r2(s)} ${r2(s * 1.4)} 0`;
+      o += `<path d="${d}" fill="none" stroke="${m.dk}" stroke-width=".08" opacity=".75"/>`;
+      break; }
+    case 'Hammered / textured': {
+      const rn = rand(3);
+      for (let k = 0; k < 60; k++){ const x = L0 + rn() * 17, y = cy + (rn() - .5) * bw * .75; o += `<ellipse cx="${r2(x)}" cy="${r2(y)}" rx="${r2(.25 + rn() * .2)}" ry="${r2(.16 + rn() * .12)}" fill="${k % 2 ? m.lt : m.dk}" opacity="${k % 2 ? .6 : .3}"/>`; }
+      break; }
+    case 'Matte / brushed':
+      for (let k = 1; k < 7; k++){ const y = y0 + bw * k / 7; o += `<path d="M${L0} ${r2(y)}H${R0}" stroke="${m.lt}" stroke-width=".03" opacity=".6"/>`; }
+      break;
+    default:
+      o += `<path d="M${L0} ${r2(cy - bw * .2)}H${R0}" stroke="#fff" stroke-opacity=".55" stroke-width="${r2(bw * .14)}"/>`;
+  }
+  return o;
+}
+
+/* ---------- Wedding band beside it (top view) ---------- */
+function plainBand(m, y, hh, pave){
+  let o = `<rect x="${L0}" y="${r2(y)}" width="17" height="${r2(hh)}" fill="url(#${m.g})" stroke="${m.dk}" stroke-width=".05"/><path d="M${L0} ${r2(y + hh * .3)}H${R0}" stroke="#fff" stroke-opacity=".5" stroke-width="${r2(hh * .12)}"/>`;
+  if (pave){ const r = hh * .3; for (let x = L0 + .4 + r; x < R0 - r; x += hh * .72) o += `<circle cx="${r2(x)}" cy="${r2(y + hh / 2)}" r="${r2(r)}" fill="url(#s-dia)" stroke="${m.dk}" stroke-width=".05"/>`; }
+  return o;
+}
+function weddingTop(fitOpt, g, cx, cy){
+  const { bw, bm, h, w } = g;
+  const below = cy + bw / 2 + .05;
+  switch (fitOpt){
+    case 'Sits flush with a straight band': return plainBand(bm, below, bw);
+    case 'A small gap is OK': return plainBand(bm, cy + h / 2 + .7, bw);
+    case 'Pair with an eternity band': return plainBand(bm, below, bw, true);
+    case 'Stack-friendly': return plainBand(bm, below, bw * .7) + plainBand(bm, below + bw * .7 + .05, bw * .7, true) + plainBand(bm, cy - bw / 2 - .05 - bw * .7, bw * .7);
+    case 'Fine needing a curved band': {
+      const yb = below + bw / 2, yd = cy + h / 2 + .3 + bw / 2;
+      const d = `M${L0} ${r2(yb)}C${r2(cx - w * 1.05)} ${r2(yb)},${r2(cx - w * .8)} ${r2(yd)},${r2(cx)} ${r2(yd)}C${r2(cx + w * .8)} ${r2(yd)},${r2(cx + w * 1.05)} ${r2(yb)},${R0} ${r2(yb)}`;
+      return `<path d="${d}" fill="none" stroke="${bm.dk}" stroke-width="${r2(bw + .1)}"/><path d="${d}" fill="none" stroke="${bm.mid}" stroke-width="${bw}"/><path d="${d}" fill="none" stroke="#fff" stroke-opacity=".45" stroke-width="${r2(bw * .14)}" transform="translate(0 ${r2(-bw * .2)})"/>`;
+    }
+  }
+  return '';
+}
+
+/* ---------- Whole ring from above, on the finger ---------- */
+function topParts(spec){
+  const g = geom(spec), cx = 15, cy = 12;
+  const { w, h, d, bw, bm, hm, st, sh, ew } = g;
+  const set = spec.setting, pro = spec.prongs;
+  let o = `<rect class="fg" x="${L0}" y="-10" width="17" height="48" rx="7"/>`;
+  o += weddingTop(spec.fit, g, cx, cy);
+  o += bandTop(spec.band, bm, bw, cx, cy, w, h, set);
+  o += `<rect x="${L0}" y="-10" width="17" height="48" fill="url(#fshade)"/>`;
+  const small = (x, y, dd, shape = 'Round', stn = st) => { const r = stoneTop(shape, x, y, dd, dd * (SHAPES[shape].ar), stn); return r.o + prongsTop('4 prongs', r.pts, x, y, dd * .8, hm); };
+
+  if (set === 'Toi et moi (two stones)'){
+    const w2 = w * .8, h2 = h * .8;
+    for (const [x, y] of [[cx - w2 * .5, cy + h2 * .26], [cx + w2 * .5, cy - h2 * .26]]){
+      const r = stoneTop(sh, x, y, w2, h2, st, ew);
+      o += r.o + prongsTop(pro === 'Full bezel, no prongs' || pro === 'Half bezel' ? '4 prongs' : pro, r.pts, x, y, Math.min(w2, h2), hm);
+    }
+    return { o, g, cx, cy };
+  }
+  if (set === 'Cluster'){
+    const dc = d * .46, rp = d * .2, dist = dc / 2 + rp + .1;
+    o += `<circle cx="${cx}" cy="${cy}" r="${r2(dist + rp + .35)}" fill="url(#${hm.g})" stroke="${hm.dk}" stroke-width=".06"/>`;
+    for (let k = 0; k < 8; k++){ const a = k * Math.PI / 4; o += stoneTop('Round', cx + Math.cos(a) * dist, cy + Math.sin(a) * dist, rp * 2, rp * 2, DIA).o; }
+    o += stoneTop(sh, cx, cy, dc, dc * SHAPES[sh].ar, st).o;
+    return { o, g, cx, cy };
+  }
+  if (set === 'Three-stone'){
+    const ds = d * .6;
+    for (const s of [-1, 1]) o += small(cx + s * (w / 2 + ds / 2 + .3), cy, ds, 'Round', DIA);
+  }
+  if (set === 'Side baguettes'){
+    const nh = Math.min(h * .55, 3.2), fh = nh * .62;
+    for (const s of [-1, 1]){
+      const x0 = cx + s * (w / 2 + .35), x1 = cx + s * (w / 2 + .35 + 2.8);
+      const poly = [[x0, cy - nh / 2], [x1, cy - fh / 2], [x1, cy + fh / 2], [x0, cy + nh / 2]];
+      const mid = [(x0 + x1) / 2, cy];
+      o += `<path d="${pathD(poly)}" fill="url(#s-dia)" stroke="${DIA.edge}" stroke-width=".07"/><path d="${pathD(scale(poly, mid[0], mid[1], .55))}" fill="none" stroke="${DIA.line}" stroke-width=".06"/>`;
+    }
+  }
+  const pts = outline(sh, cx, cy, w, h, ew);
+  if (set === 'Halo' || set === 'Vintage / milgrain'){
+    const ow = set === 'Halo' ? 1.15 : 1.4;
+    const outer = offset(pts, cx, cy, ow);
+    o += `<path d="${pathD(outer)}" fill="url(#${hm.g})" stroke="${hm.dk}" stroke-width=".06"/>`;
+    for (const p of along(offset(pts, cx, cy, .58), .92)) o += `<circle cx="${r2(p[0])}" cy="${r2(p[1])}" r=".41" fill="url(#s-dia)" stroke="${DIA.edge}" stroke-width=".04"/>`;
+    if (set === 'Vintage / milgrain') for (const p of along(offset(pts, cx, cy, ow - .12), .3)) o += `<circle cx="${r2(p[0])}" cy="${r2(p[1])}" r=".11" fill="${hm.dk}"/>`;
+  }
+  const bezel = set === 'Bezel' || pro === 'Full bezel, no prongs';
+  if (bezel) o += `<path d="${pathD(offset(pts, cx, cy, .7))}" fill="url(#${hm.g})" stroke="${hm.dk}" stroke-width=".07"/>`;
+  o += stoneTop(sh, cx, cy, w, h, st, ew).o;
+  if (!bezel) o += prongsTop(pro, pts, cx, cy, Math.min(w, h), hm);
+  return { o, g, cx, cy, pts };
+}
+function topSVG(spec, mode = 'full', zs){
+  const { o, g, cx, cy } = topParts(spec);
+  let vb;
+  if (mode === 'zoom'){ const s = zs || Math.max(g.w, g.h) / 2 + 2.2; vb = `${r2(cx - s)} ${r2(cy - s)} ${r2(2 * s)} ${r2(2 * s)}`; }
+  else if (mode === 'band') vb = `${L0} ${cy - 4.25} 17 8.5`;
+  else if (mode === 'finger') vb = `5.5 2 19 20`;
+  else vb = `3 1 24 22`;
+  return `<svg class="ring" viewBox="${vb}" aria-hidden="true">${o}</svg>`;
+}
+
+/* ---------- Ring from the side ---------- */
+function stoneSide(x, yg, dp, st, step){
+  const K = step ? { c:.11, g:.035, p:.4, t:.36 } : { c:.15, g:.035, p:.43, t:.28 };
+  const yb = yg + dp * K.g, yc = yb + dp * K.p, yt = yg - dp * K.c;
+  const P = v => r2(v);
+  let o = `<path d="M${P(x - dp / 2)} ${P(yg)}L${P(x - dp * K.t)} ${P(yt)}L${P(x + dp * K.t)} ${P(yt)}L${P(x + dp / 2)} ${P(yg)}L${P(x + dp / 2)} ${P(yb)}L${P(x)} ${P(yc)}L${P(x - dp / 2)} ${P(yb)}Z" fill="url(#${st.g})" stroke="${st.edge}" stroke-width=".07"/>`;
+  let f = `M${P(x - dp / 2)} ${P(yg)}H${P(x + dp / 2)}M${P(x - dp / 2)} ${P(yb)}H${P(x + dp / 2)}`;
+  if (step){
+    for (const k of [.35, .7]){ const yy = yb + dp * K.p * k, hw = dp / 2 * (1 - k); f += `M${P(x - hw)} ${P(yy)}H${P(x + hw)}`; }
+    f += `M${P(x - dp * K.t)} ${P(yt)}L${P(x - dp * .44)} ${P(yg)}M${P(x + dp * K.t)} ${P(yt)}L${P(x + dp * .44)} ${P(yg)}`;
+  } else {
+    f += `M${P(x - dp * K.t)} ${P(yt)}L${P(x - dp * .3)} ${P(yg)}M${P(x + dp * K.t)} ${P(yt)}L${P(x + dp * .3)} ${P(yg)}M${P(x)} ${P(yt)}L${P(x - dp * .12)} ${P(yg)}M${P(x)} ${P(yt)}L${P(x + dp * .12)} ${P(yg)}`;
+    f += `M${P(x - dp * .3)} ${P(yb)}L${P(x)} ${P(yc)}M${P(x + dp * .3)} ${P(yb)}L${P(x)} ${P(yc)}M${P(x)} ${P(yb)}L${P(x)} ${P(yc)}`;
+  }
+  o += `<path d="${f}" fill="none" stroke="${st.line}" stroke-width=".06"/>`;
+  o += `<path d="M${P(x - dp * .2)} ${P(yt + .12)}L${P(x + dp * .05)} ${P(yt + .12)}" stroke="#fff" stroke-opacity=".7" stroke-width=".18" stroke-linecap="round"/>`;
+  return o;
+}
+function prongSide(x, dp, base, yb, yg, crownH, m, style){
+  const pr = Math.min(.5, Math.max(.32, dp * .055));
+  const tipY = yg - crownH * .45;
+  let o = '';
+  const stroke = (d, extra = '') => `<path d="${d}" fill="none" stroke="${m.dk}" stroke-width="${r2(pr + .12)}" stroke-linecap="round" ${extra}/><path d="${d}" fill="none" stroke="${m.mid}" stroke-width="${r2(pr)}" stroke-linecap="round" ${extra}/>`;
+  for (const s of [-1, 1]){
+    const px = x + s * (dp / 2 + .06);
+    const d = `M${r2(x + s * dp * .16)} ${r2(base)}C${r2(x + s * dp * .3)} ${r2(yb + dp * .3)},${r2(px)} ${r2(yb + dp * .12)},${r2(px)} ${r2(tipY)}`;
+    if (style === 'Double prongs') o += stroke(d, `transform="translate(${r2(-s * .55)} 0)" opacity=".8"`);
+    o += stroke(d);
+    if (style === 'Claw (pointed) tips') o += `<path d="M${r2(px + s * .2)} ${r2(tipY - .15)}L${r2(px - s * pr * 1.7)} ${r2(tipY + .2)}L${r2(px + s * .1)} ${r2(tipY + .5)}Z" fill="${m.mid}" stroke="${m.dk}" stroke-width=".05"/>`;
+    if (style === 'Rounded tips') o += `<circle cx="${r2(px)}" cy="${r2(tipY)}" r="${r2(pr * .72)}" fill="${m.mid}" stroke="${m.dk}" stroke-width=".05"/>`;
+  }
+  if (style === '6 prongs' || style === 'Compass (N-E-S-W)') o += stroke(`M${r2(x)} ${r2(yb + dp * .28)}L${r2(x)} ${r2(tipY)}`);
+  return o;
+}
+function sideParts(spec){
+  const g = geom(spec);
+  const cx = 15, cyR = 21, rin = 8.5, t = 1.6, rout = rin + t, top = cyR - rout;
+  const dp = g.w, step = g.S.cut === 'step';
+  const K = step ? { c:.11, g:.035, p:.4 } : { c:.15, g:.035, p:.43 };
+  const gap = HEIGHT[spec.profile] ?? 1.3;
+  const culet = top - gap, yb = culet - dp * K.p, yg = yb - dp * K.g, crownTop = yg - dp * K.c;
+  const { bm, hm, st } = g, set = spec.setting, pro = spec.prongs;
+  const bezel = set === 'Bezel' || pro === 'Full bezel, no prongs';
+  const shankY = x => cyR - Math.sqrt(Math.max(0, rout * rout - (x - cx) ** 2));
+  const onShank = deg => { const a = deg * Math.PI / 180; return [cx + rout * Math.cos(a), cyR + rout * Math.sin(a)]; };
+  let o = `<circle class="fg" cx="${cx}" cy="${cyR}" r="${rin}"/>`;
+  o += `<circle cx="${cx}" cy="${cyR}" r="${rin + t / 2}" fill="none" stroke="url(#${bm.g})" stroke-width="${t}"/>`;
+  o += `<circle cx="${cx}" cy="${cyR}" r="${rout}" fill="none" stroke="${bm.dk}" stroke-width=".06"/><circle cx="${cx}" cy="${cyR}" r="${rin}" fill="none" stroke="${bm.dk}" stroke-width=".06"/>`;
+  if (spec.band === 'Pavé (tiny diamonds)') for (let a = 16; a <= 66; a += 7) for (const s of [-1, 1]){ const p = onShank(-90 + s * a); o += `<circle cx="${r2(p[0])}" cy="${r2(p[1])}" r=".36" fill="url(#s-dia)" stroke="${DIA.edge}" stroke-width=".04"/>`; }
+  if (spec.band === 'Milgrain edge') for (let a = -172; a <= -8; a += 3.2){ const p = onShank(a); o += `<circle cx="${r2(p[0])}" cy="${r2(p[1])}" r=".1" fill="${bm.dk}"/>`; }
+  if (set === 'Cathedral') for (const s of [-1, 1]){
+    const [sx, sy] = onShank(-90 + s * 52);
+    const d = `M${r2(sx)} ${r2(sy)}C${r2(sx - s * .2)} ${r2(sy - 3.4)},${r2(cx + s * dp * .62)} ${r2(yb + dp * .42)},${r2(cx + s * dp * .34)} ${r2(yb + dp * .2)}`;
+    o += `<path d="${d}" fill="none" stroke="${hm.dk}" stroke-width="1.15" stroke-linecap="round"/><path d="${d}" fill="none" stroke="${hm.mid}" stroke-width=".95" stroke-linecap="round"/><path d="${d}" fill="none" stroke="${hm.lt}" stroke-width=".25" stroke-linecap="round" transform="translate(${-s * .12} -.1)"/>`;
+  }
+  if (set === 'Three-stone'){
+    const ds = g.d * .6;
+    for (const s of [-1, 1]){
+      const x = cx + s * (dp / 2 + ds / 2 + .3), c = shankY(x) - .3, ygs = c - ds * (.43 + .035);
+      o += stoneSide(x, ygs, ds, DIA, false) + prongSide(x, ds, shankY(x) + .1, ygs + ds * .035, ygs, ds * .15, hm, '4 prongs');
+    }
+  }
+  if (set === 'Side baguettes') for (const s of [-1, 1]){
+    const x0 = cx + s * (dp / 2 + .35), x1 = x0 + s * 2.6;
+    o += `<path d="M${r2(x0)} ${r2(shankY(x0) - .85)}L${r2(x1)} ${r2(shankY(x1) - .6)}L${r2(x1)} ${r2(shankY(x1) + .1)}L${r2(x0)} ${r2(shankY(x0) + .1)}Z" fill="url(#s-dia)" stroke="${DIA.edge}" stroke-width=".06"/>`;
+  }
+  if (set === 'Toi et moi (two stones)'){
+    const d2 = dp * .8;
+    for (const [s, lift] of [[-1, 0], [1, .8]]){
+      const x = cx + s * d2 * .52, c = culet - lift, y2 = c - d2 * (K.p + K.g);
+      o += stoneSide(x, y2, d2, st, step) + prongSide(x, d2, top + .2, y2 + d2 * K.g, y2, d2 * K.c, hm, pro === 'Full bezel, no prongs' || pro === 'Half bezel' ? '4 prongs' : pro);
+    }
+  } else if (set === 'Cluster'){
+    const dc = g.d * .46, pd = g.d * .4;
+    o += `<rect x="${r2(cx - dc / 2 - pd - .3)}" y="${r2(top - .9)}" width="${r2(dc + pd * 2 + .6)}" height=".9" rx=".3" fill="url(#${hm.g})" stroke="${hm.dk}" stroke-width=".05"/>`;
+    for (const s of [-1, 1]){ const x = cx + s * (dc / 2 + pd / 2 + .05); o += stoneSide(x, top - .9 - pd * .47, pd, DIA, false); }
+    o += stoneSide(cx, top - 1.3 - dc * .47, dc, st, step);
+  } else {
+    if (!bezel) o += `<path d="M${r2(cx - dp * .36)} ${r2(yb + dp * .18)}H${r2(cx + dp * .36)}" stroke="${hm.dk}" stroke-width=".42" stroke-linecap="round"/><path d="M${r2(cx - dp * .36)} ${r2(yb + dp * .18)}H${r2(cx + dp * .36)}" stroke="${hm.mid}" stroke-width=".3" stroke-linecap="round"/>`;
+    if (bezel) o += `<path d="M${r2(cx - dp * .22)} ${r2(top + .15)}L${r2(cx - dp * .12)} ${r2(yb)}L${r2(cx + dp * .12)} ${r2(yb)}L${r2(cx + dp * .22)} ${r2(top + .15)}Z" fill="url(#${hm.g})"/>`;
+    o += stoneSide(cx, yg, dp, st, step);
+    if (set === 'Hidden halo'){
+      o += `<rect x="${r2(cx - dp / 2 + .1)}" y="${r2(yb + .02)}" width="${r2(dp - .2)}" height=".85" rx=".2" fill="url(#${hm.g})" stroke="${hm.dk}" stroke-width=".05"/>`;
+      for (let x = cx - dp / 2 + .5; x <= cx + dp / 2 - .45; x += .74) o += `<circle cx="${r2(x)}" cy="${r2(yb + .44)}" r=".33" fill="url(#s-dia)" stroke="${DIA.edge}" stroke-width=".04"/>`;
+    }
+    if (set === 'Halo' || set === 'Vintage / milgrain'){
+      const x0 = cx - dp / 2 - 1.55, ww = dp + 3.1;
+      o += `<rect x="${r2(x0)}" y="${r2(yg + .05)}" width="${r2(ww)}" height="1" rx=".25" fill="url(#${hm.g})" stroke="${hm.dk}" stroke-width=".05"/>`;
+      for (let x = x0 + .45; x <= x0 + ww - .4; x += .8) o += `<circle cx="${r2(x)}" cy="${r2(yg + .52)}" r=".37" fill="url(#s-dia)" stroke="${DIA.edge}" stroke-width=".04"/>`;
+      if (set === 'Vintage / milgrain') for (let x = x0 + .15; x <= x0 + ww - .1; x += .3) o += `<circle cx="${r2(x)}" cy="${r2(yg + .12)}" r=".09" fill="${hm.dk}"/><circle cx="${r2(x)}" cy="${r2(yg + .98)}" r=".09" fill="${hm.dk}"/>`;
+    }
+    if (bezel){
+      o += `<path d="M${r2(cx - dp / 2 - .4)} ${r2(yg - .12)}L${r2(cx + dp / 2 + .4)} ${r2(yg - .12)}L${r2(cx + dp * .22)} ${r2(top + .15)}L${r2(cx - dp * .22)} ${r2(top + .15)}Z" fill="url(#${hm.g})" stroke="${hm.dk}" stroke-width=".06"/><path d="M${r2(cx - dp / 2 - .3)} ${r2(yg + .1)}H${r2(cx + dp / 2 + .3)}" stroke="${hm.lt}" stroke-width=".15" opacity=".8"/>`;
+    } else if (pro === 'Half bezel'){
+      for (const s of [-1, 1]) o += `<path d="M${r2(cx + s * (dp / 2 + .4))} ${r2(yg - .12)}L${r2(cx + s * dp * .26)} ${r2(yg - .12)}L${r2(cx + s * dp * .08)} ${r2(top + .15)}L${r2(cx + s * dp * .22)} ${r2(top + .15)}Z" fill="url(#${hm.g})" stroke="${hm.dk}" stroke-width=".06"/>`;
+    } else {
+      o += prongSide(cx, dp, top + .15, yb, yg, dp * K.c, hm, pro);
+    }
+  }
+  return { o, geo:{ cx, cyR, rin, rout, top, culet, yb, yg, crownTop, dp, t } };
+}
+function sideSVG(spec, crop){
+  const { o } = sideParts(spec);
+  return `<svg class="ring" viewBox="${crop ? '2 -0.5 26 19.5' : '3 -0.5 24 32'}" aria-hidden="true">${o}</svg>`;
+}
+
+/* ---------- What each card shows ---------- */
+const VIEWS = {
+  shape:   o => topSVG({ ...BASE, shape:o }, 'zoom', 6.3),
+  setting: o => { const s = { ...BASE, setting:o, shape: o === 'East–west' ? 'Oval' : 'Round' }; return topSVG(s, 'full') + sideSVG(s, true); },
+  prongs:  o => { const s = { ...BASE, prongs:o }; return topSVG(s, 'zoom', 5.2) + sideSVG(s, true); },
+  band:    o => topSVG({ ...BASE, band:o, carat:'Under 1 ct', width:'Medium 2.5 mm' }, 'band'),
+  width:   o => topSVG({ ...BASE, width:o }, 'band'),
+  metal:   o => topSVG({ ...BASE, metal:o }, 'zoom', 6.5),
+  stone:   o => topSVG({ ...BASE, stone:o, metal:'Platinum' }, 'zoom', 5),
+  carat:   o => topSVG({ ...BASE, carat:o }, 'finger'),
+  profile: o => sideSVG({ ...BASE, profile:o }, true),
+  fit:     o => topSVG({ ...BASE, fit:o }, 'finger'),
+};
+const artCache = new Map();
+function optionArt(cat, o){
+  const k = cat + '::' + o;
+  if (!artCache.has(k)){
+    const known = CAT[cat].opts.includes(o);
+    artCache.set(k, known ? VIEWS[cat](o) : `<div class="custom-art">Your own idea<br>(no drawing)</div>`);
+  }
+  return artCache.get(k);
+}
+function caption(cat, o){
+  if (cat === 'carat' && CARAT[o]) return `Drawn at ${CARAT[o]} ct. A round stone this size is about ${roundMM(CARAT[o]).toFixed(1)} mm across.`;
+  return CAT[cat].caps?.[o] || 'Added by you.';
+}
+
+/* ---------- Labeled anatomy ---------- */
+function label(x1, y1, x2, y2, lines, anchor){
+  const tx = anchor === 'end' ? x2 - .5 : x2 + .5;
+  const tsp = lines.map((ln, i) => `<tspan x="${r2(tx)}" dy="${i ? 1.75 : 0}">${ln}</tspan>`).join('');
+  return `<path class="ring-lead" d="M${r2(x1)} ${r2(y1)}L${r2(x2)} ${r2(y2)}"/><circle class="ring-dot" cx="${r2(x1)}" cy="${r2(y1)}" r=".22"/><text class="ring-lbl" x="${r2(tx)}" y="${r2(y2 + .5)}" text-anchor="${anchor}">${tsp}</text>`;
+}
+function renderAnatomy(){
+  const spec = { ...BASE };
+  const s = sideParts(spec), G = s.geo;
+  const cx = G.cx, dp = G.dp;
+  const sh = (deg) => { const a = deg * Math.PI / 180; return [cx + G.rout * Math.cos(a), G.cyR + G.rout * Math.sin(a)]; };
+  const shoulder = sh(-132), bandPt = sh(-25);
+  let side = s.o;
+  side += label(cx + dp * .18, G.crownTop + .5, 31, 2.2, ['Center stone'], 'start');
+  side += label(cx - dp / 2 - .1, G.yg - .5, -.5, 3.4, ['Prongs grip', 'the stone'], 'end');
+  side += label(cx - dp * .3, G.yb + dp * .18, -.5, 8.6, ['Head (basket)', 'lifts it up'], 'end');
+  side += label(shoulder[0], shoulder[1], -.5, 15.5, ['Shoulder'], 'end');
+  side += label(bandPt[0], bandPt[1], 31, 17, ['Band', '(the shank)'], 'start');
+  const hx = cx + dp / 2 + 1.4;
+  side += `<path class="ring-dim" d="M${r2(hx - .35)} ${r2(G.crownTop)}H${r2(hx + .35)}M${r2(hx)} ${r2(G.crownTop)}V${r2(G.top)}M${r2(hx - .35)} ${r2(G.top)}H${r2(hx + .35)}"/>`;
+  side += label(hx, (G.crownTop + G.top) / 2, 31, 8.4, ['Height off', 'the finger'], 'start');
+  side += `<text class="ring-sub" x="${cx}" y="${G.cyR + .5}" text-anchor="middle">your finger</text>`;
+
+  const t = topParts(spec), g = t.g, cy = t.cy, tcx = t.cx;
+  let top = t.o;
+  const dy = cy - g.h / 2 - 1.1;
+  top += `<path class="ring-dim" d="M${r2(tcx - g.w / 2)} ${r2(dy - .35)}V${r2(dy + .35)}M${r2(tcx - g.w / 2)} ${r2(dy)}H${r2(tcx + g.w / 2)}M${r2(tcx + g.w / 2)} ${r2(dy - .35)}V${r2(dy + .35)}"/>`;
+  top += label(tcx - g.w / 2, dy, 4.5, 2.6, ['Stone size', `${g.w.toFixed(1)} mm = ${g.ct} ct`], 'end');
+  const ang = -40 * Math.PI / 180;
+  top += label(tcx + g.w / 2 * Math.cos(ang) * .98, cy + g.h / 2 * Math.sin(ang) * .98, 26.5, 3.4, ['Shape: the', 'outline from above'], 'start');
+  const bx = R0 + .9;
+  top += `<path class="ring-dim" d="M${bx - .3} ${r2(cy - g.bw / 2)}H${bx + .3}M${bx} ${r2(cy - g.bw / 2)}V${r2(cy + g.bw / 2)}M${bx - .3} ${r2(cy + g.bw / 2)}H${bx + .3}"/>`;
+  top += label(bx, cy, 26.5, 12, ['Band width', `${g.bw} mm`], 'start');
+  top += label(9, 19.5, 4.5, 19.5, ['Your finger', '(size 6)'], 'end');
+  $('#anatomy').innerHTML = `
+    <div><span class="eyebrow">Start here</span><h2>The parts of a ring</h2></div>
+    <p class="section-intro">Every drawing on this page uses one of these two views. Everything is to scale on a size 6 finger.</p>
+    <div class="anatomy-figs">
+      <figure><figcaption>From the side</figcaption><svg class="ring" viewBox="-13 -1 57 33" role="img" aria-label="Side view of a ring with its center stone, prongs, head, shoulder and band labeled">${side}</svg></figure>
+      <figure><figcaption>Looking down at your hand</figcaption><svg class="ring" viewBox="-12 1 53 22" role="img" aria-label="Top view of a ring on a finger with the stone size, shape and band width labeled">${top}</svg></figure>
+    </div>`;
+}
+
+/* =====================================================================
+   Quiz
+   ===================================================================== */
+const QUIZ = [
+  { id:'style', q:'Which of these catches your eye first?', help:'Go with your gut. Nothing here is final, and you can change every mark later.', view:'both',
+    a:[
+      { t:'Classic', s:'Simple and timeless. The stone does the talking.', spec:{ shape:'Round', setting:'Solitaire', prongs:'6 prongs', metal:'Platinum' }, love:['shape::Round','setting::Solitaire','prongs::6 prongs','band::Plain polished'] },
+      { t:'Modern', s:'Clean lines and geometry. A little architectural.', spec:{ shape:'Emerald', setting:'Bezel', band:'Knife-edge', width:'Slim 1.8 mm' }, love:['shape::Emerald','setting::Bezel','setting::East–west','prongs::Full bezel, no prongs','band::Knife-edge'] },
+      { t:'Vintage', s:'Romantic and detailed, like an heirloom.', spec:{ shape:'Old European', setting:'Vintage / milgrain', band:'Milgrain edge' }, love:['shape::Old European','shape::Cushion','setting::Vintage / milgrain','band::Milgrain edge','band::Engraved'] },
+      { t:'Unexpected', s:'Unusual shapes or color. Something nobody else has.', spec:{ shape:'Pear', setting:'Toi et moi (two stones)', metal:'Rose gold', stone:'Morganite' }, love:['shape::Pear','shape::Marquise','setting::Toi et moi (two stones)','setting::Cluster','stone::Colored sapphire'] },
+    ] },
+  { id:'metal', q:'Look at the jewelry you already wear. What color is most of it?', help:'Your engagement ring will sit next to it every day.', view:'metal',
+    a:[
+      { t:'Silver-colored', s:'Platinum or white gold.', spec:{ metal:'Platinum' }, love:['metal::Platinum','metal::White gold'] },
+      { t:'Gold', s:'Warm yellow gold.', spec:{ metal:'Yellow gold' }, love:['metal::Yellow gold'] },
+      { t:'Rose gold', s:'Pinkish gold.', spec:{ metal:'Rose gold' }, love:['metal::Rose gold'] },
+      { t:'A mix', s:'I wear both, or I don’t mind.', spec:{ metal:'Two-tone' }, love:['metal::Two-tone'] },
+    ] },
+  { id:'sparkle', q:'How much sparkle do you want?', help:'Left: looking down at your hand. Right: from the side.', view:'both',
+    a:[
+      { t:'Just the one stone', s:'Clean and simple.', spec:{ setting:'Solitaire', band:'Plain polished' }, love:['setting::Solitaire','band::Plain polished'], nope:['setting::Halo','setting::Cluster'] },
+      { t:'A hint more', s:'A secret sparkle you see from the side, plus a sparkly band.', spec:{ setting:'Hidden halo', band:'Pavé (tiny diamonds)' }, love:['setting::Hidden halo','band::Pavé (tiny diamonds)'] },
+      { t:'All of it', s:'Diamonds everywhere.', spec:{ setting:'Halo', band:'Pavé (tiny diamonds)' }, love:['setting::Halo','band::Pavé (tiny diamonds)','setting::Three-stone'] },
+    ] },
+  { id:'hands', q:'What are your hands doing on a normal day?', help:'Rings that sit high catch on sweaters, gloves and hair. Seen from the side; the shaded circle is your finger.', view:'side',
+    a:[
+      { t:'Lots', s:'Gym, cooking, kids, lab work, gloves.', spec:{ profile:'Low set', prongs:'Rounded tips' }, love:['profile::Low set','prongs::Rounded tips','setting::Bezel'], nope:['profile::High set','prongs::Claw (pointed) tips'] },
+      { t:'The usual', s:'Desk work, errands, nothing rough.', spec:{ profile:'Medium' }, love:['profile::Medium'] },
+      { t:'I’ll be careful', s:'I want it up high to catch the light.', spec:{ profile:'High set' }, love:['profile::High set'] },
+    ] },
+  { id:'look', q:'What should it do for your hand?', help:'All drawn to scale on a size 6 finger.', view:'top',
+    a:[
+      { t:'Make my fingers look longer', s:'Long shapes that run along the finger.', spec:{ shape:'Oval' }, love:['shape::Oval','shape::Pear','shape::Marquise','shape::Elongated cushion','shape::Emerald'] },
+      { t:'Look as big as possible', s:'The most stone for the money.', spec:{ shape:'Oval', setting:'Halo', width:'Dainty 1.5 mm' }, love:['shape::Oval','setting::Halo','width::Dainty 1.5 mm','band::Tapered'] },
+      { t:'Stay small and delicate', s:'Quiet, everyday, elegant.', spec:{ carat:'Under 1 ct', width:'Dainty 1.5 mm' }, love:['carat::Under 1 ct','width::Dainty 1.5 mm','width::Slim 1.8 mm'], nope:['width::Bold 3 mm +','carat::3 ct +'] },
+      { t:'Feel substantial', s:'Weighty and bold.', spec:{ shape:'Cushion', carat:'2 – 3 ct', width:'Bold 3 mm +' }, love:['width::Medium 2.5 mm','width::Bold 3 mm +'], nope:['width::Dainty 1.5 mm'] },
+    ] },
+  { id:'stone', q:'What matters most about the stone?', help:'Lab-grown diamonds are real diamonds. Moissanite and sapphire are different stones.', view:'top',
+    a:[
+      { t:'A natural, mined diamond', s:'Tradition matters to me.', spec:{ stone:'Natural diamond' }, love:['stone::Natural diamond'] },
+      { t:'The biggest diamond for the money', s:'Lab-grown gets you a much bigger stone.', spec:{ stone:'Lab-grown diamond', carat:'2 – 3 ct' }, love:['stone::Lab-grown diamond'] },
+      { t:'Color', s:'Not a white diamond.', spec:{ stone:'Blue sapphire' }, love:['stone::Blue sapphire','stone::Colored sapphire','stone::Morganite','stone::Salt & pepper diamond'] },
+      { t:'Lowest price, still sparkly', s:'Spend the money on something else.', spec:{ stone:'Moissanite' }, love:['stone::Moissanite','stone::Lab-grown diamond'] },
+    ] },
+  { id:'bands', q:'How do you picture wearing it with a wedding band?', help:'Looking down at your hand, with the wedding band below the engagement ring.', view:'top',
+    a:[
+      { t:'One plain band, flat against it', s:'Simple and matching.', spec:{ fit:'Sits flush with a straight band' }, love:['fit::Sits flush with a straight band','profile::Low set'] },
+      { t:'A band that curves around it', s:'Fine to have them fit together like a puzzle.', spec:{ fit:'Fine needing a curved band' }, love:['fit::Fine needing a curved band'] },
+      { t:'Diamonds all the way around', s:'A sparkly eternity band.', spec:{ fit:'Pair with an eternity band' }, love:['fit::Pair with an eternity band'] },
+      { t:'A stack that grows over the years', s:'Anniversary bands, mixed metals.', spec:{ fit:'Stack-friendly' }, love:['fit::Stack-friendly'] },
+    ] },
+];
+function answerArt(q, a){
+  const s = { ...BASE, ...a.spec };
+  if (q.view === 'both') return topSVG(s, 'full') + sideSVG(s, true);
+  if (q.view === 'side') return sideSVG(s, true);
+  if (q.view === 'metal') return topSVG(s, 'zoom', 6.5);
+  return topSVG(s, 'finger');
+}
+let quizPos = null;
+function quizEffects(){
+  const love = new Set(), nope = new Set();
+  for (const q of QUIZ){
+    const i = state.quiz[q.id];
+    if (i == null || i < 0 || !q.a[i]) continue;
+    (q.a[i].love || []).forEach(k => love.add(k));
+    (q.a[i].nope || []).forEach(k => nope.add(k));
+  }
+  for (const k of [...love]) if (nope.has(k)){ love.delete(k); nope.delete(k); }
+  return { love:[...love], nope:[...nope] };
+}
+function renderQuiz(){
+  const el = $('#quiz');
+  if (quizPos == null){ quizPos = QUIZ.findIndex(q => state.quiz[q.id] == null); if (quizPos < 0) quizPos = QUIZ.length; }
+  const dots = QUIZ.map((q, i) => `<button data-qjump="${i}" aria-label="Question ${i + 1}" data-done="${state.quiz[q.id] != null}" ${i === quizPos ? 'aria-current="step"' : ''}></button>`).join('')
+    + `<button data-qjump="${QUIZ.length}" aria-label="Results" data-done="false" ${quizPos === QUIZ.length ? 'aria-current="step"' : ''}></button>`;
+  if (quizPos >= QUIZ.length){ el.innerHTML = `<div class="q-top"><span class="eyebrow">Your results</span><div class="q-dots">${dots}</div></div>` + quizResults(); return; }
+  const q = QUIZ[quizPos], picked = state.quiz[q.id];
+  el.innerHTML = `
+    <div class="q-top"><span class="eyebrow">Question ${quizPos + 1} of ${QUIZ.length}</span><div class="q-dots">${dots}</div></div>
+    <div><h2>${q.q}</h2><p class="help">${q.help}</p></div>
+    <div class="answers${q.view === 'both' ? ' wide' : ''}">
+      ${q.a.map((a, i) => `<button class="answer" data-answer="${i}" aria-pressed="${picked === i}"><div class="art${q.view === 'side' ? ' tall' : ''}">${answerArt(q, a)}</div><b>${a.t}</b><span>${a.s}</span></button>`).join('')}
+    </div>
+    <div class="q-nav">
+      ${quizPos > 0 ? '<button class="btn ghost" data-qnav="back">Back</button>' : ''}
+      <button class="btn ghost" data-qnav="skip">Not sure, skip</button>
+    </div>`;
+}
+function miniCard(k, kind){
+  const [cat, o] = k.split('::');
+  if (!CAT[cat]) return '';
+  const cur = markOf(cat, o);
+  const already = cur === kind ? 'Already on your board' : cur ? (cur === 'love' ? 'You loved this' : 'You crossed this off') : CAT[cat].short;
+  return `<div class="mini ${kind === 'nope' ? 'nope' : ''}"><div class="art">${optionArt(cat, o)}</div><b>${esc(o)}</b><small>${already}</small></div>`;
+}
+function quizResults(){
+  const { love, nope } = quizEffects();
+  const answered = QUIZ.filter(q => state.quiz[q.id] >= 0).length;
+  if (!answered) return `<div class="results"><div><h2>You skipped every question.</h2><p class="help">That's fine. Try again whenever you like, or go straight to the Features tab.</p></div><div class="q-nav"><button class="btn primary" data-qnav="retake">Start the quiz again</button></div></div>`;
+  const pending = love.filter(k => !markOf(...k.split('::'))).length + nope.filter(k => !markOf(...k.split('::'))).length;
+  return `<div class="results">
+    <div><h2>Here's where your answers point.</h2><p class="help">These are suggestions, not rules. Adding them marks only options you haven't decided on yet, and you can undo any of them on the Features tab.</p></div>
+    ${love.length ? `<div class="res-group"><h3>◆ Likely loves</h3><div class="mini-grid">${love.map(k => miniCard(k, 'love')).join('')}</div></div>` : ''}
+    ${nope.length ? `<div class="res-group"><h3>✕ Probably not for you</h3><div class="mini-grid">${nope.map(k => miniCard(k, 'nope')).join('')}</div></div>` : ''}
+    <div class="q-nav">
+      <button class="btn primary" data-qnav="apply" ${pending ? '' : 'disabled'}>${pending ? `Add ${pending} to my board` : 'All added to your board'}</button>
+      <button class="btn ghost" data-qnav="retake">Retake the quiz</button>
+      <span class="note-ok" id="quiz-msg" aria-live="polite"></span>
+    </div>
+  </div>`;
+}
+$('#quiz').addEventListener('click', (e) => {
+  const b = e.target.closest('button'); if (!b) return;
+  const d = b.dataset;
+  if (d.answer != null){
+    state.quiz[QUIZ[quizPos].id] = +d.answer; commit();
+    quizPos++; renderQuiz(); $('#panel-quiz').scrollIntoView({ block:'start' });
+  } else if (d.qjump != null){ quizPos = +d.qjump; renderQuiz(); }
+  else if (d.qnav === 'back'){ quizPos = Math.max(0, quizPos - 1); renderQuiz(); }
+  else if (d.qnav === 'skip'){ state.quiz[QUIZ[quizPos].id] = -1; commit(); quizPos++; renderQuiz(); }
+  else if (d.qnav === 'retake'){ state.quiz = {}; commit(); quizPos = 0; renderQuiz(); }
+  else if (d.qnav === 'apply'){
+    const { love, nope } = quizEffects();
+    let n = 0;
+    for (const k of love) if (!state.marks[k]){ state.marks[k] = 'love'; n++; }
+    for (const k of nope) if (!state.marks[k]){ state.marks[k] = 'nope'; n++; }
+    commit(); renderBoard(); renderSummary(); renderQuiz();
+    const m = $('#quiz-msg'); if (m) m.textContent = `Added ${n} marks. See them on the Features tab.`;
+  }
+});
+
+/* =====================================================================
+   State and saving
+   ===================================================================== */
 const LS_KEY = 'ring-shortlist-v1';
-const $ = (s) => document.querySelector(s);
-const esc = (s) => String(s ?? '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 
-function blank(){ return { v:1, marks:{}, custom:{}, size:'', budget:'', tryons:[], updatedAt:0 }; }
+function blank(){ return { v:2, marks:{}, custom:{}, size:'', budget:'', tryons:[], quiz:{}, favs:[], vary:['shape','setting','metal'], updatedAt:0 }; }
 function normalize(d){
   d = d ? JSON.parse(JSON.stringify(d)) : {};
   const s = blank();
@@ -347,6 +1171,9 @@ function normalize(d){
   if (d.custom && typeof d.custom === 'object') for (const k in d.custom) if (Array.isArray(d.custom[k])) s.custom[k] = d.custom[k].map(String);
   s.size = String(d.size || ''); s.budget = String(d.budget || '');
   if (Array.isArray(d.tryons)) s.tryons = d.tryons.filter(t => t && t.id);
+  if (d.quiz && typeof d.quiz === 'object') for (const k in d.quiz) if (Number.isInteger(d.quiz[k])) s.quiz[k] = d.quiz[k];
+  if (Array.isArray(d.favs)) s.favs = d.favs.filter(f => f && typeof f === 'object');
+  if (Array.isArray(d.vary)) s.vary = d.vary.filter(v => CAT[v]);
   s.updatedAt = Number(d.updatedAt) || 0;
   return s;
 }
@@ -361,7 +1188,6 @@ const key = (c, o) => c + '::' + o;
 const markOf = (c, o) => state.marks[key(c, o)] || null;
 const optsOf = (cat) => [...cat.opts, ...(state.custom[cat.id] || [])];
 
-/* ---------- Saving ---------- */
 let saveTimer = null, writing = false, dirty = false;
 function setStatus(text, err){ const el = $('#status'); el.textContent = text; el.classList.toggle('err', !!err); }
 function commit(){
@@ -384,37 +1210,106 @@ async function flush(){
   } finally { writing = false; }
 }
 
-/* ---------- Rendering ---------- */
-function chipHTML(cat, o, isCustom){
+/* =====================================================================
+   Features board
+   ===================================================================== */
+function optHTML(cat, o, isCustom){
   const m = markOf(cat.id, o) || 'open';
   const mk = m === 'love' ? '◆' : m === 'nope' ? '✕' : '';
-  const stateWord = m === 'love' ? 'loved' : m === 'nope' ? 'crossed off' : 'undecided';
-  const glyph = cat.tiles ? (GLYPHS[o] || GENERIC_GLYPH) : '';
-  const btn = `<button class="chip" data-state="${m}" data-cat="${cat.id}" data-opt="${esc(o)}" aria-label="${esc(o)}, ${stateWord}">
-      ${cat.tiles ? '' : `<span class="mk" aria-hidden="true">${mk}</span>`}${glyph}<span class="lbl">${esc(o)}</span>${cat.tiles ? `<span class="mk" aria-hidden="true">${mk}</span>` : ''}
-    </button>`;
-  return `<span class="chip-wrap${isCustom ? ' custom' : ''}">${btn}${isCustom ? `<button class="chip-x" data-remove="${cat.id}" data-opt="${esc(o)}" aria-label="Remove ${esc(o)}">×</button>` : ''}</span>`;
+  const word = m === 'love' ? 'loved' : m === 'nope' ? 'crossed off' : 'undecided';
+  return `<div class="opt-wrap">
+    <button class="opt" data-state="${m}" data-cat="${cat.id}" data-opt="${esc(o)}" aria-label="${esc(o)}, ${word}. ${esc(caption(cat.id, o))}">
+      <span class="art${cat.id === 'profile' ? ' tall' : ''}">${optionArt(cat.id, o)}</span>
+      <span class="opt-name">${mk ? `<span class="mk" aria-hidden="true">${mk}</span>` : ''}${esc(o)}</span>
+      <span class="opt-cap">${esc(caption(cat.id, o))}</span>
+    </button>
+    ${isCustom ? `<button class="opt-x" data-remove="${cat.id}" data-opt="${esc(o)}" aria-label="Remove ${esc(o)}">×</button>` : ''}
+  </div>`;
+}
+function countText(cat){
+  const opts = optsOf(cat);
+  const nope = opts.filter(o => markOf(cat.id, o) === 'nope').length;
+  const love = opts.filter(o => markOf(cat.id, o) === 'love').length;
+  const bits = [];
+  if (love) bits.push(`${love} loved`);
+  if (nope) bits.push(`${nope} of ${opts.length} crossed off`);
+  return bits.join(' · ') || `${opts.length} options`;
 }
 function renderBoard(){
-  $('#board').innerHTML = CATS.map(cat => {
-    const opts = optsOf(cat);
-    const nope = opts.filter(o => markOf(cat.id, o) === 'nope').length;
-    const love = opts.filter(o => markOf(cat.id, o) === 'love').length;
-    const custom = state.custom[cat.id] || [];
-    const bits = [];
-    if (love) bits.push(`${love} loved`);
-    if (nope) bits.push(`${nope} of ${opts.length} crossed off`);
-    return `<section class="cat">
-      <div class="cat-head"><h2>${cat.name}</h2><span class="cat-count">${bits.join(' · ') || `${opts.length} options`}</span></div>
+  $('#board').innerHTML = CATS.map(cat => `<section class="cat" id="cat-${cat.id}">
+      <div class="cat-head"><h2>${cat.name}</h2><span class="cat-count">${countText(cat)}</span></div>
       <p class="cat-note">${cat.note}</p>
-      <div class="chips${cat.tiles ? ' tiles' : ''}" data-chips="${cat.id}">
-        ${cat.opts.map(o => chipHTML(cat, o, false)).join('')}
-        ${custom.map(o => chipHTML(cat, o, true)).join('')}
-        <span class="chip-wrap"><button class="chip add" data-add="${cat.id}">+ Add your own</button></span>
+      <div class="opts${cat.wide ? ' wide' : ''}" data-opts="${cat.id}">
+        ${cat.opts.map(o => optHTML(cat, o, false)).join('')}
+        ${(state.custom[cat.id] || []).map(o => optHTML(cat, o, true)).join('')}
+        <div class="opt-wrap"><button class="opt add" data-add="${cat.id}">+ Add your own</button></div>
       </div>
-    </section>`;
-  }).join('');
+    </section>`).join('');
 }
+$('#board').addEventListener('click', (e) => {
+  const rm = e.target.closest('[data-remove]');
+  if (rm){
+    const c = rm.dataset.remove, o = rm.dataset.opt;
+    state.custom[c] = (state.custom[c] || []).filter(x => x !== o);
+    delete state.marks[key(c, o)];
+    commit(); renderBoard(); renderSummary(); fillSelects(); return;
+  }
+  const add = e.target.closest('[data-add]');
+  if (add){ startAdd(add); return; }
+  const btn = e.target.closest('.opt[data-cat]');
+  if (!btn) return;
+  const c = btn.dataset.cat, o = btn.dataset.opt, k = key(c, o);
+  if (state.marks[k] === mode) delete state.marks[k]; else state.marks[k] = mode;
+  commit();
+  const cat = CAT[c];
+  btn.parentElement.outerHTML = optHTML(cat, o, !cat.opts.includes(o));
+  const nb = document.querySelector(`.opt[data-cat="${c}"][data-opt="${CSS.escape(o)}"]`);
+  nb && nb.focus({ preventScroll:true });
+  document.querySelector(`#cat-${c} .cat-count`).textContent = countText(cat);
+  renderSummary();
+});
+function startAdd(btn){
+  const c = btn.dataset.add;
+  const box = document.createElement('div');
+  box.className = 'add-form';
+  box.innerHTML = `<input id="add-${c}" placeholder="Name your idea" aria-label="Add your own option" autocomplete="off"><span>Press Enter to add</span>`;
+  btn.replaceWith(box);
+  const input = box.querySelector('input'); input.focus();
+  let done = false;
+  const finish = (save) => {
+    if (done) return; done = true;
+    const v = input.value.trim(), cat = CAT[c];
+    if (save && v && !optsOf(cat).some(o => o.toLowerCase() === v.toLowerCase())){ (state.custom[c] = state.custom[c] || []).push(v); commit(); }
+    renderBoard(); renderSummary(); fillSelects();
+  };
+  input.addEventListener('keydown', (e) => { if (e.key === 'Enter'){ e.preventDefault(); finish(true); } else if (e.key === 'Escape') finish(false); });
+  input.addEventListener('blur', () => finish(true));
+}
+document.querySelectorAll('.mode button').forEach(b => b.addEventListener('click', () => {
+  mode = b.dataset.mode;
+  document.querySelectorAll('.mode button').forEach(x => x.setAttribute('aria-pressed', String(x === b)));
+}));
+
+/* =====================================================================
+   Shortlist logic shared by summary and mix & match
+   ===================================================================== */
+function inPlay(cat){
+  const opts = optsOf(cat);
+  const loves = opts.filter(o => markOf(cat.id, o) === 'love');
+  if (loves.length) return loves;
+  const open = opts.filter(o => !markOf(cat.id, o));
+  return open;
+}
+function fixedValue(cat){
+  const loves = optsOf(cat).filter(o => markOf(cat.id, o) === 'love');
+  if (loves.length) return loves[0];
+  if (cat.id === 'fit') return '';
+  if (!markOf(cat.id, BASE[cat.id])) return BASE[cat.id];
+  return inPlay(cat)[0] || BASE[cat.id];
+}
+function bestGuess(){ const s = {}; for (const c of CATS) s[c.id] = fixedValue(c); return s; }
+const drawable = (spec) => { const s = { ...BASE }; for (const c of CATS) if (spec[c.id] && (c.opts.includes(spec[c.id]) || c.id === 'fit')) s[c.id] = spec[c.id]; return s; };
+
 function summarize(cat){
   const opts = optsOf(cat);
   const loves = opts.filter(o => markOf(cat.id, o) === 'love');
@@ -429,6 +1324,8 @@ function summarize(cat){
   return { text, kind, loves, nopes, open };
 }
 function renderSummary(){
+  const g = drawable(bestGuess());
+  $('#guess-art').innerHTML = topSVG(g, 'finger') + sideSVG(g, false);
   $('#sum-list').innerHTML = CATS.map(cat => {
     const s = summarize(cat);
     const out = s.nopes.length ? `<span class="out">${esc(s.nopes.join(', '))}</span>` : '';
@@ -438,21 +1335,155 @@ function renderSummary(){
   if (document.activeElement !== sz) sz.value = state.size;
   if (document.activeElement !== bd) bd.value = state.budget;
   let love = 0, nope = 0;
-  for (const k in state.marks){ if (state.marks[k] === 'love') love++; else if (state.marks[k] === 'nope') nope++; }
+  for (const c of CATS) for (const o of optsOf(c)){ const m = markOf(c.id, o); if (m === 'love') love++; else if (m === 'nope') nope++; }
   $('#n-love').textContent = love; $('#n-nope').textContent = nope; $('#n-try').textContent = state.tryons.length;
+  if (!$('#panel-mix').hidden) renderMix();
 }
 
+/* =====================================================================
+   Mix & match
+   ===================================================================== */
+const MAX_COMBOS = 60;
+const specKey = s => CATS.map(c => s[c.id] || '').join('|');
+function renderMix(){
+  const el = $('#mix');
+  const play = Object.fromEntries(CATS.map(c => [c.id, inPlay(c)]));
+  let total = 1;
+  for (const c of CATS) if (c.id !== 'fit') total *= Math.max(1, play[c.id].length);
+  const vary = state.vary.filter(id => play[id].length > 1);
+  const base = bestGuess();
+  let combos = [{ ...base }], count = 1;
+  for (const id of vary){
+    count *= play[id].length;
+    const next = [];
+    for (const c of combos) for (const v of play[id]){ if (next.length >= MAX_COMBOS) break; next.push({ ...c, [id]: v }); }
+    combos = next;
+  }
+  const fixedBits = CATS.filter(c => !vary.includes(c.id) && base[c.id]).map(c => base[c.id]);
+  const favKeys = new Set(state.favs.map(specKey));
+  const card = (s, capIds, saved) => {
+    const d = drawable(s);
+    const capTxt = capIds.length ? capIds.map(id => s[id]).join(' · ') : 'Your best guess';
+    return `<div class="combo">
+      <div class="art">${topSVG(d, 'full') + sideSVG(d, true)}</div>
+      <div class="combo-cap">${esc(capTxt)}</div>
+      ${saved ? `<div class="combo-cap full">${esc(CATS.map(c => s[c.id]).filter(Boolean).join(' · '))}</div>` : ''}
+      <div class="combo-foot">
+        ${saved ? `<button class="heart" data-unfav="${esc(specKey(s))}">Remove</button>`
+                : `<button class="heart" data-fav="${esc(JSON.stringify(s))}" aria-pressed="${favKeys.has(specKey(s))}">${favKeys.has(specKey(s)) ? '♥ Saved' : '♡ Save'}</button>`}
+      </div>
+    </div>`;
+  };
+  el.innerHTML = `
+    <div>
+      <span class="eyebrow">Mix &amp; match</span>
+      <p class="mm-count">Your shortlist still allows <b>${total.toLocaleString()}</b> different ring${total === 1 ? '' : 's'}.</p>
+      <p class="section-intro">Pick which features to mix below and every combination gets drawn. Cross off more on the Features tab to narrow it down.</p>
+    </div>
+    <div>
+      <div class="vary" role="group" aria-label="Features to mix">
+        <span class="lab">Mix:</span>
+        ${CATS.filter(c => c.id !== 'fit').map(c => `<button data-vary="${c.id}" aria-pressed="${play[c.id].length > 1 && state.vary.includes(c.id)}" ${play[c.id].length > 1 ? '' : 'disabled'}>${c.short} · ${play[c.id].length}</button>`).join('')}
+      </div>
+    </div>
+    <p class="fixed">Everything else is set to your best guess: ${esc(fixedBits.join(' · ')) || 'nothing yet'}.</p>
+    ${state.favs.length ? `<div class="favs"><h3>Saved designs</h3><div class="combo-grid">${state.favs.map(f => card(f, [], true)).join('')}</div></div>` : ''}
+    <div class="combo-grid">${combos.map(s => card(s, vary, false)).join('')}</div>
+    ${count > combos.length ? `<p class="more-note">Showing ${combos.length} of ${count.toLocaleString()} combinations. Mix fewer features, or cross off more options to see them all.</p>` : ''}`;
+}
+$('#mix').addEventListener('click', (e) => {
+  const b = e.target.closest('button'); if (!b) return;
+  if (b.dataset.vary){
+    const id = b.dataset.vary;
+    state.vary = state.vary.includes(id) ? state.vary.filter(x => x !== id) : [...state.vary, id];
+    commit(); renderMix();
+  } else if (b.dataset.fav){
+    const s = JSON.parse(b.dataset.fav), k = specKey(s);
+    if (state.favs.some(f => specKey(f) === k)) state.favs = state.favs.filter(f => specKey(f) !== k);
+    else state.favs.push(s);
+    commit(); renderMix();
+  } else if (b.dataset.unfav){
+    state.favs = state.favs.filter(f => specKey(f) !== b.dataset.unfav);
+    commit(); renderMix();
+  }
+});
+
+/* =====================================================================
+   Tabs, summary actions
+   ===================================================================== */
+const TABS = ['features', 'quiz', 'mix', 'tryons'];
+function showTab(t){
+  if (!TABS.includes(t)) t = 'features';
+  document.querySelectorAll('[role=tab]').forEach(b => b.setAttribute('aria-selected', String(b.dataset.tab === t)));
+  for (const id of TABS) $('#panel-' + id).hidden = id !== t;
+  $('#mode-wrap').style.visibility = t === 'features' ? 'visible' : 'hidden';
+  if (t === 'quiz') renderQuiz();
+  if (t === 'mix') renderMix();
+  try { localStorage.setItem(LS_KEY + ':tab', t); } catch {}
+}
+document.querySelectorAll('[role=tab]').forEach(b => b.addEventListener('click', () => showTab(b.dataset.tab)));
+
+let fieldTimer = null;
+['ring-size', 'budget'].forEach(id => $('#' + id).addEventListener('input', (e) => {
+  state[id === 'ring-size' ? 'size' : 'budget'] = e.target.value;
+  clearTimeout(fieldTimer); fieldTimer = setTimeout(commit, 400);
+}));
+$('#reset-btn').addEventListener('click', () => { $('#reset-confirm').hidden = false; $('#reset-btn').hidden = true; });
+$('#reset-no').addEventListener('click', () => { $('#reset-confirm').hidden = true; $('#reset-btn').hidden = false; });
+$('#reset-yes').addEventListener('click', () => {
+  state.marks = {}; state.custom = {}; state.quiz = {}; quizPos = null;
+  commit(); renderAll();
+  $('#reset-confirm').hidden = true; $('#reset-btn').hidden = false;
+});
+function notesText(){
+  const lines = ['My engagement ring notes'];
+  const top = [state.size && `Ring size: ${state.size}`, state.budget && `Budget: ${state.budget}`].filter(Boolean);
+  if (top.length) lines.push(top.join('  ·  '));
+  lines.push('');
+  for (const cat of CATS){
+    const s = summarize(cat), parts = [];
+    if (s.loves.length) parts.push(`Love: ${s.loves.join(', ')}`);
+    else if (s.nopes.length && s.open.length && s.open.length <= 3) parts.push(`Open to: ${s.open.join(', ')}`);
+    if (s.nopes.length) parts.push(`Not for me: ${s.nopes.join(', ')}`);
+    if (parts.length) lines.push(`${cat.name}: ${parts.join('. ')}.`);
+  }
+  if (state.favs.length){
+    lines.push('', 'Designs I saved:');
+    state.favs.forEach(f => lines.push('- ' + CATS.map(c => f[c.id]).filter(Boolean).join(', ')));
+  }
+  const liked = state.tryons.filter(t => t.verdict === 'yes');
+  if (liked.length){
+    lines.push('', 'Rings I liked:');
+    liked.forEach(t => lines.push(`- ${t.name}${t.store ? ` (${t.store})` : ''}${t.notes ? `: ${t.notes.replace(/\s+/g, ' ')}` : ''}`));
+  }
+  return lines.join('\n');
+}
+$('#copy-btn').addEventListener('click', () => {
+  const text = notesText(), btn = $('#copy-btn');
+  const fallback = () => { const o = $('#copy-out'); o.value = text; o.hidden = false; o.focus(); o.select(); btn.textContent = 'Select all and copy'; };
+  try {
+    navigator.clipboard.writeText(text).then(() => { btn.textContent = 'Copied'; setTimeout(() => btn.textContent = 'Copy notes for a jeweler', 1800); }, fallback);
+  } catch { fallback(); }
+});
+
+/* =====================================================================
+   Try-ons
+   ===================================================================== */
 const VERDICT = { yes:'◆ Yes', maybe:'Maybe', no:'No' };
 function photoSrc(id){ return '/_blob/' + encodeURIComponent(id); }
+function fmtDate(d){
+  if (!d) return '';
+  const [y, m, day] = d.split('-').map(Number);
+  if (!y || !m || !day) return d;
+  return new Date(y, m - 1, day).toLocaleDateString(undefined, { month:'short', day:'numeric', year:'numeric' });
+}
 function renderTryons(){
   const list = [...state.tryons].sort((a, b) => (b.date || '').localeCompare(a.date || '') || (b.createdAt || 0) - (a.createdAt || 0));
-  if (!list.length){
-    $('#cards').innerHTML = `<div class="empty">No rings logged yet. Next time you're at a jeweler, snap a photo on your hand and add it here.</div>`;
-    return;
-  }
+  if (!list.length){ $('#cards').innerHTML = `<div class="empty">No rings logged yet. Next time you're at a jeweler, snap a photo on your hand and add it here.</div>`; return; }
   $('#cards').innerHTML = `<div class="cards">${list.map(t => {
-    const ph = t.photo ? `<img src="${photoSrc(t.photo)}" alt="${esc(t.name)} on hand" loading="lazy" onerror="this.replaceWith(Object.assign(document.createElement('span'),{textContent:'Photo unavailable'}))">`
-                       : (GLYPHS[t.shape] || GENERIC_GLYPH);
+    const ph = t.photo
+      ? `<img src="${photoSrc(t.photo)}" alt="${esc(t.name)} on hand" loading="lazy" onerror="this.replaceWith(Object.assign(document.createElement('span'),{textContent:'Photo unavailable'}))">`
+      : topSVG(drawable({ ...BASE, shape:t.shape, metal:t.metal }), 'zoom', 6.5);
     const specs = [t.shape, t.metal, t.carat ? `${t.carat} ct` : ''].filter(Boolean).map(x => `<span class="spec">${esc(x)}</span>`).join('');
     const meta = [t.store, fmtDate(t.date), t.price].filter(Boolean).map(esc).join(' · ');
     return `<article class="card" data-v="${esc(t.verdict)}">
@@ -480,134 +1511,9 @@ function renderTryons(){
     </article>`;
   }).join('')}</div>`;
 }
-function fmtDate(d){
-  if (!d) return '';
-  const [y, m, day] = d.split('-').map(Number);
-  if (!y || !m || !day) return d;
-  return new Date(y, m - 1, day).toLocaleDateString(undefined, { month:'short', day:'numeric', year:'numeric' });
-}
-function renderAll(){ renderBoard(); renderSummary(); renderTryons(); fillSelects(); }
-
-/* ---------- Board interactions ---------- */
-$('#board').addEventListener('click', (e) => {
-  const rm = e.target.closest('[data-remove]');
-  if (rm){
-    const c = rm.dataset.remove, o = rm.dataset.opt;
-    state.custom[c] = (state.custom[c] || []).filter(x => x !== o);
-    delete state.marks[key(c, o)];
-    commit(); renderBoard(); renderSummary(); fillSelects(); return;
-  }
-  const add = e.target.closest('[data-add]');
-  if (add){ startAdd(add); return; }
-  const chip = e.target.closest('.chip[data-cat]');
-  if (!chip) return;
-  const k = key(chip.dataset.cat, chip.dataset.opt);
-  if (state.marks[k] === mode) delete state.marks[k]; else state.marks[k] = mode;
-  commit();
-  const cat = CATS.find(c => c.id === chip.dataset.cat);
-  const isCustom = !cat.opts.includes(chip.dataset.opt);
-  const wrap = chip.parentElement;
-  wrap.outerHTML = chipHTML(cat, chip.dataset.opt, isCustom);
-  const newChip = document.querySelector(`.chip[data-cat="${cat.id}"][data-opt="${CSS.escape(chip.dataset.opt)}"]`);
-  newChip && newChip.focus({ preventScroll:true });
-  refreshCounts(cat); renderSummary();
-});
-function refreshCounts(cat){
-  const sec = document.querySelector(`[data-chips="${cat.id}"]`).closest('.cat');
-  const opts = optsOf(cat);
-  const nope = opts.filter(o => markOf(cat.id, o) === 'nope').length;
-  const love = opts.filter(o => markOf(cat.id, o) === 'love').length;
-  const bits = [];
-  if (love) bits.push(`${love} loved`);
-  if (nope) bits.push(`${nope} of ${opts.length} crossed off`);
-  sec.querySelector('.cat-count').textContent = bits.join(' · ') || `${opts.length} options`;
-}
-function startAdd(btn){
-  const c = btn.dataset.add;
-  const input = document.createElement('input');
-  input.className = 'add-input'; input.id = 'add-' + c; input.placeholder = 'Type and press Enter';
-  input.setAttribute('aria-label', 'Add your own option');
-  btn.replaceWith(input); input.focus();
-  let done = false;
-  const finish = (save) => {
-    if (done) return; done = true;
-    const v = input.value.trim();
-    const cat = CATS.find(x => x.id === c);
-    if (save && v && !optsOf(cat).some(o => o.toLowerCase() === v.toLowerCase())){
-      (state.custom[c] = state.custom[c] || []).push(v);
-      commit();
-    }
-    renderBoard(); renderSummary(); fillSelects();
-    if (save && v){ const nb = document.querySelector(`[data-add="${c}"]`); nb && nb.focus({ preventScroll:true }); }
-  };
-  input.addEventListener('keydown', (e) => { if (e.key === 'Enter'){ e.preventDefault(); finish(true); } else if (e.key === 'Escape') finish(false); });
-  input.addEventListener('blur', () => finish(true));
-}
-
-document.querySelectorAll('.mode button').forEach(b => b.addEventListener('click', () => {
-  mode = b.dataset.mode;
-  document.querySelectorAll('.mode button').forEach(x => x.setAttribute('aria-pressed', String(x === b)));
-}));
-
-/* ---------- Tabs ---------- */
-function showTab(t){
-  document.querySelectorAll('[role=tab]').forEach(b => b.setAttribute('aria-selected', String(b.dataset.tab === t)));
-  $('#panel-features').hidden = t !== 'features';
-  $('#panel-tryons').hidden = t !== 'tryons';
-  $('#mode-wrap').style.visibility = t === 'features' ? 'visible' : 'hidden';
-  try { localStorage.setItem(LS_KEY + ':tab', t); } catch {}
-}
-document.querySelectorAll('[role=tab]').forEach(b => b.addEventListener('click', () => showTab(b.dataset.tab)));
-
-/* ---------- Summary interactions ---------- */
-let fieldTimer = null;
-['ring-size', 'budget'].forEach(id => $('#' + id).addEventListener('input', (e) => {
-  state[id === 'ring-size' ? 'size' : 'budget'] = e.target.value;
-  clearTimeout(fieldTimer); fieldTimer = setTimeout(commit, 400);
-}));
-$('#reset-btn').addEventListener('click', () => { $('#reset-confirm').hidden = false; $('#reset-btn').hidden = true; });
-$('#reset-no').addEventListener('click', () => { $('#reset-confirm').hidden = true; $('#reset-btn').hidden = false; });
-$('#reset-yes').addEventListener('click', () => {
-  state.marks = {}; state.custom = {};
-  commit(); renderAll();
-  $('#reset-confirm').hidden = true; $('#reset-btn').hidden = false;
-});
-function notesText(){
-  const lines = ['My engagement ring notes'];
-  const top = [state.size && `Ring size: ${state.size}`, state.budget && `Budget: ${state.budget}`].filter(Boolean);
-  if (top.length) lines.push(top.join('  ·  '));
-  lines.push('');
-  for (const cat of CATS){
-    const s = summarize(cat);
-    const parts = [];
-    if (s.loves.length) parts.push(`Love: ${s.loves.join(', ')}`);
-    else if (s.nopes.length && s.open.length && s.open.length <= 3) parts.push(`Open to: ${s.open.join(', ')}`);
-    if (s.nopes.length) parts.push(`Not for me: ${s.nopes.join(', ')}`);
-    if (parts.length) lines.push(`${cat.name}: ${parts.join('. ')}.`);
-  }
-  const liked = state.tryons.filter(t => t.verdict === 'yes');
-  if (liked.length){
-    lines.push('', 'Rings I liked:');
-    liked.forEach(t => lines.push(`- ${t.name}${t.store ? ` (${t.store})` : ''}${t.notes ? `: ${t.notes.replace(/\s+/g, ' ')}` : ''}`));
-  }
-  return lines.join('\n');
-}
-$('#copy-btn').addEventListener('click', () => {
-  const text = notesText();
-  const btn = $('#copy-btn');
-  const fallback = () => { const o = $('#copy-out'); o.value = text; o.hidden = false; o.focus(); o.select(); btn.textContent = 'Select all and copy'; };
-  try {
-    navigator.clipboard.writeText(text).then(() => {
-      btn.textContent = 'Copied'; setTimeout(() => btn.textContent = 'Copy notes for a jeweler', 1800);
-    }, fallback);
-  } catch { fallback(); }
-});
-
-/* ---------- Try-on form ---------- */
 let editingId = null, verdict = 'maybe', photoFile = null, prevURL = null;
 function fillSelects(){
-  const shape = CATS.find(c => c.id === 'shape'), metal = CATS.find(c => c.id === 'metal');
-  for (const [sel, cat] of [['#f-shape', shape], ['#f-metal', metal]]){
+  for (const [sel, cat] of [['#f-shape', CAT.shape], ['#f-metal', CAT.metal]]){
     const el = $(sel), cur = el.value;
     el.innerHTML = `<option value="">—</option>` + optsOf(cat).map(o => `<option>${esc(o)}</option>`).join('');
     el.value = cur;
@@ -661,10 +1567,8 @@ $('#try-form').addEventListener('submit', async (e) => {
   if (photoFile){
     if (!assets){ msg.textContent = 'Photos can’t be saved in this view. Save without one, or open the page from claude.ai.'; msg.classList.add('err'); return; }
     msg.classList.remove('err'); msg.textContent = 'Uploading photo…'; $('#save-form').disabled = true;
-    try {
-      const res = await assets.upload(await shrink(photoFile));
-      photo = res.id;
-    } catch (err) {
+    try { photo = (await assets.upload(await shrink(photoFile))).id; }
+    catch (err) {
       const why = err?.code === 'too_large' ? 'That photo is too large.' : err?.code === 'unsupported_type' ? 'That file type isn’t supported. Try a JPEG or PNG.' : 'The photo didn’t upload.';
       msg.textContent = why + ' Try again, or save without it.'; msg.classList.add('err');
       $('#save-form').disabled = false; return;
@@ -704,12 +1608,17 @@ $('#cards').addEventListener('click', (e) => {
   }
 });
 
-/* ---------- Boot ---------- */
+/* =====================================================================
+   Boot
+   ===================================================================== */
+function renderAll(){ renderBoard(); renderSummary(); renderTryons(); fillSelects(); if (!$('#panel-quiz').hidden) renderQuiz(); }
+renderAnatomy();
 renderAll();
 let startTab = 'features';
 try { startTab = localStorage.getItem(LS_KEY + ':tab') || 'features'; } catch {}
-if (location.hash === '#tryons') startTab = 'tryons';
-showTab(startTab === 'tryons' ? 'tryons' : 'features');
+const hash = location.hash.slice(1);
+if (TABS.includes(hash)) startTab = hash;
+showTab(startTab);
 setStatus('Saved in this browser only');
 
 (async () => {
@@ -726,7 +1635,7 @@ setStatus('Saved in this browser only');
     synced = true;
     if (snap.exists){
       const remote = normalize(snap.data());
-      if (remote.updatedAt >= state.updatedAt){ state = remote; saveLocal(); renderAll(); setStatus('Saved'); }
+      if (remote.updatedAt >= state.updatedAt){ state = remote; saveLocal(); quizPos = null; renderAll(); if (!$('#panel-mix').hidden) renderMix(); setStatus('Saved'); }
       else commit();
     } else if (state.updatedAt) {
       commit();
@@ -738,6 +1647,7 @@ setStatus('Saved in this browser only');
         state = remote; saveLocal();
         renderBoard(); renderSummary(); fillSelects();
         if ($('#try-form').hidden) renderTryons();
+        if (!$('#panel-quiz').hidden) renderQuiz();
       }
     }, () => {});
   } catch {
