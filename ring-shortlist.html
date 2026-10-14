@@ -1,0 +1,747 @@
+<title>Ring Shortlist</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,opsz,wght@0,6..96,400..600;1,6..96,400..600&family=Karla:wght@400;500;700&display=swap">
+<style>
+:root{
+  --bg:#F1F1F4; --surface:#FFFFFF; --surface-2:#E9E8EF; --ink:#1C1A26; --ink-2:#5D5A6B; --line:#D5D3DE;
+  --accent:#4A3A86; --accent-ink:#FFFFFF; --accent-soft:#E7E2F6;
+  --love:#9A7424; --love-bg:#F7ECD3; --nope:#9895A5; --danger:#A3392F;
+  --display:"Bodoni Moda", "Didot", "Bodoni 72", Georgia, serif;
+  --body:"Karla", ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    color-scheme:dark;
+    --bg:#121118; --surface:#1C1A24; --surface-2:#26232F; --ink:#ECEAF3; --ink-2:#A6A2B5; --line:#36323F;
+    --accent:#B4A3F2; --accent-ink:#17142A; --accent-soft:#2C2645;
+    --love:#E2BC67; --love-bg:#3A2F17; --nope:#6F6B7D; --danger:#E58A80;
+  }
+}
+:root[data-theme="dark"]{
+  color-scheme:dark;
+  --bg:#121118; --surface:#1C1A24; --surface-2:#26232F; --ink:#ECEAF3; --ink-2:#A6A2B5; --line:#36323F;
+  --accent:#B4A3F2; --accent-ink:#17142A; --accent-soft:#2C2645;
+  --love:#E2BC67; --love-bg:#3A2F17; --nope:#6F6B7D; --danger:#E58A80;
+}
+*{box-sizing:border-box}
+body{background:var(--bg); color:var(--ink); font-family:var(--body); font-size:15px; line-height:1.5; padding-inline:16px; padding-block:0 64px}
+button,input,select,textarea{font:inherit; color:inherit}
+button{cursor:pointer}
+:focus-visible{outline:2px solid var(--accent); outline-offset:2px}
+.wrap{max-width:1120px; margin:0 auto}
+
+/* Header */
+.top{padding-block:36px 20px; display:flex; flex-wrap:wrap; align-items:flex-end; justify-content:space-between; gap:16px 32px}
+h1{font-family:var(--display); font-style:italic; font-weight:500; font-size:clamp(38px,6vw,56px); line-height:1; letter-spacing:-0.01em; margin:0}
+.lede{margin:10px 0 0; color:var(--ink-2); max-width:46ch; text-wrap:pretty}
+.tally{display:flex; gap:20px; font-variant-numeric:tabular-nums}
+.tally div{display:flex; flex-direction:column}
+.tally b{font-family:var(--display); font-size:28px; font-weight:500; line-height:1.1}
+.tally span{font-size:11px; text-transform:uppercase; letter-spacing:.08em; color:var(--ink-2)}
+.tally .t-love b{color:var(--love)}
+.tally .t-nope b{color:var(--nope); text-decoration:line-through; text-decoration-thickness:2px}
+
+/* Toolbar */
+.bar{position:sticky; top:env(safe-area-inset-top,0px); z-index:5; background:var(--bg); padding-block:10px; border-bottom:1px solid var(--line); display:flex; flex-wrap:wrap; gap:10px 16px; align-items:center; justify-content:space-between}
+.tabs,.mode{display:flex; gap:4px; background:var(--surface-2); padding:4px; border-radius:999px}
+.tabs button,.mode button{border:0; background:transparent; padding:7px 14px; border-radius:999px; font-weight:500; color:var(--ink-2); white-space:nowrap}
+.tabs button[aria-selected="true"]{background:var(--surface); color:var(--ink); box-shadow:0 1px 2px rgb(0 0 0 / .08)}
+.mode-wrap{display:flex; align-items:center; gap:8px}
+.mode-label{font-size:12px; color:var(--ink-2); text-transform:uppercase; letter-spacing:.08em}
+.mode button[aria-pressed="true"][data-mode="nope"]{background:var(--ink); color:var(--bg)}
+.mode button[aria-pressed="true"][data-mode="love"]{background:var(--love); color:var(--surface)}
+.status{font-size:12px; color:var(--ink-2); margin-left:auto}
+.status.err{color:var(--danger)}
+
+/* Layout */
+.layout{display:grid; grid-template-columns:minmax(0,1fr) 320px; gap:32px; padding-top:24px; align-items:start}
+@media (max-width:880px){ .layout{grid-template-columns:minmax(0,1fr)} }
+
+/* Categories */
+.board{display:flex; flex-direction:column; gap:28px}
+.cat-head{display:flex; align-items:baseline; justify-content:space-between; gap:12px; flex-wrap:wrap}
+.cat h2{font-family:var(--display); font-weight:500; font-size:22px; margin:0; text-wrap:balance}
+.cat-count{font-size:12px; color:var(--ink-2); font-variant-numeric:tabular-nums}
+.cat-note{margin:4px 0 12px; color:var(--ink-2); font-size:14px; max-width:68ch}
+.chips{display:flex; flex-wrap:wrap; gap:8px}
+.chip-wrap{display:inline-flex; align-items:stretch}
+.chip{display:inline-flex; align-items:center; gap:7px; min-height:40px; padding:8px 14px; border:1px solid var(--line); background:var(--surface); border-radius:999px; text-align:left; transition:background .15s, border-color .15s, color .15s}
+.chip:hover{border-color:var(--accent)}
+.chip .mk{font-size:11px; width:10px; text-align:center; flex:none}
+.chip[data-state="love"]{background:var(--love-bg); border-color:var(--love)}
+.chip[data-state="love"] .mk{color:var(--love)}
+.chip[data-state="nope"]{background:transparent; border-style:dashed; color:var(--nope)}
+.chip[data-state="nope"] .lbl{text-decoration:line-through; text-decoration-thickness:1.5px}
+.chip-wrap.custom .chip{border-radius:999px 0 0 999px; border-right:0}
+.chip-x{border:1px solid var(--line); border-left:0; background:var(--surface); border-radius:0 999px 999px 0; padding:0 10px; color:var(--ink-2)}
+.chip-x:hover{color:var(--danger)}
+.chip.add{border-style:dashed; color:var(--ink-2); background:transparent}
+.add-input{min-height:40px; padding:8px 14px; border:1px solid var(--accent); border-radius:999px; background:var(--surface); width:200px; max-width:100%}
+
+/* Shape tiles */
+.chips.tiles{display:grid; grid-template-columns:repeat(auto-fill,minmax(98px,1fr))}
+.tiles .chip-wrap{display:flex}
+.tiles .chip{flex-direction:column; justify-content:center; gap:4px; border-radius:12px; padding:12px 6px 10px; text-align:center; width:100%; position:relative}
+.tiles .chip-wrap.custom .chip{border-radius:12px 0 0 12px}
+.tiles .chip-x{border-radius:0 12px 12px 0}
+.tiles .chip .mk{position:absolute; top:6px; right:8px}
+.tiles .chip.add{border-radius:12px}
+.glyph{width:30px; height:30px; flex:none}
+.tiles .chip[data-state="nope"] .glyph{opacity:.45}
+.tiles .lbl{font-size:13px; line-height:1.2}
+
+/* Summary */
+.summary{position:sticky; top:calc(env(safe-area-inset-top,0px) + 76px); background:var(--surface); border:1px solid var(--line); border-radius:14px; padding:20px; display:flex; flex-direction:column; gap:16px}
+@media (max-width:880px){ .summary{position:static} }
+.summary h2{font-family:var(--display); font-style:italic; font-weight:500; font-size:24px; margin:0}
+.fields{display:grid; grid-template-columns:1fr 1fr; gap:10px}
+.field{display:flex; flex-direction:column; gap:4px}
+.field label,.lab{font-size:11px; text-transform:uppercase; letter-spacing:.08em; color:var(--ink-2)}
+.field input,.field select,.field textarea{border:1px solid var(--line); background:var(--bg); border-radius:8px; padding:8px 10px; width:100%; min-width:0}
+.field textarea{resize:vertical; min-height:70px}
+.sum-list{margin:0; padding:0; list-style:none; display:flex; flex-direction:column}
+.sum-list li{display:grid; grid-template-columns:96px minmax(0,1fr); gap:10px; padding-block:8px; border-top:1px solid var(--line); font-size:14px}
+.sum-list .k{color:var(--ink-2); font-size:12px; padding-top:1px}
+.sum-list .v.love{color:var(--ink); font-weight:500}
+.sum-list .v.love::before{content:"◆ "; color:var(--love); font-size:11px}
+.sum-list .v.open::before{content:"Down to "; color:var(--ink-2)}
+.sum-list .v.none{color:var(--ink-2)}
+.sum-list .out{display:block; color:var(--nope); font-size:12px; text-decoration:line-through}
+.sum-actions{display:flex; flex-wrap:wrap; gap:8px}
+.btn{border:1px solid var(--line); background:var(--surface); border-radius:999px; padding:8px 16px; font-weight:500}
+.btn.primary{background:var(--accent); color:var(--accent-ink); border-color:var(--accent)}
+.btn.ghost{background:transparent}
+.btn.danger{color:var(--danger); border-color:var(--danger); background:transparent}
+.btn:disabled{opacity:.55; cursor:default}
+.confirm{display:flex; flex-wrap:wrap; align-items:center; gap:8px; font-size:13px}
+.copy-out{width:100%; min-height:120px; font-size:12px; border:1px solid var(--line); border-radius:8px; padding:8px; background:var(--bg)}
+
+/* Try-ons */
+.tryons{display:flex; flex-direction:column; gap:20px}
+.try-head{display:flex; flex-wrap:wrap; justify-content:space-between; align-items:center; gap:12px}
+.try-head p{margin:0; color:var(--ink-2); max-width:56ch}
+.form{background:var(--surface); border:1px solid var(--line); border-radius:14px; padding:20px; display:grid; grid-template-columns:repeat(4,minmax(0,1fr)); gap:12px}
+.form .span2{grid-column:span 2}
+.form .span4{grid-column:1 / -1}
+@media (max-width:640px){ .form{grid-template-columns:1fr 1fr} .form .span2,.form .span4{grid-column:1 / -1} }
+.verdict-pick{display:flex; gap:6px; flex-wrap:wrap}
+.verdict-pick button{border:1px solid var(--line); background:var(--bg); border-radius:999px; padding:6px 14px}
+.verdict-pick button[aria-pressed="true"][data-v="yes"]{background:var(--love-bg); border-color:var(--love)}
+.verdict-pick button[aria-pressed="true"][data-v="maybe"]{background:var(--accent-soft); border-color:var(--accent)}
+.verdict-pick button[aria-pressed="true"][data-v="no"]{border-style:dashed; color:var(--nope); text-decoration:line-through}
+.photo-row{display:flex; gap:12px; align-items:center; flex-wrap:wrap}
+.photo-prev{width:72px; height:72px; object-fit:cover; border-radius:8px; border:1px solid var(--line)}
+.form-actions{display:flex; gap:8px; justify-content:flex-end; flex-wrap:wrap}
+.form-msg{font-size:13px; color:var(--ink-2); margin-right:auto; align-self:center}
+.form-msg.err{color:var(--danger)}
+.cards{display:grid; grid-template-columns:repeat(auto-fill,minmax(240px,1fr)); gap:16px}
+.card{background:var(--surface); border:1px solid var(--line); border-radius:14px; overflow:hidden; display:flex; flex-direction:column}
+.card[data-v="no"]{opacity:.7}
+.card .ph{aspect-ratio:4/3; max-width:100%; background:var(--surface-2); display:grid; place-items:center; color:var(--ink-2)}
+.card .ph img{width:100%; height:100%; object-fit:cover; display:block}
+.card .ph .glyph{width:56px; height:56px; opacity:.5}
+.card-body{padding:14px 16px 16px; display:flex; flex-direction:column; gap:8px; flex:1}
+.card h3{font-family:var(--display); font-weight:500; font-size:19px; margin:0; line-height:1.2; text-wrap:balance}
+.card[data-v="no"] h3{text-decoration:line-through; text-decoration-color:var(--nope)}
+.meta{font-size:13px; color:var(--ink-2); font-variant-numeric:tabular-nums}
+.specs{display:flex; flex-wrap:wrap; gap:6px}
+.spec{font-size:12px; background:var(--surface-2); border-radius:6px; padding:2px 8px}
+.notes{font-size:14px; margin:0; white-space:pre-wrap; overflow-wrap:anywhere}
+.card-foot{display:flex; justify-content:space-between; align-items:center; gap:8px; margin-top:auto; padding-top:6px; flex-wrap:wrap}
+.linkish{border:0; background:none; color:var(--ink-2); padding:4px 2px; font-size:13px; text-decoration:underline; text-underline-offset:3px}
+.linkish.del{color:var(--danger)}
+.empty{border:1px dashed var(--line); border-radius:14px; padding:28px; text-align:center; color:var(--ink-2)}
+
+@media (prefers-reduced-motion:reduce){ *{transition:none!important} }
+</style>
+
+<div class="wrap">
+  <header class="top">
+    <div>
+      <h1>Ring Shortlist</h1>
+      <p class="lede">Cross off what you don't want and mark what you love. Whatever's left is your ring.</p>
+    </div>
+    <div class="tally" aria-live="polite">
+      <div class="t-love"><b id="n-love">0</b><span>Loved</span></div>
+      <div class="t-nope"><b id="n-nope">0</b><span>Crossed off</span></div>
+      <div><b id="n-try">0</b><span>Tried on</span></div>
+    </div>
+  </header>
+
+  <div class="bar">
+    <div class="tabs" role="tablist" aria-label="Sections">
+      <button role="tab" id="tab-features" aria-controls="panel-features" aria-selected="true" data-tab="features">Features</button>
+      <button role="tab" id="tab-tryons" aria-controls="panel-tryons" aria-selected="false" data-tab="tryons">Try-ons</button>
+    </div>
+    <div class="mode-wrap" id="mode-wrap">
+      <span class="mode-label">Tap to</span>
+      <div class="mode" role="group" aria-label="What tapping an option does">
+        <button data-mode="nope" aria-pressed="true">✕ Cross off</button>
+        <button data-mode="love" aria-pressed="false">◆ Love it</button>
+      </div>
+    </div>
+    <span class="status" id="status">Loading…</span>
+  </div>
+
+  <div class="layout">
+    <main>
+      <section id="panel-features" role="tabpanel" aria-labelledby="tab-features">
+        <div class="board" id="board"></div>
+      </section>
+
+      <section id="panel-tryons" role="tabpanel" aria-labelledby="tab-tryons" hidden>
+        <div class="tryons">
+          <div class="try-head">
+            <p>Log every ring you put on, even the ones you hated. Seeing them side by side makes the pattern obvious.</p>
+            <button class="btn primary" id="open-form">+ Log a ring</button>
+          </div>
+
+          <form class="form" id="try-form" hidden novalidate>
+            <div class="field span2">
+              <label for="f-name">What was it?</label>
+              <input id="f-name" required placeholder="Oval hidden halo, yellow gold" autocomplete="off">
+            </div>
+            <div class="field">
+              <label for="f-store">Where</label>
+              <input id="f-store" placeholder="Store or jeweler" autocomplete="off">
+            </div>
+            <div class="field">
+              <label for="f-date">Date</label>
+              <input id="f-date" type="date">
+            </div>
+            <div class="field">
+              <label for="f-shape">Shape</label>
+              <select id="f-shape"></select>
+            </div>
+            <div class="field">
+              <label for="f-metal">Metal</label>
+              <select id="f-metal"></select>
+            </div>
+            <div class="field">
+              <label for="f-carat">Carat</label>
+              <input id="f-carat" inputmode="decimal" placeholder="1.2" autocomplete="off">
+            </div>
+            <div class="field">
+              <label for="f-price">Price</label>
+              <input id="f-price" inputmode="decimal" placeholder="$6,500" autocomplete="off">
+            </div>
+            <div class="field span2">
+              <span class="lab">Verdict</span>
+              <div class="verdict-pick" id="f-verdict">
+                <button type="button" data-v="yes" aria-pressed="false">◆ Yes</button>
+                <button type="button" data-v="maybe" aria-pressed="true">Maybe</button>
+                <button type="button" data-v="no" aria-pressed="false">No</button>
+              </div>
+            </div>
+            <div class="field span2" id="photo-field" hidden>
+              <label for="f-photo">Photo on your hand</label>
+              <div class="photo-row">
+                <input id="f-photo" type="file" accept="image/*">
+                <img id="f-photo-prev" class="photo-prev" alt="" hidden>
+              </div>
+            </div>
+            <div class="field span4">
+              <label for="f-notes">How did it feel?</label>
+              <textarea id="f-notes" placeholder="Looked bigger than expected. Prongs snagged on my sweater. Loved it from the side."></textarea>
+            </div>
+            <div class="form-actions span4">
+              <span class="form-msg" id="form-msg"></span>
+              <button type="button" class="btn ghost" id="cancel-form">Cancel</button>
+              <button type="submit" class="btn primary" id="save-form">Save ring</button>
+            </div>
+          </form>
+
+          <div id="cards"></div>
+        </div>
+      </section>
+    </main>
+
+    <aside class="summary" aria-labelledby="sum-title">
+      <h2 id="sum-title">Your ring so far</h2>
+      <div class="fields">
+        <div class="field">
+          <label for="ring-size">Ring size</label>
+          <input id="ring-size" placeholder="US 6" autocomplete="off">
+        </div>
+        <div class="field">
+          <label for="budget">Budget</label>
+          <input id="budget" placeholder="$8,000" autocomplete="off">
+        </div>
+      </div>
+      <ul class="sum-list" id="sum-list"></ul>
+      <div class="sum-actions">
+        <button class="btn primary" id="copy-btn">Copy notes for a jeweler</button>
+        <button class="btn ghost" id="reset-btn">Start over</button>
+      </div>
+      <div class="confirm" id="reset-confirm" hidden>
+        <span>Clear every mark? Your try-ons stay.</span>
+        <button class="btn danger" id="reset-yes">Clear marks</button>
+        <button class="btn ghost" id="reset-no">Keep</button>
+      </div>
+      <textarea class="copy-out" id="copy-out" readonly hidden aria-label="Notes to copy"></textarea>
+    </aside>
+  </div>
+</div>
+
+<script>
+const CATS = [
+  { id:'shape', name:'Center stone shape', short:'Shape', tiles:true,
+    note:'The outline of the main stone seen from above. Long shapes (oval, pear, marquise, emerald) look bigger per carat and make fingers look longer.',
+    opts:['Round','Oval','Cushion','Elongated cushion','Emerald','Radiant','Princess','Asscher','Pear','Marquise','Heart','Old European'] },
+  { id:'setting', name:'Setting style', short:'Setting',
+    note:'How the center stone is shown off. A hidden halo is a ring of tiny diamonds under the stone that you only see from the side.',
+    opts:['Solitaire','Halo','Hidden halo','Three-stone','Toi et moi (two stones)','Bezel','Cathedral','Cluster','East–west','Vintage / milgrain','Side baguettes','Bypass'] },
+  { id:'prongs', name:'Prongs', short:'Prongs',
+    note:'The little claws holding the stone. More prongs is more secure; fewer shows more stone.',
+    opts:['4 prongs','6 prongs','Claw (pointed) tips','Rounded tips','Double prongs','Compass (N-E-S-W)','Full bezel, no prongs','Half bezel'] },
+  { id:'band', name:'Band style', short:'Band',
+    note:'The part that wraps around your finger.',
+    opts:['Plain polished','Pavé (tiny diamonds)','Knife-edge','Twisted','Split shank','Tapered','Milgrain edge','Engraved','Hammered / textured','Matte / brushed'] },
+  { id:'width', name:'Band width', short:'Width',
+    note:'Measured in millimeters. A thinner band makes the center stone look bigger.',
+    opts:['Dainty 1.5 mm','Slim 1.8 mm','Classic 2 mm','Medium 2.5 mm','Bold 3 mm +'] },
+  { id:'metal', name:'Metal', short:'Metal',
+    note:'Hold each one against your skin in daylight. Warm and cool tones read very differently.',
+    opts:['Platinum','White gold','Yellow gold','Rose gold','Two-tone','Recycled gold'] },
+  { id:'stone', name:'Stone type', short:'Stone',
+    note:'Lab-grown diamonds are chemically the same as mined ones, usually for much less. Moissanite has more rainbow sparkle.',
+    opts:['Natural diamond','Lab-grown diamond','Moissanite','Blue sapphire','Colored sapphire','Morganite','Salt & pepper diamond'] },
+  { id:'carat', name:'Size (carat)', short:'Carat',
+    note:'Carat is weight, not width. A 1 ct round diamond is about 6.5 mm across; a 2 ct is about 8 mm.',
+    opts:['Under 1 ct','1 – 1.5 ct','1.5 – 2 ct','2 – 3 ct','3 ct +'] },
+  { id:'profile', name:'Height off the finger', short:'Height',
+    note:'Low sets snag less on sweaters and gloves. High sets let in more light.',
+    opts:['Low set','Medium','High set'] },
+  { id:'fit', name:'Wedding band fit', short:'Band fit',
+    note:'Worth deciding now, since some settings won’t sit flat against a straight wedding band.',
+    opts:['Sits flush with a straight band','Fine needing a curved band','A small gap is OK','Pair with an eternity band','Stack-friendly'] },
+];
+
+const G = (inner) => `<svg class="glyph" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linejoin="round" aria-hidden="true">${inner}</svg>`;
+const GLYPHS = {
+  'Round': G('<circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="4.5"/>'),
+  'Oval': G('<ellipse cx="12" cy="12" rx="6.5" ry="10"/><ellipse cx="12" cy="12" rx="3" ry="5"/>'),
+  'Cushion': G('<rect x="3" y="3" width="18" height="18" rx="6"/><rect x="8" y="8" width="8" height="8" rx="2.5"/>'),
+  'Elongated cushion': G('<rect x="5" y="1.5" width="14" height="21" rx="5"/><rect x="9" y="7" width="6" height="10" rx="2"/>'),
+  'Emerald': G('<polygon points="8,2 16,2 19,5 19,19 16,22 8,22 5,19 5,5"/><rect x="8.5" y="5.5" width="7" height="13"/>'),
+  'Radiant': G('<polygon points="7.5,2 16.5,2 19,4.5 19,19.5 16.5,22 7.5,22 5,19.5 5,4.5"/><path d="M5 4.5 L19 19.5 M19 4.5 L5 19.5"/>'),
+  'Princess': G('<rect x="3.5" y="3.5" width="17" height="17"/><path d="M3.5 3.5 L20.5 20.5 M20.5 3.5 L3.5 20.5"/>'),
+  'Asscher': G('<polygon points="8,3 16,3 21,8 21,16 16,21 8,21 3,16 3,8"/><rect x="8" y="8" width="8" height="8"/>'),
+  'Pear': G('<path d="M12 2 C15.5 7 18.5 11 18.5 15 A6.5 6.5 0 0 1 5.5 15 C5.5 11 8.5 7 12 2 Z"/><circle cx="12" cy="15" r="2.6"/>'),
+  'Marquise': G('<path d="M12 1.5 C17.5 7 17.5 17 12 22.5 C6.5 17 6.5 7 12 1.5 Z"/><path d="M12 6 L12 18"/>'),
+  'Heart': G('<path d="M12 21 C5 15.5 2.5 12 2.5 8.5 A4.8 4.8 0 0 1 12 6.8 A4.8 4.8 0 0 1 21.5 8.5 C21.5 12 19 15.5 12 21 Z"/>'),
+  'Old European': G('<circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="2"/><path d="M12 3 L12 10 M12 14 L12 21 M3 12 L10 12 M14 12 L21 12"/>'),
+};
+const GENERIC_GLYPH = G('<polygon points="12,3 20,9 12,21 4,9"/><path d="M4 9 L20 9"/>');
+
+const LS_KEY = 'ring-shortlist-v1';
+const $ = (s) => document.querySelector(s);
+const esc = (s) => String(s ?? '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+
+function blank(){ return { v:1, marks:{}, custom:{}, size:'', budget:'', tryons:[], updatedAt:0 }; }
+function normalize(d){
+  d = d ? JSON.parse(JSON.stringify(d)) : {};
+  const s = blank();
+  if (d.marks && typeof d.marks === 'object') s.marks = d.marks;
+  if (d.custom && typeof d.custom === 'object') for (const k in d.custom) if (Array.isArray(d.custom[k])) s.custom[k] = d.custom[k].map(String);
+  s.size = String(d.size || ''); s.budget = String(d.budget || '');
+  if (Array.isArray(d.tryons)) s.tryons = d.tryons.filter(t => t && t.id);
+  s.updatedAt = Number(d.updatedAt) || 0;
+  return s;
+}
+function loadLocal(){ try { const r = localStorage.getItem(LS_KEY); return r ? normalize(JSON.parse(r)) : null; } catch { return null; } }
+function saveLocal(){ try { localStorage.setItem(LS_KEY, JSON.stringify(state)); } catch {} }
+
+let state = loadLocal() || blank();
+let mode = 'nope';
+let docRef = null, assets = null, synced = false;
+
+const key = (c, o) => c + '::' + o;
+const markOf = (c, o) => state.marks[key(c, o)] || null;
+const optsOf = (cat) => [...cat.opts, ...(state.custom[cat.id] || [])];
+
+/* ---------- Saving ---------- */
+let saveTimer = null, writing = false, dirty = false;
+function setStatus(text, err){ const el = $('#status'); el.textContent = text; el.classList.toggle('err', !!err); }
+function commit(){
+  state.updatedAt = Date.now();
+  saveLocal();
+  dirty = true;
+  if (docRef) setStatus('Saving…');
+  clearTimeout(saveTimer);
+  saveTimer = setTimeout(flush, 600);
+}
+async function flush(){
+  if (!docRef){ dirty = false; setStatus(synced ? 'Saved' : 'Saved in this browser only'); return; }
+  if (writing) return;
+  writing = true;
+  try {
+    while (dirty){ dirty = false; await docRef.set(JSON.parse(JSON.stringify(state))); }
+    setStatus('Saved');
+  } catch (e) {
+    setStatus('Couldn’t save to your account. Kept in this browser.', true);
+  } finally { writing = false; }
+}
+
+/* ---------- Rendering ---------- */
+function chipHTML(cat, o, isCustom){
+  const m = markOf(cat.id, o) || 'open';
+  const mk = m === 'love' ? '◆' : m === 'nope' ? '✕' : '';
+  const stateWord = m === 'love' ? 'loved' : m === 'nope' ? 'crossed off' : 'undecided';
+  const glyph = cat.tiles ? (GLYPHS[o] || GENERIC_GLYPH) : '';
+  const btn = `<button class="chip" data-state="${m}" data-cat="${cat.id}" data-opt="${esc(o)}" aria-label="${esc(o)}, ${stateWord}">
+      ${cat.tiles ? '' : `<span class="mk" aria-hidden="true">${mk}</span>`}${glyph}<span class="lbl">${esc(o)}</span>${cat.tiles ? `<span class="mk" aria-hidden="true">${mk}</span>` : ''}
+    </button>`;
+  return `<span class="chip-wrap${isCustom ? ' custom' : ''}">${btn}${isCustom ? `<button class="chip-x" data-remove="${cat.id}" data-opt="${esc(o)}" aria-label="Remove ${esc(o)}">×</button>` : ''}</span>`;
+}
+function renderBoard(){
+  $('#board').innerHTML = CATS.map(cat => {
+    const opts = optsOf(cat);
+    const nope = opts.filter(o => markOf(cat.id, o) === 'nope').length;
+    const love = opts.filter(o => markOf(cat.id, o) === 'love').length;
+    const custom = state.custom[cat.id] || [];
+    const bits = [];
+    if (love) bits.push(`${love} loved`);
+    if (nope) bits.push(`${nope} of ${opts.length} crossed off`);
+    return `<section class="cat">
+      <div class="cat-head"><h2>${cat.name}</h2><span class="cat-count">${bits.join(' · ') || `${opts.length} options`}</span></div>
+      <p class="cat-note">${cat.note}</p>
+      <div class="chips${cat.tiles ? ' tiles' : ''}" data-chips="${cat.id}">
+        ${cat.opts.map(o => chipHTML(cat, o, false)).join('')}
+        ${custom.map(o => chipHTML(cat, o, true)).join('')}
+        <span class="chip-wrap"><button class="chip add" data-add="${cat.id}">+ Add your own</button></span>
+      </div>
+    </section>`;
+  }).join('');
+}
+function summarize(cat){
+  const opts = optsOf(cat);
+  const loves = opts.filter(o => markOf(cat.id, o) === 'love');
+  const nopes = opts.filter(o => markOf(cat.id, o) === 'nope');
+  const open = opts.filter(o => !markOf(cat.id, o));
+  let text, kind;
+  if (loves.length){ text = loves.join(', '); kind = 'love'; }
+  else if (!nopes.length){ text = 'Not decided yet'; kind = 'none'; }
+  else if (!open.length){ text = 'Everything crossed off'; kind = 'none'; }
+  else if (open.length <= 3){ text = open.join(' or '); kind = 'open'; }
+  else { text = `${open.length} still open`; kind = 'none'; }
+  return { text, kind, loves, nopes, open };
+}
+function renderSummary(){
+  $('#sum-list').innerHTML = CATS.map(cat => {
+    const s = summarize(cat);
+    const out = s.nopes.length ? `<span class="out">${esc(s.nopes.join(', '))}</span>` : '';
+    return `<li><span class="k">${cat.short}</span><span><span class="v ${s.kind}">${esc(s.text)}</span>${out}</span></li>`;
+  }).join('');
+  const sz = $('#ring-size'), bd = $('#budget');
+  if (document.activeElement !== sz) sz.value = state.size;
+  if (document.activeElement !== bd) bd.value = state.budget;
+  let love = 0, nope = 0;
+  for (const k in state.marks){ if (state.marks[k] === 'love') love++; else if (state.marks[k] === 'nope') nope++; }
+  $('#n-love').textContent = love; $('#n-nope').textContent = nope; $('#n-try').textContent = state.tryons.length;
+}
+
+const VERDICT = { yes:'◆ Yes', maybe:'Maybe', no:'No' };
+function photoSrc(id){ return '/_blob/' + encodeURIComponent(id); }
+function renderTryons(){
+  const list = [...state.tryons].sort((a, b) => (b.date || '').localeCompare(a.date || '') || (b.createdAt || 0) - (a.createdAt || 0));
+  if (!list.length){
+    $('#cards').innerHTML = `<div class="empty">No rings logged yet. Next time you're at a jeweler, snap a photo on your hand and add it here.</div>`;
+    return;
+  }
+  $('#cards').innerHTML = `<div class="cards">${list.map(t => {
+    const ph = t.photo ? `<img src="${photoSrc(t.photo)}" alt="${esc(t.name)} on hand" loading="lazy" onerror="this.replaceWith(Object.assign(document.createElement('span'),{textContent:'Photo unavailable'}))">`
+                       : (GLYPHS[t.shape] || GENERIC_GLYPH);
+    const specs = [t.shape, t.metal, t.carat ? `${t.carat} ct` : ''].filter(Boolean).map(x => `<span class="spec">${esc(x)}</span>`).join('');
+    const meta = [t.store, fmtDate(t.date), t.price].filter(Boolean).map(esc).join(' · ');
+    return `<article class="card" data-v="${esc(t.verdict)}">
+      <div class="ph">${ph}</div>
+      <div class="card-body">
+        <h3>${esc(t.name)}</h3>
+        ${meta ? `<div class="meta">${meta}</div>` : ''}
+        ${specs ? `<div class="specs">${specs}</div>` : ''}
+        ${t.notes ? `<p class="notes">${esc(t.notes)}</p>` : ''}
+        <div class="card-foot">
+          <div class="verdict-pick" role="group" aria-label="Verdict">
+            ${['yes','maybe','no'].map(v => `<button type="button" data-set-verdict="${v}" data-id="${esc(t.id)}" data-v="${v}" aria-pressed="${t.verdict === v}">${VERDICT[v]}</button>`).join('')}
+          </div>
+          <span>
+            <button class="linkish" data-edit="${esc(t.id)}">Edit</button>
+            <button class="linkish del" data-del="${esc(t.id)}">Delete</button>
+          </span>
+        </div>
+        <div class="confirm" data-confirm="${esc(t.id)}" hidden>
+          <span>Delete this ring${t.photo ? ' and its photo' : ''}?</span>
+          <button class="btn danger" data-del-yes="${esc(t.id)}">Delete</button>
+          <button class="btn ghost" data-del-no="${esc(t.id)}">Keep</button>
+        </div>
+      </div>
+    </article>`;
+  }).join('')}</div>`;
+}
+function fmtDate(d){
+  if (!d) return '';
+  const [y, m, day] = d.split('-').map(Number);
+  if (!y || !m || !day) return d;
+  return new Date(y, m - 1, day).toLocaleDateString(undefined, { month:'short', day:'numeric', year:'numeric' });
+}
+function renderAll(){ renderBoard(); renderSummary(); renderTryons(); fillSelects(); }
+
+/* ---------- Board interactions ---------- */
+$('#board').addEventListener('click', (e) => {
+  const rm = e.target.closest('[data-remove]');
+  if (rm){
+    const c = rm.dataset.remove, o = rm.dataset.opt;
+    state.custom[c] = (state.custom[c] || []).filter(x => x !== o);
+    delete state.marks[key(c, o)];
+    commit(); renderBoard(); renderSummary(); fillSelects(); return;
+  }
+  const add = e.target.closest('[data-add]');
+  if (add){ startAdd(add); return; }
+  const chip = e.target.closest('.chip[data-cat]');
+  if (!chip) return;
+  const k = key(chip.dataset.cat, chip.dataset.opt);
+  if (state.marks[k] === mode) delete state.marks[k]; else state.marks[k] = mode;
+  commit();
+  const cat = CATS.find(c => c.id === chip.dataset.cat);
+  const isCustom = !cat.opts.includes(chip.dataset.opt);
+  const wrap = chip.parentElement;
+  wrap.outerHTML = chipHTML(cat, chip.dataset.opt, isCustom);
+  const newChip = document.querySelector(`.chip[data-cat="${cat.id}"][data-opt="${CSS.escape(chip.dataset.opt)}"]`);
+  newChip && newChip.focus({ preventScroll:true });
+  refreshCounts(cat); renderSummary();
+});
+function refreshCounts(cat){
+  const sec = document.querySelector(`[data-chips="${cat.id}"]`).closest('.cat');
+  const opts = optsOf(cat);
+  const nope = opts.filter(o => markOf(cat.id, o) === 'nope').length;
+  const love = opts.filter(o => markOf(cat.id, o) === 'love').length;
+  const bits = [];
+  if (love) bits.push(`${love} loved`);
+  if (nope) bits.push(`${nope} of ${opts.length} crossed off`);
+  sec.querySelector('.cat-count').textContent = bits.join(' · ') || `${opts.length} options`;
+}
+function startAdd(btn){
+  const c = btn.dataset.add;
+  const input = document.createElement('input');
+  input.className = 'add-input'; input.id = 'add-' + c; input.placeholder = 'Type and press Enter';
+  input.setAttribute('aria-label', 'Add your own option');
+  btn.replaceWith(input); input.focus();
+  let done = false;
+  const finish = (save) => {
+    if (done) return; done = true;
+    const v = input.value.trim();
+    const cat = CATS.find(x => x.id === c);
+    if (save && v && !optsOf(cat).some(o => o.toLowerCase() === v.toLowerCase())){
+      (state.custom[c] = state.custom[c] || []).push(v);
+      commit();
+    }
+    renderBoard(); renderSummary(); fillSelects();
+    if (save && v){ const nb = document.querySelector(`[data-add="${c}"]`); nb && nb.focus({ preventScroll:true }); }
+  };
+  input.addEventListener('keydown', (e) => { if (e.key === 'Enter'){ e.preventDefault(); finish(true); } else if (e.key === 'Escape') finish(false); });
+  input.addEventListener('blur', () => finish(true));
+}
+
+document.querySelectorAll('.mode button').forEach(b => b.addEventListener('click', () => {
+  mode = b.dataset.mode;
+  document.querySelectorAll('.mode button').forEach(x => x.setAttribute('aria-pressed', String(x === b)));
+}));
+
+/* ---------- Tabs ---------- */
+function showTab(t){
+  document.querySelectorAll('[role=tab]').forEach(b => b.setAttribute('aria-selected', String(b.dataset.tab === t)));
+  $('#panel-features').hidden = t !== 'features';
+  $('#panel-tryons').hidden = t !== 'tryons';
+  $('#mode-wrap').style.visibility = t === 'features' ? 'visible' : 'hidden';
+  try { localStorage.setItem(LS_KEY + ':tab', t); } catch {}
+}
+document.querySelectorAll('[role=tab]').forEach(b => b.addEventListener('click', () => showTab(b.dataset.tab)));
+
+/* ---------- Summary interactions ---------- */
+let fieldTimer = null;
+['ring-size', 'budget'].forEach(id => $('#' + id).addEventListener('input', (e) => {
+  state[id === 'ring-size' ? 'size' : 'budget'] = e.target.value;
+  clearTimeout(fieldTimer); fieldTimer = setTimeout(commit, 400);
+}));
+$('#reset-btn').addEventListener('click', () => { $('#reset-confirm').hidden = false; $('#reset-btn').hidden = true; });
+$('#reset-no').addEventListener('click', () => { $('#reset-confirm').hidden = true; $('#reset-btn').hidden = false; });
+$('#reset-yes').addEventListener('click', () => {
+  state.marks = {}; state.custom = {};
+  commit(); renderAll();
+  $('#reset-confirm').hidden = true; $('#reset-btn').hidden = false;
+});
+function notesText(){
+  const lines = ['My engagement ring notes'];
+  const top = [state.size && `Ring size: ${state.size}`, state.budget && `Budget: ${state.budget}`].filter(Boolean);
+  if (top.length) lines.push(top.join('  ·  '));
+  lines.push('');
+  for (const cat of CATS){
+    const s = summarize(cat);
+    const parts = [];
+    if (s.loves.length) parts.push(`Love: ${s.loves.join(', ')}`);
+    else if (s.nopes.length && s.open.length && s.open.length <= 3) parts.push(`Open to: ${s.open.join(', ')}`);
+    if (s.nopes.length) parts.push(`Not for me: ${s.nopes.join(', ')}`);
+    if (parts.length) lines.push(`${cat.name}: ${parts.join('. ')}.`);
+  }
+  const liked = state.tryons.filter(t => t.verdict === 'yes');
+  if (liked.length){
+    lines.push('', 'Rings I liked:');
+    liked.forEach(t => lines.push(`- ${t.name}${t.store ? ` (${t.store})` : ''}${t.notes ? `: ${t.notes.replace(/\s+/g, ' ')}` : ''}`));
+  }
+  return lines.join('\n');
+}
+$('#copy-btn').addEventListener('click', () => {
+  const text = notesText();
+  const btn = $('#copy-btn');
+  const fallback = () => { const o = $('#copy-out'); o.value = text; o.hidden = false; o.focus(); o.select(); btn.textContent = 'Select all and copy'; };
+  try {
+    navigator.clipboard.writeText(text).then(() => {
+      btn.textContent = 'Copied'; setTimeout(() => btn.textContent = 'Copy notes for a jeweler', 1800);
+    }, fallback);
+  } catch { fallback(); }
+});
+
+/* ---------- Try-on form ---------- */
+let editingId = null, verdict = 'maybe', photoFile = null, prevURL = null;
+function fillSelects(){
+  const shape = CATS.find(c => c.id === 'shape'), metal = CATS.find(c => c.id === 'metal');
+  for (const [sel, cat] of [['#f-shape', shape], ['#f-metal', metal]]){
+    const el = $(sel), cur = el.value;
+    el.innerHTML = `<option value="">—</option>` + optsOf(cat).map(o => `<option>${esc(o)}</option>`).join('');
+    el.value = cur;
+  }
+}
+function setVerdict(v){ verdict = v; document.querySelectorAll('#f-verdict button').forEach(b => b.setAttribute('aria-pressed', String(b.dataset.v === v))); }
+$('#f-verdict').addEventListener('click', (e) => { const b = e.target.closest('button'); if (b) setVerdict(b.dataset.v); });
+function today(){ const d = new Date(); return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`; }
+function openForm(t){
+  editingId = t ? t.id : null;
+  $('#f-name').value = t?.name || ''; $('#f-store').value = t?.store || ''; $('#f-date').value = t?.date || today();
+  $('#f-shape').value = t?.shape || ''; $('#f-metal').value = t?.metal || ''; $('#f-carat').value = t?.carat || '';
+  $('#f-price').value = t?.price || ''; $('#f-notes').value = t?.notes || '';
+  setVerdict(t?.verdict || 'maybe');
+  $('#f-photo').value = ''; photoFile = null;
+  if (prevURL){ URL.revokeObjectURL(prevURL); prevURL = null; }
+  const prev = $('#f-photo-prev');
+  if (t?.photo){ prev.src = photoSrc(t.photo); prev.hidden = false; } else { prev.hidden = true; prev.removeAttribute('src'); }
+  $('#form-msg').textContent = ''; $('#form-msg').classList.remove('err');
+  $('#save-form').textContent = t ? 'Save changes' : 'Save ring';
+  $('#try-form').hidden = false; $('#open-form').hidden = true;
+  $('#f-name').focus();
+}
+function closeForm(){ $('#try-form').hidden = true; $('#open-form').hidden = false; editingId = null; }
+$('#open-form').addEventListener('click', () => openForm(null));
+$('#cancel-form').addEventListener('click', closeForm);
+$('#f-photo').addEventListener('change', (e) => {
+  photoFile = e.target.files[0] || null;
+  if (prevURL) URL.revokeObjectURL(prevURL);
+  const prev = $('#f-photo-prev');
+  if (photoFile){ prevURL = URL.createObjectURL(photoFile); prev.src = prevURL; prev.hidden = false; }
+});
+async function shrink(file){
+  try {
+    const bmp = await createImageBitmap(file);
+    const s = Math.min(1, 1600 / Math.max(bmp.width, bmp.height));
+    const cv = document.createElement('canvas');
+    cv.width = Math.round(bmp.width * s); cv.height = Math.round(bmp.height * s);
+    cv.getContext('2d').drawImage(bmp, 0, 0, cv.width, cv.height);
+    const blob = await new Promise(r => cv.toBlob(r, 'image/jpeg', 0.85));
+    return blob || file;
+  } catch { return file; }
+}
+$('#try-form').addEventListener('submit', async (e) => {
+  e.preventDefault();
+  const msg = $('#form-msg');
+  const name = $('#f-name').value.trim();
+  if (!name){ msg.textContent = 'Give the ring a short description so you can recognize it later.'; msg.classList.add('err'); $('#f-name').focus(); return; }
+  const prior = editingId ? state.tryons.find(t => t.id === editingId) : null;
+  let photo = prior?.photo || null;
+  if (photoFile){
+    if (!assets){ msg.textContent = 'Photos can’t be saved in this view. Save without one, or open the page from claude.ai.'; msg.classList.add('err'); return; }
+    msg.classList.remove('err'); msg.textContent = 'Uploading photo…'; $('#save-form').disabled = true;
+    try {
+      const res = await assets.upload(await shrink(photoFile));
+      photo = res.id;
+    } catch (err) {
+      const why = err?.code === 'too_large' ? 'That photo is too large.' : err?.code === 'unsupported_type' ? 'That file type isn’t supported. Try a JPEG or PNG.' : 'The photo didn’t upload.';
+      msg.textContent = why + ' Try again, or save without it.'; msg.classList.add('err');
+      $('#save-form').disabled = false; return;
+    }
+    $('#save-form').disabled = false;
+  }
+  const entry = {
+    id: editingId || ('t' + Date.now().toString(36) + Math.random().toString(36).slice(2, 6)),
+    name, store: $('#f-store').value.trim(), date: $('#f-date').value,
+    shape: $('#f-shape').value, metal: $('#f-metal').value, carat: $('#f-carat').value.trim(),
+    price: $('#f-price').value.trim(), notes: $('#f-notes').value.trim(), verdict, photo,
+    createdAt: prior?.createdAt || Date.now(),
+  };
+  const replacedPhoto = prior && prior.photo && prior.photo !== photo ? prior.photo : null;
+  if (prior) state.tryons = state.tryons.map(t => t.id === prior.id ? entry : t);
+  else state.tryons.push(entry);
+  commit(); closeForm(); renderTryons(); renderSummary();
+  if (replacedPhoto && assets) assets.delete(replacedPhoto).catch(() => {});
+});
+$('#cards').addEventListener('click', (e) => {
+  const b = e.target.closest('button'); if (!b) return;
+  const d = b.dataset;
+  if (d.setVerdict){
+    const t = state.tryons.find(x => x.id === d.id); if (!t) return;
+    t.verdict = d.setVerdict; commit(); renderTryons(); renderSummary();
+  } else if (d.edit){
+    const t = state.tryons.find(x => x.id === d.edit); if (t){ openForm(t); $('#try-form').scrollIntoView({ block:'start', behavior:'smooth' }); }
+  } else if (d.del){
+    document.querySelector(`[data-confirm="${CSS.escape(d.del)}"]`).hidden = false;
+  } else if (d.delNo){
+    document.querySelector(`[data-confirm="${CSS.escape(d.delNo)}"]`).hidden = true;
+  } else if (d.delYes){
+    const t = state.tryons.find(x => x.id === d.delYes);
+    state.tryons = state.tryons.filter(x => x.id !== d.delYes);
+    commit(); renderTryons(); renderSummary();
+    if (t?.photo && assets) assets.delete(t.photo).catch(() => {});
+  }
+});
+
+/* ---------- Boot ---------- */
+renderAll();
+let startTab = 'features';
+try { startTab = localStorage.getItem(LS_KEY + ':tab') || 'features'; } catch {}
+if (location.hash === '#tryons') startTab = 'tryons';
+showTab(startTab === 'tryons' ? 'tryons' : 'features');
+setStatus('Saved in this browser only');
+
+(async () => {
+  const c = window.claude;
+  if (!c || !c.use) return;
+  try {
+    const [db, user, as] = await Promise.all([c.use('db'), c.use('user'), c.use('assets')]);
+    assets = as;
+    $('#photo-field').hidden = !assets;
+    const uid = db && user ? await user.id() : null;
+    if (!db || !uid) return;
+    docRef = db.doc('data/users/' + uid + '/board');
+    const snap = await docRef.get();
+    synced = true;
+    if (snap.exists){
+      const remote = normalize(snap.data());
+      if (remote.updatedAt >= state.updatedAt){ state = remote; saveLocal(); renderAll(); setStatus('Saved'); }
+      else commit();
+    } else if (state.updatedAt) {
+      commit();
+    } else setStatus('Saved');
+    docRef.onSnapshot((s) => {
+      if (!s.exists || s.metadata.hasPendingWrites || dirty || writing) return;
+      const remote = normalize(s.data());
+      if (remote.updatedAt > state.updatedAt){
+        state = remote; saveLocal();
+        renderBoard(); renderSummary(); fillSelects();
+        if ($('#try-form').hidden) renderTryons();
+      }
+    }, () => {});
+  } catch {
+    setStatus('Saved in this browser only');
+  }
+})();
+</script>
