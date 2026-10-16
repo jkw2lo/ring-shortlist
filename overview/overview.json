@@ -1,0 +1,40 @@
+{
+  "version": 3,
+  "name": "Ring Shortlist",
+  "tagline": "Narrow down a ring",
+  "pitch": "Narrow down an engagement ring by crossing off what you don't want, written for someone new to the words.",
+  "accent": "#34347a",
+  "status": "Live",
+
+  "problem": "Ring shopping assumes you already know the vocabulary.",
+  "stats": [
+    { "value": "72", "label": "options, each drawn to scale" },
+    { "value": "10", "label": "categories, from shape to wedding band fit" },
+    { "value": "7", "label": "picture questions in the style quiz" }
+  ],
+
+  "features": [
+    { "title": "Learn the words first", "text": "A labelled ring explains every term, drawn to scale for your ring size.",
+      "details": ["Change your ring size and every drawing updates", "Every option drawn from above and from the side"],
+      "screen": { "src": "parts.png", "alt": "The parts of a ring, labelled from the side (prongs, head, shoulder, band) and looking down at a size 6 finger" } },
+    { "title": "This or that", "text": "Compare two options at a time and cross one off, until one ring is left.",
+      "details": ["Category by category: shape, setting, metal, stone", "Save the design, or share your picks with a jeweler"],
+      "screen": { "src": "thisthat.png", "alt": "This or that, finished: an oval hidden-halo ring in yellow gold, drawn from above on a finger and from the side" } },
+    { "title": "A style quiz", "text": "Seven picture questions suggest what to love and what to cross off.",
+      "details": ["Nothing is final: change any mark later"],
+      "screen": { "src": "quiz.png", "alt": "The style quiz: which of these catches your eye first, with classic, modern, vintage and unexpected rings" } },
+    { "title": "On your own hand", "text": "Upload a photo of your hand and rings are drawn on it, to scale.",
+      "details": ["Log real try-ons as yes, maybe or no", "Mix & match draws every combination still on your list"] }
+  ],
+
+  "screens": [
+    { "src": "desktop.png", "alt": "Ring Shortlist's All options page: a labelled ring diagram and center stone shapes, beside a summary of the ring so far", "caption": "Every option, with your best guess alongside" }
+  ],
+
+  "facts": {
+    "worksOn": "Desktop browsers",
+    "data": "Saved in your browser",
+    "builtWith": "One HTML file, drawn in SVG",
+    "started": "Oct 2026"
+  }
+}

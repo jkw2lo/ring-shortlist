@@ -1,0 +1,55 @@
+{
+  "url": "https://jkw2lo.github.io/ring-shortlist/ring-shortlist.html",
+  "shots": [
+    {
+      "file": "desktop.png",
+      "steps": [
+        "eval:localStorage.setItem('ring-shortlist-v1', \"{\\\"v\\\": 3, \\\"marks\\\": {\\\"band::Plain polished\\\": \\\"love\\\", \\\"band::Twisted\\\": \\\"nope\\\", \\\"carat::1 – 1.5 ct\\\": \\\"love\\\", \\\"carat::3 ct +\\\": \\\"nope\\\", \\\"metal::Rose gold\\\": \\\"nope\\\", \\\"metal::Two-tone\\\": \\\"nope\\\", \\\"metal::Yellow gold\\\": \\\"love\\\", \\\"profile::High set\\\": \\\"nope\\\", \\\"profile::Low set\\\": \\\"love\\\", \\\"prongs::6 prongs\\\": \\\"love\\\", \\\"setting::Bypass\\\": \\\"nope\\\", \\\"setting::Cluster\\\": \\\"nope\\\", \\\"setting::Hidden halo\\\": \\\"love\\\", \\\"shape::Asscher\\\": \\\"nope\\\", \\\"shape::Emerald\\\": \\\"nope\\\", \\\"shape::Heart\\\": \\\"nope\\\", \\\"shape::Marquise\\\": \\\"nope\\\", \\\"shape::Oval\\\": \\\"love\\\", \\\"shape::Princess\\\": \\\"nope\\\", \\\"stone::Lab-grown diamond\\\": \\\"love\\\", \\\"stone::Morganite\\\": \\\"nope\\\", \\\"width::Slim 1.8 mm\\\": \\\"love\\\"}, \\\"custom\\\": {}, \\\"size\\\": \\\"6\\\", \\\"budget\\\": \\\"\\\", \\\"tryons\\\": [], \\\"quiz\\\": {}, \\\"favs\\\": [], \\\"vary\\\": [\\\"shape\\\", \\\"setting\\\", \\\"metal\\\"], \\\"hand\\\": {\\\"a\\\": null, \\\"b\\\": null, \\\"h\\\": 0, \\\"photo\\\": null, \\\"w\\\": 0}, \\\"tot\\\": {}, \\\"updatedAt\\\": 0}\"); localStorage.setItem('ring-shortlist-v1:tab', 'features');",
+        "reload",
+        "wait:800"
+      ],
+      "clip": ".wrap",
+      "pad": 0,
+      "maxHeight": 820
+    },
+    {
+      "file": "parts.png",
+      "scale": 2,
+      "steps": [
+        "eval:localStorage.setItem('ring-shortlist-v1', \"{\\\"v\\\": 3, \\\"marks\\\": {\\\"band::Plain polished\\\": \\\"love\\\", \\\"band::Twisted\\\": \\\"nope\\\", \\\"carat::1 – 1.5 ct\\\": \\\"love\\\", \\\"carat::3 ct +\\\": \\\"nope\\\", \\\"metal::Rose gold\\\": \\\"nope\\\", \\\"metal::Two-tone\\\": \\\"nope\\\", \\\"metal::Yellow gold\\\": \\\"love\\\", \\\"profile::High set\\\": \\\"nope\\\", \\\"profile::Low set\\\": \\\"love\\\", \\\"prongs::6 prongs\\\": \\\"love\\\", \\\"setting::Bypass\\\": \\\"nope\\\", \\\"setting::Cluster\\\": \\\"nope\\\", \\\"setting::Hidden halo\\\": \\\"love\\\", \\\"shape::Asscher\\\": \\\"nope\\\", \\\"shape::Emerald\\\": \\\"nope\\\", \\\"shape::Heart\\\": \\\"nope\\\", \\\"shape::Marquise\\\": \\\"nope\\\", \\\"shape::Oval\\\": \\\"love\\\", \\\"shape::Princess\\\": \\\"nope\\\", \\\"stone::Lab-grown diamond\\\": \\\"love\\\", \\\"stone::Morganite\\\": \\\"nope\\\", \\\"width::Slim 1.8 mm\\\": \\\"love\\\"}, \\\"custom\\\": {}, \\\"size\\\": \\\"6\\\", \\\"budget\\\": \\\"\\\", \\\"tryons\\\": [], \\\"quiz\\\": {}, \\\"favs\\\": [], \\\"vary\\\": [\\\"shape\\\", \\\"setting\\\", \\\"metal\\\"], \\\"hand\\\": {\\\"a\\\": null, \\\"b\\\": null, \\\"h\\\": 0, \\\"photo\\\": null, \\\"w\\\": 0}, \\\"tot\\\": {}, \\\"updatedAt\\\": 0}\"); localStorage.setItem('ring-shortlist-v1:tab', 'features');",
+        "reload",
+        "wait:800"
+      ],
+      "clip": "#anatomy",
+      "pad": 0
+    },
+    {
+      "file": "thisthat.png",
+      "scale": 2,
+      "steps": [
+        "eval:localStorage.setItem('ring-shortlist-v1', \"{\\\"v\\\": 3, \\\"marks\\\": {\\\"band::Plain polished\\\": \\\"love\\\", \\\"band::Twisted\\\": \\\"nope\\\", \\\"carat::1 – 1.5 ct\\\": \\\"love\\\", \\\"carat::3 ct +\\\": \\\"nope\\\", \\\"metal::Rose gold\\\": \\\"nope\\\", \\\"metal::Two-tone\\\": \\\"nope\\\", \\\"metal::Yellow gold\\\": \\\"love\\\", \\\"profile::High set\\\": \\\"nope\\\", \\\"profile::Low set\\\": \\\"love\\\", \\\"prongs::6 prongs\\\": \\\"love\\\", \\\"setting::Bypass\\\": \\\"nope\\\", \\\"setting::Cluster\\\": \\\"nope\\\", \\\"setting::Hidden halo\\\": \\\"love\\\", \\\"shape::Asscher\\\": \\\"nope\\\", \\\"shape::Emerald\\\": \\\"nope\\\", \\\"shape::Heart\\\": \\\"nope\\\", \\\"shape::Marquise\\\": \\\"nope\\\", \\\"shape::Oval\\\": \\\"love\\\", \\\"shape::Princess\\\": \\\"nope\\\", \\\"stone::Lab-grown diamond\\\": \\\"love\\\", \\\"stone::Morganite\\\": \\\"nope\\\", \\\"width::Slim 1.8 mm\\\": \\\"love\\\"}, \\\"custom\\\": {}, \\\"size\\\": \\\"6\\\", \\\"budget\\\": \\\"\\\", \\\"tryons\\\": [], \\\"quiz\\\": {}, \\\"favs\\\": [], \\\"vary\\\": [\\\"shape\\\", \\\"setting\\\", \\\"metal\\\"], \\\"hand\\\": {\\\"a\\\": null, \\\"b\\\": null, \\\"h\\\": 0, \\\"photo\\\": null, \\\"w\\\": 0}, \\\"tot\\\": {}, \\\"updatedAt\\\": 0}\"); localStorage.setItem('ring-shortlist-v1:tab', 'features');",
+        "reload",
+        "wait:800",
+        "eval:[...document.querySelectorAll('button, [role=tab]')].find(b => b.offsetParent && b.textContent.trim() === \"This or that\").click()",
+        "wait:900"
+      ],
+      "clip": "main",
+      "pad": 0,
+      "maxHeight": 500
+    },
+    {
+      "file": "quiz.png",
+      "scale": 2,
+      "steps": [
+        "eval:localStorage.setItem('ring-shortlist-v1', \"{\\\"v\\\": 3, \\\"marks\\\": {\\\"band::Plain polished\\\": \\\"love\\\", \\\"band::Twisted\\\": \\\"nope\\\", \\\"carat::1 – 1.5 ct\\\": \\\"love\\\", \\\"carat::3 ct +\\\": \\\"nope\\\", \\\"metal::Rose gold\\\": \\\"nope\\\", \\\"metal::Two-tone\\\": \\\"nope\\\", \\\"metal::Yellow gold\\\": \\\"love\\\", \\\"profile::High set\\\": \\\"nope\\\", \\\"profile::Low set\\\": \\\"love\\\", \\\"prongs::6 prongs\\\": \\\"love\\\", \\\"setting::Bypass\\\": \\\"nope\\\", \\\"setting::Cluster\\\": \\\"nope\\\", \\\"setting::Hidden halo\\\": \\\"love\\\", \\\"shape::Asscher\\\": \\\"nope\\\", \\\"shape::Emerald\\\": \\\"nope\\\", \\\"shape::Heart\\\": \\\"nope\\\", \\\"shape::Marquise\\\": \\\"nope\\\", \\\"shape::Oval\\\": \\\"love\\\", \\\"shape::Princess\\\": \\\"nope\\\", \\\"stone::Lab-grown diamond\\\": \\\"love\\\", \\\"stone::Morganite\\\": \\\"nope\\\", \\\"width::Slim 1.8 mm\\\": \\\"love\\\"}, \\\"custom\\\": {}, \\\"size\\\": \\\"6\\\", \\\"budget\\\": \\\"\\\", \\\"tryons\\\": [], \\\"quiz\\\": {}, \\\"favs\\\": [], \\\"vary\\\": [\\\"shape\\\", \\\"setting\\\", \\\"metal\\\"], \\\"hand\\\": {\\\"a\\\": null, \\\"b\\\": null, \\\"h\\\": 0, \\\"photo\\\": null, \\\"w\\\": 0}, \\\"tot\\\": {}, \\\"updatedAt\\\": 0}\"); localStorage.setItem('ring-shortlist-v1:tab', 'features');",
+        "reload",
+        "wait:800",
+        "eval:[...document.querySelectorAll('button, [role=tab]')].find(b => b.offsetParent && b.textContent.trim() === \"Quiz\").click()",
+        "wait:900"
+      ],
+      "clip": "main",
+      "pad": 0,
+      "maxHeight": 560
+    }
+  ]
+}
